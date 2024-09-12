@@ -1,2 +1,2 @@
-# especialista-spring-rest
+# Especialista Spring Rest
 Curso da AlgaWorks Especialista Spring Rest
