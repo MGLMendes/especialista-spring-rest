@@ -13,3 +13,4 @@ Anotações:
        @Configuration: Também um componente Spring, porém é usada para definir @Beans  
 
 2.14 - @Autowired: Anotação usada para definir o ponto de injeção. Pode ser usado em construtores, método Set, no próprio atributo.  
+       @Autowired(required = false): Faz com que aquele atributo não seja obrigatório
