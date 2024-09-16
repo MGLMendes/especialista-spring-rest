@@ -10,7 +10,9 @@ Anotações:
 2.11 - @Component: Anotação responsável por dizer ao Spring que aquele classe é um Bean, um componente, que pode ser injetada.  
 
 2.13 - @Bean: Indica que o método anotado vai instanciar um objeto da classe que retorna no método. O nome do Bean é a assinatura do método.  
-       @Configuration: Também um componente Spring, porém é usada para definir @Beans  
+       @Configuration: Também um componente Spring, porém é usada para definir @Beans.  
 
 2.14 - @Autowired: Anotação usada para definir o ponto de injeção. Pode ser usado em construtores, método Set, no próprio atributo.  
-       @Autowired(required = false): Faz com que aquele atributo não seja obrigatório
+       @Autowired(required = false): Faz com que aquele atributo não seja obrigatório.  
+
+2.17 - @Primary: Define o Bean como prioridade. Ideal para evitar ambiguações de Beans.  
