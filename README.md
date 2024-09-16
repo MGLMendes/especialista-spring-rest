@@ -16,3 +16,5 @@ Anotações:
        @Autowired(required = false): Faz com que aquele atributo não seja obrigatório.  
 
 2.17 - @Primary: Define o Bean como prioridade. Ideal para evitar ambiguações de Beans.  
+
+2.18 - @Qualifier: Serve para identificar o componente.  
