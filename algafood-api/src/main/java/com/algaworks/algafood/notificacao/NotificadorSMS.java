@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@TipoDoNotificador(value = NivelUrgencia.URGENTE)
+@TipoDoNotificador(value = NivelUrgencia.SEM_URGENCIA)
 public class NotificadorSMS implements Notificador {
 
     @Override

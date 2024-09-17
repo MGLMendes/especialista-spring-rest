@@ -34,6 +34,9 @@ Anotações:
 
 2.25 - @Value: Anotação usada para pegar definições de propriedade no application.properties/yml. Passamos por parâmetro da anotação "${nome da propriedade do application}".  
 
+2.26 - @ConfigurationProperties: Anotação em escopo de classe para pegar as configurações definidas no application.properties/yml. Passamos como parâmetro da anotação o prefixo usado 
+       no application.properties/yml.  
+
 
 Application Properties Tips:  
 
