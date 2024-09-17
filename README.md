@@ -36,4 +36,11 @@ Anotações:
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
-spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod.  
+spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod. 
+spring.application.name - Nome da aplicação.  
+
+
+
+Comandos de linha da comando (PowerShell):
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar - Roda o JAR gerado pelo comando maven mvn package.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082 - Roda o JAR na porta do servidor 8082.  
