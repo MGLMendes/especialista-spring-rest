@@ -10,4 +10,43 @@ Anotações:
 2.11 - @Component: Anotação responsável por dizer ao Spring que aquele classe é um Bean, um componente, que pode ser injetada.  
 
 2.13 - @Bean: Indica que o método anotado vai instanciar um objeto da classe que retorna no método. O nome do Bean é a assinatura do método.  
-       @Configuration: Também um componente Spring, porém é usada para definir @Beans  
+       @Configuration: Também um componente Spring, porém é usada para definir @Beans.  
+
+2.14 - @Autowired: Anotação usada para definir o ponto de injeção. Pode ser usado em construtores, método Set, no próprio atributo.  
+       @Autowired(required = false): Faz com que aquele atributo não seja obrigatório.  
+
+2.17 - @Primary: Define o Bean como prioridade. Ideal para evitar ambiguações de Beans.  
+
+2.18 - @Qualifier: Serve para identificar o componente.  
+
+2.19 - @Retention: Diz em qual momento do ciclo de vida do programa a anotação vai ser aplicada.      
+       @Retention(RetentionPolicy.RUNTIME): Propriedade que diz que a anotação pode ser lida em tempo de execução.  
+
+2.20 - @Profile: Anotação que define o perfil (ambiente) em que o componente vai ser registrado. É obrigatório passar o nome do perfil ex: Profile(name = "prod"). O perfil
+       é definido no application.properties ou application.yaml através do comando spring.profiles.active.  
+
+2.21 - @PostConstruct: Anotação usada em métodos para executar o método logo após a inicialização de um Bean.  
+       @PreDestroy: Anotação usada em métodos para executar o método antes do Bean ser destruído.  
+       @Bean(initMethod = "nomeDoMetodo", destroyMethod="nomeDoMetodo") podemos definir na classe de configuração do Bean, usando essas chamadas dentro da anotação @Bean. Passamos o nome do método.  
+       No component podemos também implementar as interfaces chamadas InitializingBean e DisposableBean que ao implementar os métodos das interface, tem o mesmo propósito do @PostConstruct e @PreDestroy respectivamente.  
+
+2.22 - @EventListener: Anotação usada para escutar eventos na aplicação.  
+
+2.25 - @Value: Anotação usada para pegar definições de propriedade no application.properties/yml. Passamos por parâmetro da anotação "${nome da propriedade do application}".  
+
+2.26 - @ConfigurationProperties: Anotação em escopo de classe para pegar as configurações definidas no application.properties/yml. Passamos como parâmetro da anotação o prefixo usado 
+       no application.properties/yml.  
+
+
+Application Properties Tips:  
+
+server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
+spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod. 
+spring.application.name - Nome da aplicação.  
+
+
+
+Comandos de linha da comando (PowerShell):
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar - Roda o JAR gerado pelo comando maven mvn package.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082 - Roda o JAR na porta do servidor 8082.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando.  

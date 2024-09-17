@@ -1,31 +1,26 @@
 package com.algaworks.algafood.notificacao;
 
 
+import com.algaworks.algafood.annotations.TipoDoNotificador;
+import com.algaworks.algafood.config.NotificadorProperties;
+import com.algaworks.algafood.enums.NivelUrgencia;
 import com.algaworks.algafood.modelo.Cliente;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 
+@TipoDoNotificador(NivelUrgencia.URGENTE)
+@Component
 public class NotificadorEmail implements Notificador {
 
-    private boolean caixaAlta = false;
-    private String hostServidorSmtp;
-
-    public NotificadorEmail(String hostServidorSmtp) {
-        System.out.println("Construtor chamado");
-        this.hostServidorSmtp = hostServidorSmtp;
-    }
+    @Autowired
+    private NotificadorProperties notificadorProperties;
 
     @Override
     public void notificar(Cliente cliente, String mensagem) {
-        if (caixaAlta) {
-            mensagem = mensagem.toUpperCase();
-        }
-        System.out.printf("Notificando %s atravéz do email %s usando o servidor SMTP %s: %s\n",
-                cliente.getNome(), cliente.getEmail(), hostServidorSmtp, mensagem);
-    }
-
-
-    public void setCaixaAlta(boolean caixaAlta) {
-        this.caixaAlta = caixaAlta;
+        System.out.println("Host Servidor: " + notificadorProperties.getHostServidor() + " - Port Servidor: " + notificadorProperties.getPortServidor());
+        System.out.printf("Notificando %s através do email %s: %s\n",
+                cliente.getNome(), cliente.getEmail(), mensagem);
     }
 }
