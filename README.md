@@ -31,3 +31,9 @@ Anotações:
        No component podemos também implementar as interfaces chamadas InitializingBean e DisposableBean que ao implementar os métodos das interface, tem o mesmo propósito do @PostConstruct e @PreDestroy respectivamente.  
 
 2.22 - @EventListener: Anotação usada para escutar eventos na aplicação.  
+
+
+Application Properties Tips:  
+
+server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
+spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod.  
