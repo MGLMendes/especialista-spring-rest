@@ -21,3 +21,6 @@ Anotações:
 
 2.19 - @Retention: Diz em qual momento do ciclo de vida do programa a anotação vai ser aplicada.      
        @Retention(RetentionPolicy.RUNTIME): Propriedade que diz que a anotação pode ser lida em tempo de execução.  
+
+2.20 - @Profile: Anotação que define o perfil (ambiente) em que o componente vai ser registrado. É obrigatório passar o nome do perfil ex: Profile(name = "prod"). O perfil
+é definido no application.properties ou application.yaml através do comando spring.profiles.active.  
