@@ -29,3 +29,5 @@ Anotações:
        @PreDestroy: Anotação usada em métodos para executar o método antes do Bean ser destruído.  
        @Bean(initMethod = "nomeDoMetodo", destroyMethod="nomeDoMetodo") podemos definir na classe de configuração do Bean, usando essas chamadas dentro da anotação @Bean. Passamos o nome do método.  
        No component podemos também implementar as interfaces chamadas InitializingBean e DisposableBean que ao implementar os métodos das interface, tem o mesmo propósito do @PostConstruct e @PreDestroy respectivamente.  
+
+2.22 - @EventListener: Anotação usada para escutar eventos na aplicação.  
