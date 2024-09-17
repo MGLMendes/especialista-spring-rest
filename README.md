@@ -18,3 +18,6 @@ Anotações:
 2.17 - @Primary: Define o Bean como prioridade. Ideal para evitar ambiguações de Beans.  
 
 2.18 - @Qualifier: Serve para identificar o componente.  
+
+2.19 - @Retention: Diz em qual momento do ciclo de vida do programa a anotação vai ser aplicada.      
+       @Retention(RetentionPolicy.RUNTIME): Propriedade que diz que a anotação pode ser lida em tempo de execução.  

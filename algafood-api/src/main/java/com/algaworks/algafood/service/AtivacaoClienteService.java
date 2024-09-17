@@ -1,6 +1,8 @@
 package com.algaworks.algafood.service;
 
 
+import com.algaworks.algafood.annotations.TipoDoNotificador;
+import com.algaworks.algafood.enums.NivelUrgencia;
 import com.algaworks.algafood.modelo.Cliente;
 import com.algaworks.algafood.notificacao.Notificador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import java.util.List;
 @Component
 public class AtivacaoClienteService {
 
-    @Qualifier("urgente")
+    @TipoDoNotificador(NivelUrgencia.NORMAL)
     @Autowired
     private Notificador notificador;
 
