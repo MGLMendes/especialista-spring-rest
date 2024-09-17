@@ -32,6 +32,8 @@ Anotações:
 
 2.22 - @EventListener: Anotação usada para escutar eventos na aplicação.  
 
+2.25 - @Value: Anotação usada para pegar definições de propriedade no application.properties/yml. Passamos por parâmetro da anotação "${nome da propriedade do application}".  
+
 
 Application Properties Tips:  
 
