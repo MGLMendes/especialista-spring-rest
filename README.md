@@ -46,6 +46,9 @@ spring.application.name - Nome da aplicação.
 spring.datasource.url - Configura a url de conexão que o driver JDBC vai interpretar a url e conectar no banco de dados.  
 spring.datasource.username - Define o nome de usuário configurado no banco de dados.  
 spring.datasource.password - Define a senha configurada no banco de dados.  
+spring.jpa.generate-ddl - Configura o JPA para que ele gere o DDL. DDL é o script de criação das tabelas.  
+spring.jpa.hibernate.ddl-auto - Configura o Hibernate para que dependendo do valor executa tais ações no banco de dados. Com o valor =create, diz ao hibernate para apagar e recriar
+as tabelas sempre que a aplicação for reiniciada.  
 
 
 
@@ -59,4 +62,4 @@ JPA Anotações:
 @Entity: Anotação em escopo de classe que diz que aquela classe representa uma entidade no banco de dados.  
 @Table: Anotação em escopo de classe que pode definir o nome da tabela, passando por parâmetro o name = "Nome da Tabela".  
 @Id: Anotação em escopo de atributo que diz que aquele atributo vai representar o identificador da entidade.  
-@Column: Anotação em escopo de atributo que serve para definirmos o nome da coluna.  
+@Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
