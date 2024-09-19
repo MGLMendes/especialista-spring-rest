@@ -52,4 +52,11 @@ spring.datasource.password - Define a senha configurada no banco de dados.
 Comandos de linha da comando (PowerShell):
 java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar - Roda o JAR gerado pelo comando maven mvn package.  
 java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082 - Roda o JAR na porta do servidor 8082.  
-java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando. 
+
+
+JPA Anotações:  
+@Entity: Anotação em escopo de classe que diz que aquela classe representa uma entidade no banco de dados.  
+@Table: Anotação em escopo de classe que pode definir o nome da tabela, passando por parâmetro o name = "Nome da Tabela".  
+@Id: Anotação em escopo de atributo que diz que aquele atributo vai representar o identificador da entidade.  
+@Column: Anotação em escopo de atributo que serve para definirmos o nome da coluna.  
