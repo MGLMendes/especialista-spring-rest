@@ -43,6 +43,9 @@ Application Properties Tips:
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
 spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod. 
 spring.application.name - Nome da aplicação.  
+spring.datasource.url - Configura a url de conexão que o driver JDBC vai interpretar a url e conectar no banco de dados.  
+spring.datasource.username - Define o nome de usuário configurado no banco de dados.  
+spring.datasource.password - Define a senha configurada no banco de dados.  
 
 
 
