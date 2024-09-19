@@ -49,6 +49,7 @@ spring.datasource.password - Define a senha configurada no banco de dados.
 spring.jpa.generate-ddl - Configura o JPA para que ele gere o DDL. DDL é o script de criação das tabelas.  
 spring.jpa.hibernate.ddl-auto - Configura o Hibernate para que dependendo do valor executa tais ações no banco de dados. Com o valor =create, diz ao hibernate para apagar e recriar
 as tabelas sempre que a aplicação for reiniciada.  
+spring.jpa.show-sql - Comando usado para fazer com que exiba no log o comando sql gerado pelo jpa.  
 
 
 
@@ -63,4 +64,7 @@ JPA Anotações:
 @Table: Anotação em escopo de classe que pode definir o nome da tabela, passando por parâmetro o name = "Nome da Tabela".  
 @Id: Anotação em escopo de atributo que diz que aquele atributo vai representar o identificador da entidade.  
 @Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
-@GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.
+@GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.  
+
+Aulas:
+2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
