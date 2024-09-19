@@ -63,3 +63,4 @@ JPA Anotações:
 @Table: Anotação em escopo de classe que pode definir o nome da tabela, passando por parâmetro o name = "Nome da Tabela".  
 @Id: Anotação em escopo de atributo que diz que aquele atributo vai representar o identificador da entidade.  
 @Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
+@GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.
