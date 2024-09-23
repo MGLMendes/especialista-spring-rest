@@ -1,10 +1,6 @@
 package com.algaworks.algafood.infra.repository;
 
-import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Cozinha;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +21,8 @@ public class CadastroCozinha {
     }
 
     @Transactional
-    public Cozinha adicionar(Cozinha cozinha) {
-        return entityManager.merge(cozinha);
+    public void salvar(Cozinha cozinha) {
+        entityManager.merge(cozinha);
     }
 
     public Cozinha buscar(Long id) {
