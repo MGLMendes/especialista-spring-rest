@@ -69,6 +69,7 @@ JPA Anotações:
 @Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
 @GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.  
 @ManyToOne: Anotação usada em objetos para referenciar Muitos Pra Um.  
+@JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
 
 Aulas:
 2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
