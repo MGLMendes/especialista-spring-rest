@@ -14,8 +14,8 @@ public class ListaRestauranteMain {
 
 
         RestauranteRepository bean = applicationContext.getBean(RestauranteRepository.class);
-        for (Restaurante Restaurante : bean.listar()) {
-            System.out.println(Restaurante.getNome());
+        for (Restaurante restaurante : bean.listar()) {
+            System.out.println(restaurante.getNome() + " " + restaurante.getCozinha().getNome());
         }
     }
 }

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,5 +20,8 @@ public class Restaurante {
     private String nome;
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
+
+    @ManyToOne
+    private Cozinha cozinha;
 
 }
