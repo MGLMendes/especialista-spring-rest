@@ -37,16 +37,40 @@ Anotações:
 2.26 - @ConfigurationProperties: Anotação em escopo de classe para pegar as configurações definidas no application.properties/yml. Passamos como parâmetro da anotação o prefixo usado 
        no application.properties/yml.  
 
+3.9 - @Transactional: Quando um método é anotado com @Transaction ele vai ser executado dentro de uma transação.  
+
 
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
 spring.profiles.active - Define o perfil que vai estar ativo. Ex: pre, dev, prod. 
 spring.application.name - Nome da aplicação.  
+spring.datasource.url - Configura a url de conexão que o driver JDBC vai interpretar a url e conectar no banco de dados.  
+spring.datasource.username - Define o nome de usuário configurado no banco de dados.  
+spring.datasource.password - Define a senha configurada no banco de dados.  
+spring.jpa.generate-ddl - Configura o JPA para que ele gere o DDL. DDL é o script de criação das tabelas.  
+spring.jpa.hibernate.ddl-auto - Configura o Hibernate para que dependendo do valor executa tais ações no banco de dados. Com o valor =create, diz ao hibernate para apagar e recriar
+as tabelas sempre que a aplicação for reiniciada.  
+spring.jpa.show-sql - Comando usado para fazer com que exiba no log o comando sql gerado pelo jpa.  
+spring.jpa.properties.hibernate.dialect - Configuração para configurar o dialeto do SQL.  
 
 
 
 Comandos de linha da comando (PowerShell):
 java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar - Roda o JAR gerado pelo comando maven mvn package.  
 java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082 - Roda o JAR na porta do servidor 8082.  
-java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando. 
+
+
+JPA Anotações:  
+@Entity: Anotação em escopo de classe que diz que aquela classe representa uma entidade no banco de dados.  
+@Table: Anotação em escopo de classe que pode definir o nome da tabela, passando por parâmetro o name = "Nome da Tabela".  
+@Id: Anotação em escopo de atributo que diz que aquele atributo vai representar o identificador da entidade.  
+@Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
+@GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.  
+@ManyToOne: Anotação usada em objetos para referenciar Muitos Pra Um.  
+@JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
+@Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
+
+Aulas:
+2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
