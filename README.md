@@ -39,6 +39,9 @@ Anotações:
 
 3.9 - @Transactional: Quando um método é anotado com @Transaction ele vai ser executado dentro de uma transação.  
 
+4.10 - @RestController: É uma anotação que tem @Controller e o @ResponseBody.  
+     - @RequiredArgsConstructor: Anotação que cria um construtor para os atributos da classe.    
+
 
 Application Properties Tips:  
 
