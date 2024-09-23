@@ -70,6 +70,7 @@ JPA Anotações:
 @GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.  
 @ManyToOne: Anotação usada em objetos para referenciar Muitos Pra Um.  
 @JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
+@Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
 
 Aulas:
 2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
