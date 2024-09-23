@@ -37,6 +37,8 @@ Anotações:
 2.26 - @ConfigurationProperties: Anotação em escopo de classe para pegar as configurações definidas no application.properties/yml. Passamos como parâmetro da anotação o prefixo usado 
        no application.properties/yml.  
 
+3.9 - @Transactional: Quando um método é anotado com @Transaction ele vai ser executado dentro de uma transação.  
+
 
 Application Properties Tips:  
 
