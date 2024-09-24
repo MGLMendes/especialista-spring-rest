@@ -24,8 +24,8 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @Override
     @Transactional
-    public Restaurante salvar(Restaurante Restaurante) {
-        return entityManager.merge(Restaurante);
+    public Restaurante salvar(Restaurante restaurante) {
+        return entityManager.merge(restaurante);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @Override
     @Transactional
-    public void remover(Restaurante Restaurante) {
-        Restaurante = buscar(Restaurante.getId());
-        entityManager.remove(Restaurante);
+    public void remover(Restaurante restaurante) {
+        restaurante = buscar(restaurante.getId());
+        entityManager.remove(restaurante);
     }
 }

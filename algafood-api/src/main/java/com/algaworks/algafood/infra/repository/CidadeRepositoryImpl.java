@@ -24,8 +24,8 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 
     @Override
     @Transactional
-    public Cidade salvar(Cidade Cidade) {
-        return entityManager.merge(Cidade);
+    public Cidade salvar(Cidade cidade) {
+        return entityManager.merge(cidade);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 
     @Override
     @Transactional
-    public void remover(Cidade Cidade) {
-        Cidade = buscar(Cidade.getId());
-        entityManager.remove(Cidade);
+    public void remover(Cidade cidade) {
+        cidade = buscar(cidade.getId());
+        entityManager.remove(cidade);
     }
 }
