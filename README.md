@@ -40,7 +40,9 @@ Anotações:
 3.9 - @Transactional: Quando um método é anotado com @Transaction ele vai ser executado dentro de uma transação.  
 
 4.10 - @RestController: É uma anotação que tem @Controller e o @ResponseBody.  
-     - @RequiredArgsConstructor: Anotação que cria um construtor para os atributos da classe.    
+     - @RequiredArgsConstructor: Anotação que cria um construtor para os atributos da classe.   
+
+4.13 - Podemos passar por parâmetro na anotação @GetMapping o valor produces. Exemplo: produces = MediaType.APPLICATION_JSON_VALUE, diz que o retorno daquele método anotado com      @GetMapping produz um application/json e também podemos passar MediaType.APPLICATION_XML_VALUE, que diz que retorna um xml.  
 
 
 Application Properties Tips:  
