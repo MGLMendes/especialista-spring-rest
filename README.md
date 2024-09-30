@@ -44,7 +44,11 @@ Anotações:
 
 4.13 - Podemos passar por parâmetro na anotação @GetMapping o valor produces. Exemplo: produces = MediaType.APPLICATION_JSON_VALUE, diz que o retorno daquele método anotado com      @GetMapping produz um application/json e também podemos passar MediaType.APPLICATION_XML_VALUE, que diz que retorna um xml.  
 
-4.14 - @PathVariable: Faz com que o parâmetro seguido dessa anotação seja uma variável de path da uri. 
+4.14 - @PathVariable: Faz com que o parâmetro seguido dessa anotação seja uma variável de path da uri.  
+
+4.15 - @JsonProperty: Com essa anotação conseguimos mudar o nome da representação que aquele atributo vai ter.  
+       @JsonIgnore: Com essa anotação a representação ignora o atributo anotado.  
+       @JsonRootName: Com essa anotação é possível mudar o nome do root, ou seja do o nome da classe. Usado principalmente para nas representações XML.
 
 
 Application Properties Tips:  
