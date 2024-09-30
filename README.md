@@ -48,7 +48,11 @@ Anotações:
 
 4.15 - @JsonProperty: Com essa anotação conseguimos mudar o nome da representação que aquele atributo vai ter.  
        @JsonIgnore: Com essa anotação a representação ignora o atributo anotado.  
-       @JsonRootName: Com essa anotação é possível mudar o nome do root, ou seja do o nome da classe. Usado principalmente para nas representações XML.
+       @JsonRootName: Com essa anotação é possível mudar o nome do root, ou seja do o nome da classe. Usado principalmente para nas representações XML.  
+
+4.16 - @NonNull: Anotação que obrigado a ter um valor no atributo anotado, ele não pode ser nulo.  
+       @JacksonXmlRootElement: Essa anotação tem uma propriedade chamada localName, onde conseguimos definir o nome do elemento raiz.  
+       @JacksonXmlElementWrapper: Passamos o valor false para o parâmetro useWrapper, que desabilita o embrulho do elemento no xml.  
 
 
 Application Properties Tips:  
