@@ -54,6 +54,8 @@ Anotações:
        @JacksonXmlRootElement: Essa anotação tem uma propriedade chamada localName, onde conseguimos definir o nome do elemento raiz.  
        @JacksonXmlElementWrapper: Passamos o valor false para o parâmetro useWrapper, que desabilita o embrulho do elemento no xml.  
 
+4.19 - @ResponseStatus: Define qual o status http que o método irá retornar.  
+
 
 Application Properties Tips:  
 
