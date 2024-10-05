@@ -60,6 +60,8 @@ Anotações:
        @RequestBody: Diz que o parâmetro anotado vai fazer um bing com o objeto que está sendo recebido na requisição.  
 4.25 - @PutMapping: Anotação para recursos PUT.  
 
+4.26 - @DeleteMapping: Anotação para recursos DELETE.  
+
 
 Application Properties Tips:  
 
