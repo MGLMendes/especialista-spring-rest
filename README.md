@@ -59,7 +59,6 @@ Anotações:
 4.23 - @PostMapping: Anotação para recursos POST.  
        @RequestBody: Diz que o parâmetro anotado vai fazer um bing com o objeto que está sendo recebido na requisição.  
 4.25 - @PutMapping: Anotação para recursos PUT.  
-       BeanUtils.copyProperties(), podemos usar esse cara para copiar propriedade iguais de um objeto para outro. BeanUtils.copyProperties(source, target, ignoreProperties). Com o ignoreProperties podemos passar quais são os atributos que queremos ignorar.  
 
 
 Application Properties Tips:  
@@ -96,3 +95,5 @@ JPA Anotações:
 
 Aulas:
 2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
+
+4.25 - BeanUtils.copyProperties(), podemos usar esse cara para copiar propriedade iguais de um objeto para outro. BeanUtils.copyProperties(source, target, ignoreProperties). Com o ignoreProperties podemos passar quais são os atributos que queremos ignorar.  
