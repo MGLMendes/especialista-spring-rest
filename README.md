@@ -56,6 +56,9 @@ Anotações:
 
 4.19 - @ResponseStatus: Define qual o status http que o método irá retornar.  
 
+4.23 - @PostMapping: Anotação para recursos POST.  
+       @RequestBody: Diz que o parâmetro anotado vai fazer um bing com o objeto que está sendo recebido na requisição.  
+
 
 Application Properties Tips:  
 
