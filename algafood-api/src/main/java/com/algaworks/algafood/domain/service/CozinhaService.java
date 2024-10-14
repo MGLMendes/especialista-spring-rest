@@ -4,7 +4,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 
 public interface CozinhaService {
 
-    Cozinha adicionar(Cozinha cozinha);
+    Cozinha salvar(Cozinha cozinha);
 
     void remover(Long cozinhaId);
 }

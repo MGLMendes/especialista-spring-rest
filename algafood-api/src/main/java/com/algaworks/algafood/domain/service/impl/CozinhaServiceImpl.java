@@ -18,7 +18,7 @@ public class CozinhaServiceImpl implements CozinhaService {
 
 
     @Override
-    public Cozinha adicionar(Cozinha cozinha) {
+    public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.salvar(cozinha);
     }
 

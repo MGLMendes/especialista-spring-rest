@@ -1,6 +1,5 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -8,7 +7,6 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +28,6 @@ public class CozinhaController {
         return cozinhaRepository.listar();
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public CozinhasXmlWrapper listarXml() {
-        return new CozinhasXmlWrapper(cozinhaRepository.listar());
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
         Cozinha cozinha = cozinhaRepository.buscar(id);
@@ -47,7 +40,7 @@ public class CozinhaController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
-        return ResponseEntity.ok(cozinhaService.adicionar(cozinha));
+        return ResponseEntity.ok(cozinhaService.salvar(cozinha));
     }
 
     @PutMapping("/{cozinhaId}")
@@ -56,7 +49,7 @@ public class CozinhaController {
         if (cozinhaSalva != null) {
 //            cozinhaSalva.setNome(cozinha.getNome());
             BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
-            return ResponseEntity.ok(cozinhaRepository.salvar(cozinhaSalva));
+            return ResponseEntity.ok(cozinhaService.salvar(cozinhaSalva));
         } else {
             return ResponseEntity.notFound().build();
         }
