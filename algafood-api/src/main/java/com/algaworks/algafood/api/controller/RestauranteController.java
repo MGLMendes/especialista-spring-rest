@@ -32,7 +32,7 @@ public class RestauranteController {
     public ResponseEntity<Restaurante> buscar(@PathVariable Long restauranteId) {
         try {
             return ResponseEntity.ok(restauranteService.buscar(restauranteId));
-        } catch (EntidadeEmUsoException e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
     }
