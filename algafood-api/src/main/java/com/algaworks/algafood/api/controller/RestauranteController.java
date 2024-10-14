@@ -41,4 +41,16 @@ public class RestauranteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PutMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+        try {
+            return ResponseEntity.ok(restauranteService.atualizar(restauranteId, restaurante));
+        } catch (EntidadeNaoEncontradaException e) {
+            if (e.getMessage().contains("restaurante")) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

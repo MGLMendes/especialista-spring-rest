@@ -9,6 +9,7 @@ import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.infra.repository.RestauranteRepositoryImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +54,19 @@ public class RestauranteServiceImpl implements RestauranteService {
         }
 
         return restaurante;
+    }
+
+    @Override
+    public Restaurante atualizar(Long restauranteId, Restaurante restaurante) {
+        Restaurante restauranteSalvo = buscar(restauranteId);
+
+
+        BeanUtils.copyProperties(
+                restaurante, restauranteSalvo, "id"
+        );
+
+
+        return salvar(restauranteSalvo);
     }
 
 
