@@ -39,6 +39,29 @@ Anotações:
 
 3.9 - @Transactional: Quando um método é anotado com @Transaction ele vai ser executado dentro de uma transação.  
 
+4.10 - @RestController: É uma anotação que tem @Controller e o @ResponseBody.  
+     - @RequiredArgsConstructor: Anotação que cria um construtor para os atributos da classe.   
+
+4.13 - Podemos passar por parâmetro na anotação @GetMapping o valor produces. Exemplo: produces = MediaType.APPLICATION_JSON_VALUE, diz que o retorno daquele método anotado com      @GetMapping produz um application/json e também podemos passar MediaType.APPLICATION_XML_VALUE, que diz que retorna um xml.  
+
+4.14 - @PathVariable: Faz com que o parâmetro seguido dessa anotação seja uma variável de path da uri.  
+
+4.15 - @JsonProperty: Com essa anotação conseguimos mudar o nome da representação que aquele atributo vai ter.  
+       @JsonIgnore: Com essa anotação a representação ignora o atributo anotado.  
+       @JsonRootName: Com essa anotação é possível mudar o nome do root, ou seja do o nome da classe. Usado principalmente para nas representações XML.  
+
+4.16 - @NonNull: Anotação que obrigado a ter um valor no atributo anotado, ele não pode ser nulo.  
+       @JacksonXmlRootElement: Essa anotação tem uma propriedade chamada localName, onde conseguimos definir o nome do elemento raiz.  
+       @JacksonXmlElementWrapper: Passamos o valor false para o parâmetro useWrapper, que desabilita o embrulho do elemento no xml.  
+
+4.19 - @ResponseStatus: Define qual o status http que o método irá retornar.  
+
+4.23 - @PostMapping: Anotação para recursos POST.  
+       @RequestBody: Diz que o parâmetro anotado vai fazer um bing com o objeto que está sendo recebido na requisição.  
+4.25 - @PutMapping: Anotação para recursos PUT.  
+
+4.26 - @DeleteMapping: Anotação para recursos DELETE.  
+
 
 Application Properties Tips:  
 
@@ -74,3 +97,5 @@ JPA Anotações:
 
 Aulas:
 2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  
+
+4.25 - BeanUtils.copyProperties(), podemos usar esse cara para copiar propriedade iguais de um objeto para outro. BeanUtils.copyProperties(source, target, ignoreProperties). Com o ignoreProperties podemos passar quais são os atributos que queremos ignorar.  
