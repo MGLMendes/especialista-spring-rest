@@ -5,9 +5,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
-import com.algaworks.algafood.infra.repository.RestauranteRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -33,17 +31,17 @@ public class RestauranteServiceImpl implements RestauranteService {
 
         restaurante.setCozinha(cozinha.get());
 
-        return restauranteRepository.salvar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     @Override
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return restauranteRepository.findAll();
     }
 
     @Override
     public Restaurante buscar(Long restauranteId) {
-        Restaurante restaurante = restauranteRepository.buscar(restauranteId);
+        Restaurante restaurante = restauranteRepository.findById(restauranteId).orElse(null);
 
         if (restaurante == null) {
             throw new EntidadeNaoEncontradaException(
