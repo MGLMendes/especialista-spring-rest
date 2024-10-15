@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +25,13 @@ public class RestauranteServiceImpl implements RestauranteService {
     @Override
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+        Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
 
-        if (cozinha ==  null) {
+        if (cozinha.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
         }
 
-        restaurante.setCozinha(cozinha);
+        restaurante.setCozinha(cozinha.get());
 
         return restauranteRepository.salvar(restaurante);
     }

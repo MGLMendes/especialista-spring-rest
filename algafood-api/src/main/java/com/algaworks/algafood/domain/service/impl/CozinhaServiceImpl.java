@@ -19,13 +19,13 @@ public class CozinhaServiceImpl implements CozinhaService {
 
     @Override
     public Cozinha salvar(Cozinha cozinha) {
-        return cozinhaRepository.salvar(cozinha);
+        return cozinhaRepository.save(cozinha);
     }
 
     @Override
     public void remover(Long cozinhaId) {
         try {
-            cozinhaRepository.remover(cozinhaId);
+            cozinhaRepository.deleteById(cozinhaId);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
         } catch (EmptyResultDataAccessException e) {

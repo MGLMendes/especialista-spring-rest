@@ -22,10 +22,10 @@ public class TestController {
 
     private final CozinhaService cozinhaService;
 
-    @GetMapping("/cozinhas-por-nome")
-    public List<Cozinha> listar(@RequestParam String nome) {
-        return cozinhaRepository.consultarPorNome(nome);
-    }
+//    @GetMapping("/cozinhas-por-nome")
+//    public List<Cozinha> listar(@RequestParam String nome) {
+//        return cozinhaRepository.consultarPorNome(nome);
+//    }
 
 
 }
