@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,22 +32,34 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
         Root<Restaurante> root = criteriaQuery.from(Restaurante.class);// JPQl: from Restaurante
 
-        Predicate nomePredicate = criteriaBuilder.like(
-                root.get("nome"), // atributo classe Restaurante
-                "%" + nome + "%"
-        );
+        var predicates = new ArrayList<Predicate>();
 
-        Predicate taxaInicialPredicate = criteriaBuilder.greaterThanOrEqualTo(
-                root.get("taxaFrete"),
-                taxaFreteInicial
-        );
+        if (StringUtils.hasLength(nome)) {
+            predicates.add(
+                    criteriaBuilder.like(
+                            root.get("nome"),
+                            "%" + nome + "%"
+                    ));
+        }
 
-        Predicate taxaFinalPredicate = criteriaBuilder.lessThanOrEqualTo(
-                root.get("taxaFrete"),
-                taxaFreteFinal
-        );
+        if  (taxaFreteInicial != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(
+                    root.get("taxaFrete"),
+                    taxaFreteInicial
+            ));
+        }
 
-        criteriaQuery.where(nomePredicate, taxaInicialPredicate, taxaFinalPredicate);
+        if  (taxaFreteFinal != null) {
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(
+                    root.get("taxaFrete"),
+                    taxaFreteFinal
+            ));
+        }
+
+
+        criteriaQuery.where(
+                predicates.toArray(new Predicate[0])
+        );
 
         TypedQuery<Restaurante> query = entityManager.createQuery(criteriaQuery);
 
