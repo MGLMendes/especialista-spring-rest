@@ -45,7 +45,7 @@ public class TestController {
             @RequestParam String nome,
             @RequestParam Long cozinhaId
     ) {
-        return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+        return restauranteRepository.consultarPorNome(nome, cozinhaId);
     }
 
     @GetMapping("/restaurantes-count-cozinha-por-id")
