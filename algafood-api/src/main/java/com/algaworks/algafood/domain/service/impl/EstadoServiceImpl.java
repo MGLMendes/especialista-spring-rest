@@ -20,13 +20,13 @@ public class EstadoServiceImpl implements EstadoService {
 
     @Override
     public List<Estado> listar() {
-        return estadoRepository.listar();
+        return estadoRepository.findAll();
     }
 
     @Override
     public Estado buscar(Long estadoId) {
 
-        Estado estado = estadoRepository.buscar(estadoId);
+        Estado estado = estadoRepository.findById(estadoId).orElse(null);
 
         if (estado == null) {
             throw new EntidadeNaoEncontradaException(
@@ -42,7 +42,7 @@ public class EstadoServiceImpl implements EstadoService {
 
     @Override
     public Estado salvar(Estado estado) {
-        return estadoRepository.salvar(estado);
+        return estadoRepository.save(estado);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class EstadoServiceImpl implements EstadoService {
     public void deletar(Long estadoId) {
         try {
             Estado estado = buscar(estadoId);
-            estadoRepository.remover(estado);
+            estadoRepository.delete(estado);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Estado de código %d não pode ser removido, pois está em uso",
                     estadoId));

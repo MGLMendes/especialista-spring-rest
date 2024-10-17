@@ -62,6 +62,11 @@ Anotações:
 
 4.26 - @DeleteMapping: Anotação para recursos DELETE.  
 
+5.9 - @Query: Podemos usar a anotação @Query para escrever consultar JPQL personalizadas nos métodos das interfaces Repository.  
+      @Param: Anotação usamos para definir o nome do parâmetro para fazer o biding.  
+
+5.19 - @Lazy: Anotação usada para que o spring só instancia na hora que for usá-la.  
+
 
 Application Properties Tips:  
 
@@ -94,6 +99,26 @@ JPA Anotações:
 @ManyToOne: Anotação usada em objetos para referenciar Muitos Pra Um.  
 @JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
 @Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
+
+JPA Query Methods Tip:  
+No repositorios JPA podemos usar algumas palavras reservadas para fazer com que as buscas sejam personalizadas.  
+
+Os prefixos:  
+De consulta: find, read, get, query e stream.  
+De boolean: exists.  
+De contados: count.  
+
+
+findBy: Usamos para procurar um objeto ou uma lista do objeto por um dos seus atributos.  
+findBy...Between: Usamos o Between no final quando queremos pegar um objeto ou uma lista de objetos passando um range que esteja vinculado a alguma atributo.  
+findBy...Containing: Usamos o Containing no final quando queremos pegar um objeto ou uma lista de objetos passando uma letra, o JPA usará o LIKE.  
+findByFirst: Usamos o First para pegar o primeiro objeto que contem o que especificarmos em seguida do First.  
+findBy...And: Podemos usar o And quando queremos juntar validações.  
+findByTop: Usamos o Top e em seguida um número, isso especifica que queremos pegar a quantidade de elementos seguidos da próxima validação. 
+
+existsBy: Usamos o existsBy para saber se existe um objeto com o valor do atributo em seguida do existsBy.  
+
+countBy: Usamos o countBy para retornar um contador de quantos objetos existem com o valor do atributo em seguida.  
 
 Aulas:
 2.8 - JPQL: Linguagem de consulta do JPA, consulta em objetos e não em tabelas.  

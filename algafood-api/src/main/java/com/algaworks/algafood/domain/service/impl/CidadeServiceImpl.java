@@ -24,12 +24,12 @@ public class CidadeServiceImpl implements CidadeService {
 
     @Override
     public List<Cidade> listar() {
-        return cidadeRepository.listar();
+        return cidadeRepository.findAll();
     }
 
     @Override
     public Cidade buscar(Long cidadeId) {
-        Cidade cidade = cidadeRepository.buscar(cidadeId);
+        Cidade cidade = cidadeRepository.findById(cidadeId).orElse(null);
         if (cidade == null) {
             throw new EntidadeNaoEncontradaException(
                     String.format(
@@ -44,7 +44,9 @@ public class CidadeServiceImpl implements CidadeService {
 
     @Override
     public Cidade salvar(Cidade cidade) {
-        return cidadeRepository.salvar(cidade);
+        Estado estado = estadoService.buscar(cidade.getEstado().getId());
+        cidade.setEstado(estado);
+        return cidadeRepository.save(cidade);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class CidadeServiceImpl implements CidadeService {
     public void deletar(Long cidadeId) {
         try {
             Cidade cidade = buscar(cidadeId);
-            cidadeRepository.remover(cidade);
+            cidadeRepository.delete(cidade);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removido, pois está em uso",
                     cidadeId));

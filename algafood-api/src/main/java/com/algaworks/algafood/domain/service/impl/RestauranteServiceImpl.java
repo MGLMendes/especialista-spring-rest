@@ -5,14 +5,13 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
-import com.algaworks.algafood.infra.repository.RestauranteRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,25 +23,25 @@ public class RestauranteServiceImpl implements RestauranteService {
     @Override
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+        Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
 
-        if (cozinha ==  null) {
+        if (cozinha.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
         }
 
-        restaurante.setCozinha(cozinha);
+        restaurante.setCozinha(cozinha.get());
 
-        return restauranteRepository.salvar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     @Override
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return restauranteRepository.findAll();
     }
 
     @Override
     public Restaurante buscar(Long restauranteId) {
-        Restaurante restaurante = restauranteRepository.buscar(restauranteId);
+        Restaurante restaurante = restauranteRepository.findById(restauranteId).orElse(null);
 
         if (restaurante == null) {
             throw new EntidadeNaoEncontradaException(
