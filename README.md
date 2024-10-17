@@ -65,6 +65,8 @@ Anotações:
 5.9 - @Query: Podemos usar a anotação @Query para escrever consultar JPQL personalizadas nos métodos das interfaces Repository.  
       @Param: Anotação usamos para definir o nome do parâmetro para fazer o biding.  
 
+5.19 - @Lazy: Anotação usada para que o spring só instancia na hora que for usá-la.  
+
 
 Application Properties Tips:  
 
