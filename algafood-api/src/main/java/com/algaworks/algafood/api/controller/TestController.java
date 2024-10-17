@@ -78,5 +78,15 @@ public class TestController {
         return restauranteRepository.findTop2ByNomeContaining(nome);
     }
 
+    @GetMapping("/restaurantes-com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(
+            @RequestParam String nome
+    ) {
+        var comFreteGratis = new RestauranteComFreteGratisSpecification();
+        var comNomeSemelhante = new RestauranteComNomeSemelhante();
+
+        return restauranteRepository.findAll(comFreteGratis, comNomeSemelhante);
+    }
+
 
 }
