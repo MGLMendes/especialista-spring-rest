@@ -94,5 +94,17 @@ public class TestController {
                 comFreteGratis().and(comNomeSemelhante(nome)));
     }
 
+    @GetMapping("/restaurantes-primeiro")
+    public Restaurante buscarPrimeiroRestaurante(
+    ) {
+        return restauranteRepository.buscarPrimeiro().orElse(null);
+    }
+
+    @GetMapping("/cozinhas-primeiro")
+    public Cozinha buscarPrimeiraCozinha(
+    ) {
+        return cozinhaRepository.buscarPrimeiro().orElse(null);
+    }
+
 
 }
