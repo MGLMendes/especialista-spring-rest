@@ -62,6 +62,9 @@ Anotações:
 
 4.26 - @DeleteMapping: Anotação para recursos DELETE.  
 
+5.9 - @Query: Podemos usar a anotação @Query para escrever consultar JPQL personalizadas nos métodos das interfaces Repository.  
+      @Param: Anotação usamos para definir o nome do parâmetro para fazer o biding.  
+
 
 Application Properties Tips:  
 
@@ -100,8 +103,8 @@ No repositorios JPA podemos usar algumas palavras reservadas para fazer com que 
 
 Os prefixos:  
 De consulta: find, read, get, query e stream.  
-De boolean: exists
-De contados: count
+De boolean: exists.  
+De contados: count.  
 
 
 findBy: Usamos para procurar um objeto ou uma lista do objeto por um dos seus atributos.  
