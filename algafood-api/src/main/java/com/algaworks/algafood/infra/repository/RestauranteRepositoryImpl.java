@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -21,46 +23,14 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     @Override
     public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
+        CriteriaQuery<Restaurante> criteriaQuery = criteriaBuilder.createQuery(Restaurante.class);
 
-        var jpql = new StringBuilder();
+        criteriaQuery.from(Restaurante.class);  // JPQl: from Restaurante
 
-        var parametros = new HashMap<String, Object>();
+        TypedQuery<Restaurante> query = entityManager.createQuery(criteriaQuery);
 
-        jpql.append("from Restaurante where 0 = 0 ");
-
-        if (StringUtils.hasLength(nome)) {
-            jpql.append("and nome like :nome ");
-            parametros.put("nome", "%" + nome + "%");
-        }
-
-        if (taxaFreteInicial != null) {
-            jpql.append("and taxaFrete >= :taxaInicial ");
-            parametros.put("taxaInicial", taxaFreteInicial);
-        }
-
-        if (taxaFreteFinal != null) {
-            jpql.append("and taxaFrete <= :taxaFinal");
-            parametros.put("taxaFinal", taxaFreteFinal);
-        }
-
-        TypedQuery<Restaurante> restauranteTypedQuery = entityManager.createQuery(jpql.toString(),
-                        Restaurante.class);
-
-        parametros.forEach(
-                restauranteTypedQuery::setParameter
-        );
-
-//        parametros.forEach(
-//                (key, value) -> {
-//                    restauranteTypedQuery.setParameter(key, value);
-//                }
-//        );
-
-//        for (String key: parametros.keySet()) {
-//            restauranteTypedQuery.setParameter(key, parametros.get(key));
-//        }
-
-        return restauranteTypedQuery.getResultList();
+        return query.getResultList();
     }
 }
