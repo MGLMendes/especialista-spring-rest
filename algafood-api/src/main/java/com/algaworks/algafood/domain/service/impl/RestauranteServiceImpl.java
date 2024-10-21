@@ -61,7 +61,7 @@ public class RestauranteServiceImpl implements RestauranteService {
 
 
         BeanUtils.copyProperties(
-                restaurante, restauranteSalvo, "id"
+                restaurante, restauranteSalvo, "id", "formasPagamento"
         );
 
 
