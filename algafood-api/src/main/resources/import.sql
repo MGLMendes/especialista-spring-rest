@@ -27,3 +27,6 @@ insert into forma_pagamento (descricao) values ('PIX')
 -- Permissao
 insert into permissao (nome, descricao) values ('Consulta Produtos', 'Permite a consulta dos produtos')
 insert into permissao (nome, descricao) values ('Consulta Restaurantes', 'Permite a consulta dos restaurantes')
+
+-- Forma Pagamento
+insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1,1), (1,2), (1,3), (2,1), (2,2),(2,3),(3,1),(3,2),(3,3)
