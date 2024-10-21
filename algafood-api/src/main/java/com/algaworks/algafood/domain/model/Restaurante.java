@@ -29,6 +29,9 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
 
+    @Embedded
+    private Endereco endereco;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(

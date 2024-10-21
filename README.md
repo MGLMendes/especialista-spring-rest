@@ -66,6 +66,8 @@ Anotações:
       @Param: Anotação usamos para definir o nome do parâmetro para fazer o biding.  
 
 5.19 - @Lazy: Anotação usada para que o spring só instancia na hora que for usá-la.  
+6.4 - @Embeddable: Anotação que faz com que a classe anotada possa ser incorporada, não representa uma entidade no banco de dados.  
+      @Embedded: Diz que o atributo é incorporado.  
 
 Application Properties Tips:  
 
