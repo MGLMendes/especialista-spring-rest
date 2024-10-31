@@ -64,7 +64,8 @@ public class RestauranteServiceImpl implements RestauranteService {
                 restaurante, restauranteSalvo, "id",
                 "formasPagamento",
                 "endereco",
-                "dataCadastro"
+                "dataCadastro",
+                "produtos"
         );
 
 
