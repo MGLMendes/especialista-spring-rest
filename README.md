@@ -69,6 +69,9 @@ Anotações:
 6.4 - @Embeddable: Anotação que faz com que a classe anotada possa ser incorporada, não representa uma entidade no banco de dados.  
       @Embedded: Diz que o atributo é incorporado.  
 
+6.6 - @CreationTimestamp: Instancia um LocalDateTime no campo assim que salva no banco de dados pela primeira vez.  
+      @UpdateTimestamp: Atualiza automaticamente o campo com a data atual.  
+
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
