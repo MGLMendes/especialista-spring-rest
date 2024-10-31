@@ -2,11 +2,6 @@
 insert into cozinha (nome) values ('Tailandesa');
 insert into cozinha (nome) values ('Indiana');
 
--- Restaurante
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Thai Gourmet', 10, 1)
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Thai Delivery', 9.50, 1)
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Tuk Tuk Comida Indiana', 15, 2)
-
 -- Estado
 insert into estado (nome) values ('Sao Paulo')
 insert into estado (nome) values ('Rio de Janeiro')
@@ -18,6 +13,11 @@ insert into cidade (nome, estado_id) values ('Sao Paulo', 1)
 insert into cidade (nome, estado_id) values ('Rio de Janeiro', 2)
 insert into cidade (nome, estado_id) values ('Belo Horizonte', 3)
 insert into cidade (nome, estado_id) values ('Vitoria', 4)
+
+-- Restaurante
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro) values (1, 'Thai Gourmet', 10, 1, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Thai Delivery', 9.50, 1)
+insert into restaurante (nome, taxa_frete, cozinha_id) values ('Tuk Tuk Comida Indiana', 15, 2)
 
 -- Forma Pagamento
 insert into forma_pagamento (descricao) values ('Cartao De Crédito')
