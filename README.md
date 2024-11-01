@@ -66,7 +66,11 @@ Anotações:
       @Param: Anotação usamos para definir o nome do parâmetro para fazer o biding.  
 
 5.19 - @Lazy: Anotação usada para que o spring só instancia na hora que for usá-la.  
+6.4 - @Embeddable: Anotação que faz com que a classe anotada possa ser incorporada, não representa uma entidade no banco de dados.  
+      @Embedded: Diz que o atributo é incorporado.  
 
+6.6 - @CreationTimestamp: Instancia um LocalDateTime no campo assim que salva no banco de dados pela primeira vez.  
+      @UpdateTimestamp: Atualiza automaticamente o campo com a data atual.  
 
 Application Properties Tips:  
 
@@ -97,6 +101,9 @@ JPA Anotações:
 @Column: Anotação em escopo de atributo que serve para definirmos as especificações da coluna. Podemos passar por parâmetro o name="nome da coluna" ou um length=20 para definir o tamanho da coluna.    
 @GeneratedValue: Anotação usado no identificador da entidade, serve para definir qual vai ser o gerador de valor. Podemos passar o parâmetro strategy=GenerationType.IDENTITY.  
 @ManyToOne: Anotação usada em objetos para referenciar Muitos Pra Um.  
+@OneToMany: Anotação usada em objetos para referenciar Um para Muitos.  
+@ManyToMany: Anotação usada em objetos para referenciar Muitos para Muitos.  
+@JoinTable: Usada para fazer a junção de uma tabela que será o id daquela entidade e o id da outra entidade.  
 @JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
 @Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
 
