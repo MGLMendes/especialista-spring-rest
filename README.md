@@ -88,7 +88,8 @@ spring.jpa.properties.hibernate.dialect - Configuração para configurar o diale
 spring.datasource.hikari.maximum-pool-size - Configura o pool maximo do Hikari.  
 spring.datasource.hikari.minimum-idle - Configura o pool mínimo do Hikari.  
 spring.datasource.hikari.idle-timeout - Timeout das conexões excedentes.  
-
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action - Configuração que gera os scripts dos schemas.  
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target - Diz o caminho onde vai ser gerado os scripts.  
 
 
 Comandos de linha da comando (PowerShell):
