@@ -85,6 +85,9 @@ spring.jpa.hibernate.ddl-auto - Configura o Hibernate para que dependendo do val
 as tabelas sempre que a aplicação for reiniciada.  
 spring.jpa.show-sql - Comando usado para fazer com que exiba no log o comando sql gerado pelo jpa.  
 spring.jpa.properties.hibernate.dialect - Configuração para configurar o dialeto do SQL.  
+spring.datasource.hikari.maximum-pool-size - Configura o pool maximo do Hikari.  
+spring.datasource.hikari.minimum-idle - Configura o pool mínimo do Hikari.  
+spring.datasource.hikari.idle-timeout - Timeout das conexões excedentes.  
 
 
 
