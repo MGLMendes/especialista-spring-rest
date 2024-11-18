@@ -25,3 +25,6 @@ replay_pid*
 
 # env 
 env/*
+
+# flyway properties
+algafood-api/src/main/resources/flyway.properties

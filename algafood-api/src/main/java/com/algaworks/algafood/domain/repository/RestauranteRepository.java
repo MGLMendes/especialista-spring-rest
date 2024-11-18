@@ -18,7 +18,7 @@ public interface RestauranteRepository extends
         JpaSpecificationExecutor<Restaurante> {
 
     @Query(
-            "from Restaurante r join r.cozinha join fetch r.formasPagamento "
+            "from Restaurante r join r.cozinha"
     )
     List<Restaurante> findAll();
 
