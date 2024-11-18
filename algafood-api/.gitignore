@@ -35,3 +35,6 @@ build/
 
 ## ENV ##
 env/*
+
+## Flyway Properties
+src/main/resources/flyway.properties
