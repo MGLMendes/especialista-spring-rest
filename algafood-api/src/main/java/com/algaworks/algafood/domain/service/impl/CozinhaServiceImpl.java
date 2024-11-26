@@ -28,20 +28,10 @@ public class CozinhaServiceImpl implements CozinhaService {
     public void remover(Long cozinhaId) {
         try {
             cozinhaRepository.deleteById(cozinhaId);
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId)
-            );
-
-//            throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
         } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    String.format("Não existe cadastro de cozinha com o código %d", cozinhaId)
-            );
-
-//            throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
+            throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
         }
     }
 }
