@@ -16,8 +16,18 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class CozinhaServiceImpl implements CozinhaService {
 
+    public static final String COZINHA_NAO_ENCONTRADA = "Não existe cadastro de cozinha com o código %d";
+    public static final String COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso";
     private final CozinhaRepository cozinhaRepository;
 
+    @Override
+    public Cozinha buscar(Long id) {
+        return cozinhaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException(String.format(
+                        COZINHA_NAO_ENCONTRADA, id
+                ))
+        );
+    }
 
     @Override
     public Cozinha salvar(Cozinha cozinha) {
@@ -29,9 +39,9 @@ public class CozinhaServiceImpl implements CozinhaService {
         try {
             cozinhaRepository.deleteById(cozinhaId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
+            throw new EntidadeNaoEncontradaException(String.format(COZINHA_NAO_ENCONTRADA, cozinhaId));
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));
+            throw new EntidadeEmUsoException(String.format(COZINHA_EM_USO, cozinhaId));
         }
     }
 }
