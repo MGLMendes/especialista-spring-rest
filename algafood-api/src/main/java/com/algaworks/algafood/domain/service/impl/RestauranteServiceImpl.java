@@ -1,9 +1,9 @@
 package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -12,11 +12,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RestauranteServiceImpl implements RestauranteService {
+
+    public static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe cadastro de cozinha com o código %d";
+
 
     private static final String MSG_RESTAURANTE_NAO_ENCONTRADO
             = "Não existe um cadastro de restaurante com código %d";
@@ -28,11 +30,20 @@ public class RestauranteServiceImpl implements RestauranteService {
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
 
-        Cozinha cozinha = cozinhaService.buscar(cozinhaId);
+        try {
+            Cozinha cozinha = cozinhaService.buscar(cozinhaId);
 
-        restaurante.setCozinha(cozinha);
+            restaurante.setCozinha(cozinha);
 
-        return restauranteRepository.save(restaurante);
+            return restauranteRepository.save(restaurante);
+        } catch (EntidadeNaoEncontradaException e ) {
+            throw new NegocioException(
+                    String.format(
+                            MSG_COZINHA_NAO_ENCONTRADA,
+                            restaurante.getCozinha().getId()
+                    )
+            );
+        }
     }
 
     @Override
@@ -60,8 +71,16 @@ public class RestauranteServiceImpl implements RestauranteService {
                 "produtos"
         );
 
-
-        return salvar(restauranteSalvo);
+        try {
+            return salvar(restauranteSalvo);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(
+                    String.format(
+                            MSG_COZINHA_NAO_ENCONTRADA,
+                            restaurante.getCozinha().getId()
+                    )
+            );
+        }
     }
 
 
