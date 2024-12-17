@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
@@ -55,9 +56,10 @@ public class CidadeServiceImpl implements CidadeService {
             cidade.setEstado(estado);
 
             return cidadeRepository.save(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId())
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId()),
+                    e
             );
         }
     }
@@ -74,9 +76,10 @@ public class CidadeServiceImpl implements CidadeService {
             cidadeSalvo.setEstado(estado);
 
             return salvar(cidadeSalvo);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId())
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId()),
+                    e
             );
         }
     }
