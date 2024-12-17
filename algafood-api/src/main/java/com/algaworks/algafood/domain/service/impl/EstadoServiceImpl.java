@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.service.EstadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EstadoServiceImpl implements EstadoService {
+
+
+    private static final String MSG_ESTADO_EM_USO  =
+            "Estado de código %d não pode ser removido, pois está em uso";
+
+    private static final String MSG_ESTADO_NAO_ENCONTRADO =
+            "Não existe um cadastro de estado com código %d";
 
     private final EstadoRepository estadoRepository;
 
@@ -26,18 +34,9 @@ public class EstadoServiceImpl implements EstadoService {
     @Override
     public Estado buscar(Long estadoId) {
 
-        Estado estado = estadoRepository.findById(estadoId).orElse(null);
-
-        if (estado == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(
-                            "O estado de código %d não existe",
-                            estadoId
-                    )
-            );
-        }
-
-        return estado;
+        return estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId)));
     }
 
     @Override
@@ -57,11 +56,15 @@ public class EstadoServiceImpl implements EstadoService {
     @Override
     public void deletar(Long estadoId) {
         try {
-            Estado estado = buscar(estadoId);
-            estadoRepository.delete(estado);
+            estadoRepository.deleteById(estadoId);
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, estadoId));
+
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(String.format("Estado de código %d não pode ser removido, pois está em uso",
-                    estadoId));
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_ESTADO_EM_USO, estadoId));
         }
     }
 }

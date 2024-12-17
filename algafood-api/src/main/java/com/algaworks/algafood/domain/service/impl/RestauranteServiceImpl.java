@@ -5,6 +5,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -17,19 +18,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RestauranteServiceImpl implements RestauranteService {
 
+    private static final String MSG_RESTAURANTE_NAO_ENCONTRADO
+            = "Não existe um cadastro de restaurante com código %d";
+
     private final RestauranteRepository restauranteRepository;
-    private final CozinhaRepository cozinhaRepository;
+    private final CozinhaService cozinhaService;
 
     @Override
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
 
-        if (cozinha.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
-        }
+        Cozinha cozinha = cozinhaService.buscar(cozinhaId);
 
-        restaurante.setCozinha(cozinha.get());
+        restaurante.setCozinha(cozinha);
 
         return restauranteRepository.save(restaurante);
     }
@@ -41,18 +42,9 @@ public class RestauranteServiceImpl implements RestauranteService {
 
     @Override
     public Restaurante buscar(Long restauranteId) {
-        Restaurante restaurante = restauranteRepository.findById(restauranteId).orElse(null);
-
-        if (restaurante == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(
-                            "Não existe entidade restaurante com código %d",
-                            restauranteId
-                    )
-            );
-        }
-
-        return restaurante;
+        return restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
     }
 
     @Override
