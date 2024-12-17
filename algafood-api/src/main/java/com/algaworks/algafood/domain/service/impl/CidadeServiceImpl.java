@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
@@ -26,6 +27,9 @@ public class CidadeServiceImpl implements CidadeService {
     private static final String MSG_CIDADE_NAO_ENCONTRADA
             = "Não existe um cadastro de cidade com código %d";
 
+    private static final String MSG_ESTADO_NAO_ENCONTRADO =
+            "Não existe um cadastro de estado com código %d";
+
     private final CidadeRepository cidadeRepository;
     private final EstadoService estadoService;
 
@@ -43,26 +47,38 @@ public class CidadeServiceImpl implements CidadeService {
 
     @Override
     public Cidade salvar(Cidade cidade) {
-        Long estadoId = cidade.getEstado().getId();
+        try {
+            Long estadoId = cidade.getEstado().getId();
 
-        Estado estado = estadoService.buscar(estadoId);
+            Estado estado = estadoService.buscar(estadoId);
 
-        cidade.setEstado(estado);
+            cidade.setEstado(estado);
 
-        return cidadeRepository.save(cidade);
+            return cidadeRepository.save(cidade);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId())
+            );
+        }
     }
 
     @Override
     public Cidade atualizar(Long cidadeId, Cidade cidade) {
         Cidade cidadeSalvo = buscar(cidadeId);
 
-        Estado estado = estadoService.buscar(cidade.getEstado().getId());
+        try {
+            Estado estado = estadoService.buscar(cidade.getEstado().getId());
 
-        BeanUtils.copyProperties(cidade, cidadeSalvo, "id");
+            BeanUtils.copyProperties(cidade, cidadeSalvo, "id");
 
-        cidadeSalvo.setEstado(estado);
+            cidadeSalvo.setEstado(estado);
 
-        return salvar(cidadeSalvo);
+            return salvar(cidadeSalvo);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId())
+            );
+        }
     }
 
     @Override
