@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 
 import com.algaworks.algafood.api.assembler.RestauranteDTOAssembler;
+import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -24,6 +25,8 @@ public class RestauranteController {
 
     private final RestauranteDTOAssembler restauranteDTOAssembler;
 
+    private final RestauranteInputDisassembler restauranteInputDisassembler;
+
     @GetMapping
     public ResponseEntity<List<RestauranteDTO>> listar() {
         return ResponseEntity.ok(restauranteDTOAssembler.toCollectionList(restauranteService.listar()));
@@ -42,7 +45,7 @@ public class RestauranteController {
             @RequestBody @Valid RestauranteInput restauranteInput) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                restauranteDTOAssembler.toModel(restauranteService.salvar(toDomainObject(restauranteInput))));
+                restauranteDTOAssembler.toModel(restauranteService.salvar(restauranteInputDisassembler.toDomainObject(restauranteInput))));
 
     }
 
@@ -51,17 +54,5 @@ public class RestauranteController {
         return ResponseEntity.ok(
                 restauranteDTOAssembler.toModel(restauranteService.atualizar(restauranteId, restaurante)));
 
-    }
-
-    private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-        Restaurante restaurante = new Restaurante();
-        restaurante.setNome(restauranteInput.getNome());
-        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-
-        Cozinha cozinha = new Cozinha();
-        cozinha.setId(restauranteInput.getCozinha().getId());
-
-        restaurante.setCozinha(cozinha);
-        return restaurante;
     }
 }
