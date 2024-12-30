@@ -1,9 +1,14 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.domain.model.groups.ValidationGroups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
 
 @Entity
 @Data
@@ -14,7 +19,13 @@ public class Cidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String nome;
+
+    @Valid
+    @ConvertGroup(to = ValidationGroups.EstadoId.class)
+    @NotNull
     @ManyToOne
     private Estado estado;
 }
