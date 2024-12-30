@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.core.validation.annotations.Multiplo;
 import com.algaworks.algafood.core.validation.annotations.TaxaFrete;
+import com.algaworks.algafood.core.validation.annotations.ValorZeroIncluiDescricao;
 import com.algaworks.algafood.core.validation.groups.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -20,6 +21,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao(
+        valorField = "taxaFrete",
+        descricaoField = "nome",
+        descricaoObrigatoria = "Frete Grátis")
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
