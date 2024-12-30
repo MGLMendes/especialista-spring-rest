@@ -4,8 +4,6 @@ import com.algaworks.algafood.core.validation.annotations.Multiplo;
 import com.algaworks.algafood.core.validation.annotations.TaxaFrete;
 import com.algaworks.algafood.core.validation.annotations.ValorZeroIncluiDescricao;
 import com.algaworks.algafood.core.validation.groups.ValidationGroups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,7 +44,6 @@ public class Restaurante {
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-    @JsonIgnoreProperties(value = {"nome"}, allowGetters = true) // permite que a propriedade seja desserializada mas não serializada
     @Valid
     @ConvertGroup(from = Default.class, to = ValidationGroups.CozinhaId.class)
     @NotNull
@@ -54,25 +51,20 @@ public class Restaurante {
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
 
-    @JsonIgnore
     @Embedded
     private Endereco endereco;
 
-    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataCadastro;
 
-    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "restaurante_forma_pagamento",
