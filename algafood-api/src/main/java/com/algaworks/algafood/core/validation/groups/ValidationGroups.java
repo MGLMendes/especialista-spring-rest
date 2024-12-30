@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain.model.groups;
+package com.algaworks.algafood.core.validation.groups;
 
 public interface ValidationGroups {
 
