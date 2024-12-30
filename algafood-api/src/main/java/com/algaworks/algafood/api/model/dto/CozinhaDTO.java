@@ -1,11 +1,11 @@
-package com.algaworks.algafood.api.model;
+package com.algaworks.algafood.api.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CozinhaModel {
+public class CozinhaDTO {
 
     private Long id;
     private String nome;
