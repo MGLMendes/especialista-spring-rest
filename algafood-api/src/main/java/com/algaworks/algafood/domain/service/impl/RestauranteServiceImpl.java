@@ -1,7 +1,9 @@
 package com.algaworks.algafood.domain.service.impl;
 
+import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -37,12 +39,8 @@ public class RestauranteServiceImpl implements RestauranteService {
 
             return restauranteRepository.save(restaurante);
         } catch (EntidadeNaoEncontradaException e ) {
-            throw new NegocioException(
-                    String.format(
-                            MSG_COZINHA_NAO_ENCONTRADA,
-                            restaurante.getCozinha().getId()
-                    )
-            );
+            throw new CozinhaNaoEncontradaException(
+                            restaurante.getCozinha().getId());
         }
     }
 
@@ -54,8 +52,7 @@ public class RestauranteServiceImpl implements RestauranteService {
     @Override
     public Restaurante buscar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 
     @Override
@@ -74,12 +71,8 @@ public class RestauranteServiceImpl implements RestauranteService {
         try {
             return salvar(restauranteSalvo);
         } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(
-                    String.format(
-                            MSG_COZINHA_NAO_ENCONTRADA,
-                            restaurante.getCozinha().getId()
-                    )
-            );
+            throw new CozinhaNaoEncontradaException(
+                            restaurante.getCozinha().getId());
         }
     }
 

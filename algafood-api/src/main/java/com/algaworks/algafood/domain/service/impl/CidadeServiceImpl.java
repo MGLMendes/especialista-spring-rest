@@ -1,9 +1,6 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
-import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.*;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
@@ -24,9 +21,7 @@ public class CidadeServiceImpl implements CidadeService {
 
     private static final String MSG_CIDADE_EM_USO
             = "Cidade de código %d não pode ser removida, pois está em uso";
-
-    private static final String MSG_CIDADE_NAO_ENCONTRADA
-            = "Não existe um cadastro de cidade com código %d";
+    
 
     private static final String MSG_ESTADO_NAO_ENCONTRADO =
             "Não existe um cadastro de estado com código %d";
@@ -42,8 +37,7 @@ public class CidadeServiceImpl implements CidadeService {
     @Override
     public Cidade buscar(Long cidadeId) {
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
     @Override
@@ -90,8 +84,7 @@ public class CidadeServiceImpl implements CidadeService {
             cidadeRepository.deleteById(cidadeId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
+            throw new CidadeNaoEncontradaException(cidadeId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
