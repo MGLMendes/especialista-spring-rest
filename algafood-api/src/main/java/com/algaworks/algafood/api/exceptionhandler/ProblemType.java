@@ -6,6 +6,10 @@ import lombok.Setter;
 @Getter
 public enum ProblemType {
 
+
+    PARAMETRO_INVALIDO(
+            "Parâmetro Inválido!",
+            "parametro-invalido"),
     MENSAGEM_INCOMPREENSIVEL(
             "Não foi possível interpretar a mensagem!",
             "mensagem-incompreensivel"),
