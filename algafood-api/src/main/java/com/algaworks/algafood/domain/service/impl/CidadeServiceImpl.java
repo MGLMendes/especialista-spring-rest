@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class CidadeServiceImpl implements CidadeService {
                 .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
+    @Transactional
     @Override
     public Cidade salvar(Cidade cidade) {
         try {
@@ -58,6 +60,7 @@ public class CidadeServiceImpl implements CidadeService {
         }
     }
 
+    @Transactional
     @Override
     public Cidade atualizar(Long cidadeId, Cidade cidade) {
         Cidade cidadeSalvo = buscar(cidadeId);
@@ -78,6 +81,7 @@ public class CidadeServiceImpl implements CidadeService {
         }
     }
 
+    @Transactional
     @Override
     public void deletar(Long cidadeId) {
         try {
