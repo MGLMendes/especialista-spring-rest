@@ -22,7 +22,7 @@ public class CozinhaServiceImpl implements CozinhaService {
     @Override
     public Cozinha buscar(Long id) {
         return cozinhaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException(String.format(
+                () -> new CozinhaNaoEncontradaException(String.format(
                         MSG_COZINHA_NAO_ENCONTRADA, id
                 ))
         );
