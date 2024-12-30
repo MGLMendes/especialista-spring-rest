@@ -26,10 +26,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
 
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
 
@@ -89,6 +87,30 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 request
         );
     }
+
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<?> handleNotHandledExceptions(
+            Exception ex,
+            WebRequest webRequest
+    ) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ProblemType problemType = ProblemType.ERRO_SISTEMA;
+
+        String detail = "Ocorreu um erro interno inesperado no sistema. " +
+                "Tente novamente e se o problema persistir, entre em contato " +
+                "com o administrador do sistema";
+
+        Problem problem = createProblemBuilder(
+                status,
+                problemType,
+                detail
+        ).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, webRequest);
+
+
+    }
+
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex,
