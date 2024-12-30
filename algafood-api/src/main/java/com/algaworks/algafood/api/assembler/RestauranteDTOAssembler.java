@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.model.dto.CozinhaDTO;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.domain.model.Restaurante;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,17 +14,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RestauranteDTOAssembler {
 
-    public RestauranteDTO toModel(Restaurante restaurante) {
-        CozinhaDTO cozinhaDTO = new CozinhaDTO();
-        cozinhaDTO.setId(restaurante.getCozinha().getId());
-        cozinhaDTO.setNome(restaurante.getCozinha().getNome());
+    private final ModelMapper modelMapper;
 
-        RestauranteDTO restauranteDTO = new RestauranteDTO();
-        restauranteDTO.setId(restaurante.getId());
-        restauranteDTO.setNome(restaurante.getNome());
-        restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
-        restauranteDTO.setCozinha(cozinhaDTO);
-        return restauranteDTO;
+    public RestauranteDTO toModel(Restaurante restaurante) {
+        return modelMapper.map(restaurante, RestauranteDTO.class);
     }
 
     public List<RestauranteDTO> toCollectionList(List<Restaurante> restaurantes) {
