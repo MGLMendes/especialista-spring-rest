@@ -5,6 +5,7 @@ import com.algaworks.algafood.core.validation.annotations.TaxaFrete;
 import com.algaworks.algafood.core.validation.annotations.ValorZeroIncluiDescricao;
 import com.algaworks.algafood.core.validation.groups.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,6 +46,7 @@ public class Restaurante {
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
+    @JsonIgnoreProperties(value = {"nome"}, allowGetters = true) // permite que a propriedade seja desserializada mas não serializada
     @Valid
     @ConvertGroup(from = Default.class, to = ValidationGroups.CozinhaId.class)
     @NotNull

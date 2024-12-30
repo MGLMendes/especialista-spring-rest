@@ -76,6 +76,8 @@ Anotações:
 8.13 - @ControllerAdvice: Anotação usada para determinar que aquela classe pode ser usada para tratar ExceptionHandlers globais.  
 8.18 - @JsonInclude: Anotação para especificar quais objetos serão inclusos em json.  
 
+11.2 - @JsonIgnoreProperties: Anotação para ignorar determinadas propriedades.  
+
 
 Application Properties Tips:  
 
@@ -127,7 +129,7 @@ Bean Validation Anotações:
 @DecimalMin: Diz que aquele campo numerado tem que ter um valor mínimo estipulado por parâmetro da anotação.  
 @PositiveOrZero: Diz que aquele campo numerado tem que ser positivo ou zero.  
 @NotEmpty: Informa que aquele campo não pode ser vazio.  
-@@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
+@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
 @ConvertGroup: Anotação usada para fazer a conversão de grupos de validação.  
 
 
