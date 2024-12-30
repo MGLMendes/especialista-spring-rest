@@ -1,7 +1,6 @@
-package com.algaworks.algafood.api.exceptionhandler;
+package com.algaworks.algafood.api.handler;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum ProblemType {
