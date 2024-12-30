@@ -120,35 +120,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        if (body == null) {
-            body = Problem.builder()
-                    .status(status.value())
-                    .title(status.getReasonPhrase()).build();
-        } else if (body instanceof String) {
-            body = Problem.builder()
-                    .status(status.value())
-                    .title((String) body).build();
-        }
-
-        return super.handleExceptionInternal(ex, body, headers, status, request);
-    }
-
-    private Problem.ProblemBuilder createProblemBuilder(
-            HttpStatus status,
-            ProblemType problemType,
-            String detail
-    ) {
-        return Problem.builder()
-                .status(status.value())
-                .type(problemType.getUri())
-                .title(problemType.getTitle())
-                .detail(detail);
-    }
-
-
     private ResponseEntity<Object> handleInvalidFormatException(
             InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request
     ) {
@@ -189,7 +160,36 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private String joinPath(List<JsonMappingException.Reference> references) {
         return references.stream()
-                .map(ref -> ref.getFieldName())
+                .map(JsonMappingException.Reference::getFieldName) // ou .map(ref -> ref.getFieldName())
                 .collect(Collectors.joining("."));
     }
+
+    private Problem.ProblemBuilder createProblemBuilder(
+            HttpStatus status,
+            ProblemType problemType,
+            String detail
+    ) {
+        return Problem.builder()
+                .status(status.value())
+                .type(problemType.getUri())
+                .title(problemType.getTitle())
+                .detail(detail);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        if (body == null) {
+            body = Problem.builder()
+                    .status(status.value())
+                    .title(status.getReasonPhrase()).build();
+        } else if (body instanceof String) {
+            body = Problem.builder()
+                    .status(status.value())
+                    .title((String) body).build();
+        }
+
+        return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
 }
