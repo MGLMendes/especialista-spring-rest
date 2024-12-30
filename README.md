@@ -123,7 +123,7 @@ JPA Anotações:
 
 Bean Validation Anotações:
 @NotNull: Informa que aquele campo não pode ser nulo.  
-@Valid: Anotação para ser usada diretamente no resource, evitando que a validação seja executada apenas na hora de interagir com o banco de dados.  
+@Valid: Anotação para ser usada diretamente no objeto que vai ser validado.  
 @DecimalMin: Diz que aquele campo numerado tem que ter um valor mínimo estipulado por parâmetro da anotação.  
 @PositiveOrZero: Diz que aquele campo numerado tem que ser positivo ou zero.  
 @NotEmpty: Informa que aquele campo não pode ser vazio.  
