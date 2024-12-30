@@ -95,7 +95,9 @@ spring.datasource.hikari.minimum-idle - Configura o pool mínimo do Hikari.
 spring.datasource.hikari.idle-timeout - Timeout das conexões excedentes.  
 spring.jpa.properties.javax.persistence.schema-generation.scripts.action - Configuração que gera os scripts dos schemas.  
 spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target - Diz o caminho onde vai ser gerado os scripts.  
-spring.flyway.locations - Especificamos para o flyway o caminho dos scripts de migrações e callback
+spring.flyway.locations - Especificamos para o flyway o caminho dos scripts de migrações e callback.  
+spring.jackson.deserialization.fail-on-unknown-properties - Diz ao spring para falhar caso tenha propriedades desconhecidas na desserialização do jackson.  
+spring.jackson.deserialization.fail-on-ignored-properties - Diz ao spring para falhar caso tenha propriedades ignoradas pelo jackson na desserialização.  
 
 
 Comandos de linha da comando (PowerShell):
