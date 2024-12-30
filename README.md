@@ -72,6 +72,11 @@ Anotações:
 6.6 - @CreationTimestamp: Instancia um LocalDateTime no campo assim que salva no banco de dados pela primeira vez.  
       @UpdateTimestamp: Atualiza automaticamente o campo com a data atual.  
 
+8.12 - @ExceptionHandler: Anotação para tratar no método anotado as exceções especificados como parâmetro da anotação.  
+8.13 - @ControllerAdvice: Anotação usada para determinar que aquela classe pode ser usada para tratar ExceptionHandlers globais.  
+8.18 - @JsonInclude: Anotação para especificar quais objetos serão inclusos em json.  
+
+
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
@@ -90,7 +95,11 @@ spring.datasource.hikari.minimum-idle - Configura o pool mínimo do Hikari.
 spring.datasource.hikari.idle-timeout - Timeout das conexões excedentes.  
 spring.jpa.properties.javax.persistence.schema-generation.scripts.action - Configuração que gera os scripts dos schemas.  
 spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target - Diz o caminho onde vai ser gerado os scripts.  
-spring.flyway.locations - Especificamos para o flyway o caminho dos scripts de migrações e callback
+spring.flyway.locations - Especificamos para o flyway o caminho dos scripts de migrações e callback.  
+spring.jackson.deserialization.fail-on-unknown-properties - Diz ao spring para falhar caso tenha propriedades desconhecidas na desserialização do jackson.  
+spring.jackson.deserialization.fail-on-ignored-properties - Diz ao spring para falhar caso tenha propriedades ignoradas pelo jackson na desserialização.  
+spring.mvc.throw-exception-if-no-handler-found - Diz ao spring para lançar a exceção quando não encontrar um código mapeado para aquela url.  
+spring.resources.add-mappings - Desabilita o resource handling do spring para arquivos da pasta resource/static.  
 
 
 Comandos de linha da comando (PowerShell):

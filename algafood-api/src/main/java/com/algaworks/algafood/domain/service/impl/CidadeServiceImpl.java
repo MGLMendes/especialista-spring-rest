@@ -1,7 +1,6 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.*;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
@@ -11,6 +10,7 @@ import com.algaworks.algafood.domain.service.EstadoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +18,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CidadeServiceImpl implements CidadeService {
+
+    private static final String MSG_CIDADE_EM_USO
+            = "Cidade de código %d não pode ser removida, pois está em uso";
+    
+
+    private static final String MSG_ESTADO_NAO_ENCONTRADO =
+            "Não existe um cadastro de estado com código %d";
 
     private final CidadeRepository cidadeRepository;
     private final EstadoService estadoService;
@@ -29,47 +36,59 @@ public class CidadeServiceImpl implements CidadeService {
 
     @Override
     public Cidade buscar(Long cidadeId) {
-        Cidade cidade = cidadeRepository.findById(cidadeId).orElse(null);
-        if (cidade == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(
-                            "O cidade de código %d não existe",
-                            cidadeId
-                    )
-            );
-        }
-
-        return cidade;
+        return cidadeRepository.findById(cidadeId)
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
     @Override
     public Cidade salvar(Cidade cidade) {
-        Estado estado = estadoService.buscar(cidade.getEstado().getId());
-        cidade.setEstado(estado);
-        return cidadeRepository.save(cidade);
+        try {
+            Long estadoId = cidade.getEstado().getId();
+
+            Estado estado = estadoService.buscar(estadoId);
+
+            cidade.setEstado(estado);
+
+            return cidadeRepository.save(cidade);
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId()),
+                    e
+            );
+        }
     }
 
     @Override
     public Cidade atualizar(Long cidadeId, Cidade cidade) {
         Cidade cidadeSalvo = buscar(cidadeId);
 
-        Estado estado = estadoService.buscar(cidade.getEstado().getId());
+        try {
+            Estado estado = estadoService.buscar(cidade.getEstado().getId());
 
-        BeanUtils.copyProperties(cidade, cidadeSalvo, "id");
+            BeanUtils.copyProperties(cidade, cidadeSalvo, "id");
 
-        cidadeSalvo.setEstado(estado);
+            cidadeSalvo.setEstado(estado);
 
-        return salvar(cidadeSalvo);
+            return salvar(cidadeSalvo);
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(
+                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId()),
+                    e
+            );
+        }
     }
 
     @Override
     public void deletar(Long cidadeId) {
         try {
-            Cidade cidade = buscar(cidadeId);
-            cidadeRepository.delete(cidade);
+            cidadeRepository.deleteById(cidadeId);
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new CidadeNaoEncontradaException(cidadeId);
+
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removido, pois está em uso",
-                    cidadeId));
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_CIDADE_EM_USO, cidadeId));
         }
     }
 }
