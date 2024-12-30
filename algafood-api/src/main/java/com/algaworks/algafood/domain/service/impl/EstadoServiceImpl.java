@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,11 +37,13 @@ public class EstadoServiceImpl implements EstadoService {
                 .orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
     }
 
+    @Transactional
     @Override
     public Estado salvar(Estado estado) {
         return estadoRepository.save(estado);
     }
 
+    @Transactional
     @Override
     public Estado atualizar(Long estadoId, Estado estado) {
         Estado estadoSalvo = buscar(estadoId);
@@ -50,6 +53,7 @@ public class EstadoServiceImpl implements EstadoService {
         return salvar(estadoSalvo);
     }
 
+    @Transactional
     @Override
     public void deletar(Long estadoId) {
         try {
