@@ -11,7 +11,11 @@ public enum ProblemType {
             "entidade-nao-encontrada"),
     ENTIDADE_EM_USO(
             "Entidade em uso!",
-            "entidade-em-uso");
+            "entidade-em-uso"),
+
+    ERRO_NEGOCIO(
+            "Violação de regra de negócio",
+            "erro-negocio");
 
     private final String title;
     private final String uri;

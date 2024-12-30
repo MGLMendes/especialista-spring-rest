@@ -21,28 +21,40 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e,
                                              WebRequest webRequest) {
 
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
         Problem problem = createProblemBuilder(
-                HttpStatus.NOT_FOUND,
+                status,
                 ProblemType.ENTIDADE_NAO_ENCONTRADA,
                 e.getMessage()
         ).build();
-        
+
         return handleExceptionInternal(
                 e,
                 problem,
                 new HttpHeaders(),
-                HttpStatus.NOT_FOUND,
+                status,
                 webRequest
         );
     }
 
     @ExceptionHandler(NegocioException.class)
     public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest webRequest) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Problem problem = createProblemBuilder(
+                status,
+                ProblemType.ERRO_NEGOCIO,
+                e.getMessage()
+        ).build();
+
+
         return handleExceptionInternal(
                 e,
-                e.getMessage(),
+                problem,
                 new HttpHeaders(),
-                HttpStatus.BAD_REQUEST,
+                status,
                 webRequest
         );
     }
@@ -50,11 +62,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntidadeEmUsoException.class)
     public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException e,
                                                           WebRequest webRequest) {
+
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        Problem problem = createProblemBuilder(
+                status,
+                ProblemType.ENTIDADE_EM_USO,
+                e.getMessage()
+        ).build();
+
+
         return handleExceptionInternal(
                 e,
-                e.getMessage(),
+                problem,
                 new HttpHeaders(),
-                HttpStatus.CONFLICT,
+                status,
                 webRequest
         );
     }
