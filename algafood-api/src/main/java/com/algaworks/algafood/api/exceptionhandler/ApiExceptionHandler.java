@@ -6,78 +6,95 @@ import com.algaworks.algafood.domain.exception.NegocioException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
-
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+
+        Problem problem = createProblemBuilder(
+                status,
+                ProblemType.MENSAGEM_INCOMPREENSIVEL,
+                "O corpo da requisição está inválido. Verifique erro de sintaxe!"
+        ).build();
+
+        return handleExceptionInternal(
+                ex,
+                problem,
+                new HttpHeaders(),
+                status,
+                request
+        );
+    }
+
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e,
-                                             WebRequest webRequest) {
+    public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex,
+                                             WebRequest request) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         Problem problem = createProblemBuilder(
                 status,
                 ProblemType.ENTIDADE_NAO_ENCONTRADA,
-                e.getMessage()
+                ex.getMessage()
         ).build();
 
         return handleExceptionInternal(
-                e,
+                ex,
                 problem,
                 new HttpHeaders(),
                 status,
-                webRequest
+                request
         );
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest webRequest) {
+    public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         Problem problem = createProblemBuilder(
                 status,
                 ProblemType.ERRO_NEGOCIO,
-                e.getMessage()
+                ex.getMessage()
         ).build();
 
 
         return handleExceptionInternal(
-                e,
+                ex,
                 problem,
                 new HttpHeaders(),
                 status,
-                webRequest
+                request
         );
     }
 
     @ExceptionHandler(EntidadeEmUsoException.class)
-    public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException e,
-                                                          WebRequest webRequest) {
+    public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException ex,
+                                                          WebRequest request) {
 
         HttpStatus status = HttpStatus.CONFLICT;
 
         Problem problem = createProblemBuilder(
                 status,
                 ProblemType.ENTIDADE_EM_USO,
-                e.getMessage()
+                ex.getMessage()
         ).build();
 
 
         return handleExceptionInternal(
-                e,
+                ex,
                 problem,
                 new HttpHeaders(),
                 status,
-                webRequest
+                request
         );
     }
 
