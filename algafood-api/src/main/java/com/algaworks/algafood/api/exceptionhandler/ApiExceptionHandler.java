@@ -109,8 +109,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 status,
                 problemType,
                 MSG_ERRO_GENERICA_USUARIO_FINAL
-        ).build();
-
+        ).userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
+        ex.printStackTrace();
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, webRequest);
     }
 

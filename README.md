@@ -121,6 +121,11 @@ JPA Anotações:
 @JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
 @Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
 
+Bean Validation Anotações:
+@NotNull: Informa que aquele campo não pode ser nulo.  
+@Valid: Anotação para ser usada diretamente no resource, evitando que a validação seja executada apenas na hora de interagir com o banco de dados.  
+
+
 JPA Query Methods Tip:  
 No repositorios JPA podemos usar algumas palavras reservadas para fazer com que as buscas sejam personalizadas.  
 
