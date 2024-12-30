@@ -72,6 +72,8 @@ Anotações:
 6.6 - @CreationTimestamp: Instancia um LocalDateTime no campo assim que salva no banco de dados pela primeira vez.  
       @UpdateTimestamp: Atualiza automaticamente o campo com a data atual.  
 
+8.12 - @ExceptionHandler: Anotação para tratar no método anotado as exceções especificados como parâmetro da anotação.  
+
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
