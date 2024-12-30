@@ -3,8 +3,10 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.api.model.RestauranteModel;
+import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -52,9 +54,10 @@ public class RestauranteController {
 
     @PostMapping
     public ResponseEntity<RestauranteModel> salvar(
-            @RequestBody @Valid Restaurante restaurante) {
+            @RequestBody @Valid RestauranteInput restauranteInput) {
+
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                toModel(restauranteService.salvar(restaurante)));
+                toModel(restauranteService.salvar(toDomainObject(restauranteInput))));
 
     }
 
@@ -83,5 +86,17 @@ public class RestauranteController {
         return restaurantes.stream().map(
                 this::toModel  // restaurante -> toModel(restaurante)
         ).collect(Collectors.toList());
+    }
+
+    private Restaurante toDomainObject(RestauranteInput restauranteInput) {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setNome(restauranteInput.getNome());
+        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
+
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(restauranteInput.getCozinha().getId());
+
+        restaurante.setCozinha(cozinha);
+        return restaurante;
     }
 }

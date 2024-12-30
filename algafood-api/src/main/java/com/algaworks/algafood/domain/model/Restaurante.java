@@ -1,22 +1,13 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.core.validation.annotations.Multiplo;
-import com.algaworks.algafood.core.validation.annotations.TaxaFrete;
 import com.algaworks.algafood.core.validation.annotations.ValorZeroIncluiDescricao;
-import com.algaworks.algafood.core.validation.groups.ValidationGroups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +26,15 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+
     @Column(nullable = false)
     private String nome;
 
-    @NotNull
-    @TaxaFrete
-    @Multiplo(numero = 5)
+
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-    @Valid
-    @ConvertGroup(from = Default.class, to = ValidationGroups.CozinhaId.class)
-    @NotNull
+
     @ManyToOne
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
