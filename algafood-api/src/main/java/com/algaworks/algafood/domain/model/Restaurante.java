@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.core.validation.annotations.Multiplo;
 import com.algaworks.algafood.core.validation.annotations.TaxaFrete;
 import com.algaworks.algafood.core.validation.groups.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,6 +36,7 @@ public class Restaurante {
 
     @NotNull
     @TaxaFrete
+    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
