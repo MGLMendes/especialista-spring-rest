@@ -14,9 +14,9 @@ public enum ProblemType {
             "Não foi possível interpretar a mensagem!",
             "mensagem-incompreensivel"),
 
-    ENTIDADE_NAO_ENCONTRADA(
-            "Entidade não encontrada!",
-            "entidade-nao-encontrada"),
+    RECURSO_NAO_ENCONTRADO(
+            "Recurso Não Encontrado!",
+            "recurso-nao-encontrado"),
     ENTIDADE_EM_USO(
             "Entidade em uso!",
             "entidade-em-uso"),

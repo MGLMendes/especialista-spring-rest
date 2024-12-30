@@ -98,6 +98,8 @@ spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target 
 spring.flyway.locations - Especificamos para o flyway o caminho dos scripts de migrações e callback.  
 spring.jackson.deserialization.fail-on-unknown-properties - Diz ao spring para falhar caso tenha propriedades desconhecidas na desserialização do jackson.  
 spring.jackson.deserialization.fail-on-ignored-properties - Diz ao spring para falhar caso tenha propriedades ignoradas pelo jackson na desserialização.  
+spring.mvc.throw-exception-if-no-handler-found - Diz ao spring para lançar a exceção quando não encontrar um código mapeado para aquela url.  
+spring.resources.add-mappings - Desabilita o resource handling do spring para arquivos da pasta resource/static.  
 
 
 Comandos de linha da comando (PowerShell):
