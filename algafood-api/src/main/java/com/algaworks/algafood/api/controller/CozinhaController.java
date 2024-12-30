@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,12 +39,12 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
+    public ResponseEntity<Cozinha> adicionar(@RequestBody @Valid Cozinha cozinha) {
         return ResponseEntity.ok(cozinhaService.salvar(cozinha));
     }
 
     @PutMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid Cozinha cozinha) {
         Cozinha cozinhaSalva = cozinhaService.buscar(cozinhaId);
         BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
         return ResponseEntity.ok(cozinhaService.salvar(cozinhaSalva));

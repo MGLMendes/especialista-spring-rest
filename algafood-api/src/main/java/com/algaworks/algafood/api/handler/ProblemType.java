@@ -1,11 +1,12 @@
-package com.algaworks.algafood.api.exceptionhandler;
+package com.algaworks.algafood.api.handler;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum ProblemType {
-
+    DADOS_INVALIDOS(
+            "Dados Inválidos!",
+            "dados-invalidos"),
     ERRO_SISTEMA(
             "Erro no Sistema!",
             "erro-sistema"),
