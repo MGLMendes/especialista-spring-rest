@@ -4,6 +4,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.model.groups.ValidationGroups;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +43,8 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody @Valid Restaurante restaurante) {
+    public ResponseEntity<?> salvar(
+            @RequestBody @Validated(ValidationGroups.RestauranteValidation.class) Restaurante restaurante) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restauranteService.salvar(restaurante));
 
     }

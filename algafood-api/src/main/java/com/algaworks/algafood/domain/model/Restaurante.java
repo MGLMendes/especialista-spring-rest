@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.domain.model.groups.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -27,22 +28,17 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotNull
-//    @NotEmpty
-    @NotBlank
+    @NotBlank(groups = {ValidationGroups.RestauranteValidation.class})
     @Column(nullable = false)
     private String nome;
 
-    @DecimalMin("1")
-//    @PositiveOrZero
+    @PositiveOrZero(groups = {ValidationGroups.RestauranteValidation.class})
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
-//    @JsonIgnore
-//    @JsonIgnoreProperties("hibernateLazyInitializer")
     @Valid
-    @NotNull
-    @ManyToOne//(fetch = FetchType.LAZY)
+    @NotNull(groups = {ValidationGroups.RestauranteValidation.class})
+    @ManyToOne
     @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
 
@@ -65,7 +61,7 @@ public class Restaurante {
     private List<Produto> produtos;
 
     @JsonIgnore
-    @ManyToMany//(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(
