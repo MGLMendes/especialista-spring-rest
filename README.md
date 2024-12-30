@@ -74,6 +74,8 @@ Anotações:
 
 8.12 - @ExceptionHandler: Anotação para tratar no método anotado as exceções especificados como parâmetro da anotação.  
 8.13 - @ControllerAdvice: Anotação usada para determinar que aquela classe pode ser usada para tratar ExceptionHandlers globais.  
+8.18 - @JsonInclude: Anotação para especificar quais objetos serão inclusos em json.  
+
 
 Application Properties Tips:  
 

@@ -18,12 +18,18 @@ import java.time.LocalDateTime;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> handleException(EntidadeNaoEncontradaException e,
+    public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e,
                                              WebRequest webRequest) {
 
+        Problem problem = createProblemBuilder(
+                HttpStatus.NOT_FOUND,
+                ProblemType.ENTIDADE_NAO_ENCONTRADA,
+                e.getMessage()
+        ).build();
+        
         return handleExceptionInternal(
                 e,
-                e.getMessage(),
+                problem,
                 new HttpHeaders(),
                 HttpStatus.NOT_FOUND,
                 webRequest
@@ -31,7 +37,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> handleException(NegocioException e, WebRequest webRequest) {
+    public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest webRequest) {
         return handleExceptionInternal(
                 e,
                 e.getMessage(),
@@ -42,7 +48,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntidadeEmUsoException.class)
-    public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException e,
+    public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException e,
                                                           WebRequest webRequest) {
         return handleExceptionInternal(
                 e,
@@ -58,16 +64,27 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         if (body == null) {
-
-            body = Problema.builder()
-                    .dataHora(LocalDateTime.now())
-                    .mensagem(status.getReasonPhrase()).build();
+            body = Problem.builder()
+                    .status(status.value())
+                    .title(status.getReasonPhrase()).build();
         } else if (body instanceof String) {
-            body = Problema.builder()
-                    .dataHora(LocalDateTime.now())
-                    .mensagem((String) body).build();
+            body = Problem.builder()
+                    .status(status.value())
+                    .title((String) body).build();
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    private Problem.ProblemBuilder createProblemBuilder(
+            HttpStatus status,
+            ProblemType problemType,
+            String detail
+    ){
+        return Problem.builder()
+                .status(status.value())
+                .type(problemType.getUri())
+                .title(problemType.getTitle())
+                .detail(detail);
     }
 }
