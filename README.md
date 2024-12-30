@@ -124,7 +124,10 @@ JPA Anotações:
 Bean Validation Anotações:
 @NotNull: Informa que aquele campo não pode ser nulo.  
 @Valid: Anotação para ser usada diretamente no resource, evitando que a validação seja executada apenas na hora de interagir com o banco de dados.  
-
+@DecimalMin: Diz que aquele campo numerado tem que ter um valor mínimo estipulado por parâmetro da anotação.  
+@PositiveOrZero: Diz que aquele campo numerado tem que ser positivo ou zero.  
+@NotEmpty: Informa que aquele campo não pode ser vazio.  
+@@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
 
 JPA Query Methods Tip:  
 No repositorios JPA podemos usar algumas palavras reservadas para fazer com que as buscas sejam personalizadas.  
