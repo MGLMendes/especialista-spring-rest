@@ -128,6 +128,8 @@ Bean Validation Anotações:
 @PositiveOrZero: Diz que aquele campo numerado tem que ser positivo ou zero.  
 @NotEmpty: Informa que aquele campo não pode ser vazio.  
 @@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
+@ConvertGroup: Anotação usada para fazer a conversão de grupos de validação.  
+
 
 JPA Query Methods Tip:  
 No repositorios JPA podemos usar algumas palavras reservadas para fazer com que as buscas sejam personalizadas.  

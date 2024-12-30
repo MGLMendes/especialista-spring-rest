@@ -18,7 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cozinha {
 
-    @NotNull(groups = {ValidationGroups.RestauranteValidation.class})
+    @NotNull(groups = {ValidationGroups.CozinhaId.class})
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
