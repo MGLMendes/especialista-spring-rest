@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -13,10 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,8 @@ import java.util.Map;
 public class RestauranteController {
 
     private final RestauranteService restauranteService;
+
+    private final SmartValidator smartValidator;
 
     @GetMapping
     public ResponseEntity<List<Restaurante>> listar() {
@@ -60,11 +66,25 @@ public class RestauranteController {
             Restaurante restauranteSalvo = restauranteService.buscar(restauranteId);
 
             merge(campos, restauranteSalvo, request);
-
+            validate(restauranteSalvo, "restaurante");
 
             return ResponseEntity.ok(atualizar(restauranteId, restauranteSalvo));
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    private void validate(Restaurante restaurante, String objectName) {
+        BeanPropertyBindingResult beanPropertyBindingResult = new BeanPropertyBindingResult(
+                restaurante, objectName
+        );
+
+        smartValidator.validate(
+                restaurante,beanPropertyBindingResult
+        );
+
+        if (beanPropertyBindingResult.hasErrors()) {
+            throw new ValidacaoException(beanPropertyBindingResult);
         }
     }
 
