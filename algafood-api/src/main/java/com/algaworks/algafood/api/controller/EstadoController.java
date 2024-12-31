@@ -1,5 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.EstadoDTOAssembler;
+import com.algaworks.algafood.api.disassembler.EstadoInputDisassembler;
+import com.algaworks.algafood.api.model.dto.EstadoDTO;
+import com.algaworks.algafood.api.model.input.EstadoInput;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Estado;
@@ -20,24 +24,35 @@ public class EstadoController {
 
     private final EstadoService estadoService;
 
+    private final EstadoDTOAssembler estadoDTOAssembler;
+
+    private final EstadoInputDisassembler estadoInputDisassembler;
+
     @GetMapping
-    public ResponseEntity<List<Estado>> listar() {
-        return ResponseEntity.ok(estadoService.listar());
+    public ResponseEntity<List<EstadoDTO>> listar() {
+        return ResponseEntity.ok(
+                estadoDTOAssembler.toCollectionList(estadoService.listar()));
     }
 
     @GetMapping("/{estadoId}")
-    public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-        return ResponseEntity.ok(estadoService.buscar(estadoId));
+    public ResponseEntity<EstadoDTO> buscar(@PathVariable Long estadoId) {
+        return ResponseEntity.ok(
+                estadoDTOAssembler.toModel(estadoService.buscar(estadoId)));
     }
 
     @PostMapping
-    public ResponseEntity<Estado> salvar(@RequestBody @Valid Estado estado) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(estadoService.salvar(estado));
+    public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estado) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                estadoDTOAssembler.toModel(
+                        estadoService.salvar(estadoInputDisassembler.toDomainObject(estado))));
     }
 
     @PutMapping("/{estadoId}")
-    public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody @Valid Estado estado) {
-            return ResponseEntity.ok(estadoService.atualizar(estadoId, estado));
+    public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estado) {
+            return ResponseEntity.ok(
+                    estadoDTOAssembler.toModel(
+                            estadoService.atualizar(estadoId,
+                                    estadoInputDisassembler.toDomainObject(estado))));
     }
 
     @DeleteMapping("/{estadoId}")
