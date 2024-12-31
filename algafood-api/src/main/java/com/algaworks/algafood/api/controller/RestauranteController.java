@@ -50,9 +50,9 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public ResponseEntity<RestauranteDTO> atualizar(@PathVariable Long restauranteId, @RequestBody @Valid Restaurante restaurante) {
+    public ResponseEntity<RestauranteDTO> atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
         return ResponseEntity.ok(
-                restauranteDTOAssembler.toModel(restauranteService.atualizar(restauranteId, restaurante)));
+                restauranteDTOAssembler.toModel(restauranteService.atualizar(restauranteId ,restauranteInputDisassembler.toDomainObject(restauranteInput))));
 
     }
 }
