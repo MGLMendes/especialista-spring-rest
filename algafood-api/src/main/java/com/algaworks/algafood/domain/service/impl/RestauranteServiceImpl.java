@@ -55,26 +55,6 @@ public class RestauranteServiceImpl implements RestauranteService {
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 
-    @Override
-    public Restaurante atualizar(Long restauranteId, Restaurante restaurante) {
-        Restaurante restauranteSalvo = buscar(restauranteId);
-
-
-        BeanUtils.copyProperties(
-                restaurante, restauranteSalvo, "id",
-                "formasPagamento",
-                "endereco",
-                "dataCadastro",
-                "produtos"
-        );
-
-        try {
-            return salvar(restauranteSalvo);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new CozinhaNaoEncontradaException(
-                            restaurante.getCozinha().getId());
-        }
-    }
 
 
 }
