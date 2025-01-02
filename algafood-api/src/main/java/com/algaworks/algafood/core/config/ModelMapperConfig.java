@@ -1,7 +1,6 @@
 package com.algaworks.algafood.core.config;
 
 import com.algaworks.algafood.api.model.dto.EnderecoDTO;
-import com.algaworks.algafood.api.model.dto.EnderecoEstadoDTO;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.domain.model.Endereco;
 import com.algaworks.algafood.domain.model.Restaurante;

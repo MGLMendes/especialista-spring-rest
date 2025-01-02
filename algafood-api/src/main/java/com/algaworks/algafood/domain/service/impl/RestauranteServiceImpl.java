@@ -1,12 +1,11 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.*;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.service.CidadeService;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,7 @@ public class RestauranteServiceImpl implements RestauranteService {
 
     private final RestauranteRepository restauranteRepository;
     private final CozinhaService cozinhaService;
+    private final CidadeService cidadeService;
 
     @Override
     public Restaurante salvar(Restaurante restaurante) {
@@ -35,13 +35,16 @@ public class RestauranteServiceImpl implements RestauranteService {
 
         try {
             Cozinha cozinha = cozinhaService.buscar(cozinhaId);
-
+            Cidade cidade = cidadeService.buscar(restaurante.getEndereco().getCidade().getId());
             restaurante.setCozinha(cozinha);
+            restaurante.getEndereco().setCidade(cidade);
+
+
 
             return restauranteRepository.save(restaurante);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new CozinhaNaoEncontradaException(
-                    restaurante.getCozinha().getId());
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
+            throw new NegocioException(
+                    e.getMessage());
         }
     }
 

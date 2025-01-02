@@ -12,21 +12,18 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class RestauranteInput {
+public class EnderecoInput {
 
     @NotBlank
-    private String nome;
-
-    @NotNull
-    @TaxaFrete
-    @Multiplo(numero = 5)
-    private BigDecimal taxaFrete;
-
+    private String cep;
+    @NotBlank
+    private String logradouro;
+    @NotBlank
+    private String numero;
+    private String complemento;
+    @NotBlank
+    private String bairro;
     @Valid
     @NotNull
-    private CozinhaIdInput cozinha;
-
-    @Valid
-    @NotNull
-    private EnderecoInput endereco;
+    private CidadeIdInput cidade;
 }
