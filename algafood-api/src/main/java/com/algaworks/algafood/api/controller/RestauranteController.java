@@ -59,4 +59,17 @@ public class RestauranteController {
         return ResponseEntity.ok(restauranteDTOAssembler.toModel(restauranteService.salvar(restauranteAtual)));
 
     }
+
+    @PutMapping("/{restauranteId}/ativar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativar(@PathVariable Long restauranteId) {
+        restauranteService.ativar(restauranteId);
+    }
+
+
+    @DeleteMapping("/{restauranteId}/inativar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativar(@PathVariable Long restauranteId) {
+        restauranteService.inativar(restauranteId);
+    }
 }

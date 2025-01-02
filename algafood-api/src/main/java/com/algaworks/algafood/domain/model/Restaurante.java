@@ -65,4 +65,15 @@ public class Restaurante {
     )
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+    private Boolean ativo = true;
+
+
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void inativar() {
+        setAtivo(false);
+    }
+
 }

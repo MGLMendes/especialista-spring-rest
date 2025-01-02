@@ -12,6 +12,7 @@ import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class RestauranteServiceImpl implements RestauranteService {
             restaurante.setCozinha(cozinha);
 
             return restauranteRepository.save(restaurante);
-        } catch (EntidadeNaoEncontradaException e ) {
+        } catch (EntidadeNaoEncontradaException e) {
             throw new CozinhaNaoEncontradaException(
-                            restaurante.getCozinha().getId());
+                    restaurante.getCozinha().getId());
         }
     }
 
@@ -55,6 +56,23 @@ public class RestauranteServiceImpl implements RestauranteService {
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
     }
 
+    @Override
+    @Transactional
+    public void ativar(Long restauranteId) {
+        Restaurante restaurante = buscar(restauranteId);
+
+        restaurante.ativar();
+
+    }
+
+    @Override
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restaurante = buscar(restauranteId);
+
+        restaurante.inativar();
+
+    }
 
 
 }

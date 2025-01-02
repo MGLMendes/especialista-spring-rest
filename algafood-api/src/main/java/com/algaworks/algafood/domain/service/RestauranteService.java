@@ -11,4 +11,7 @@ public interface RestauranteService {
     List<Restaurante> listar();
 
     Restaurante buscar(Long restauranteId);
+
+    void ativar(Long restauranteId);
+    void inativar(Long restauranteId);
 }
