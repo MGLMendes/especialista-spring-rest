@@ -20,12 +20,8 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String nome;
 
-    @Valid
-    @ConvertGroup(to = ValidationGroups.EstadoId.class)
-    @NotNull
     @ManyToOne
     private Estado estado;
 }

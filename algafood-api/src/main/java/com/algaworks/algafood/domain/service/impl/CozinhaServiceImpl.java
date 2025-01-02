@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +29,18 @@ public class CozinhaServiceImpl implements CozinhaService {
         );
     }
 
+    @Transactional
     @Override
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
 
+    @Transactional
     @Override
     public void remover(Long cozinhaId) {
         try {
             cozinhaRepository.deleteById(cozinhaId);
+            cozinhaRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new CozinhaNaoEncontradaException( cozinhaId);
         } catch (DataIntegrityViolationException e) {

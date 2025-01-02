@@ -76,6 +76,8 @@ Anotações:
 8.13 - @ControllerAdvice: Anotação usada para determinar que aquela classe pode ser usada para tratar ExceptionHandlers globais.  
 8.18 - @JsonInclude: Anotação para especificar quais objetos serão inclusos em json.  
 
+11.2 - @JsonIgnoreProperties: Anotação para ignorar determinadas propriedades.  
+
 
 Application Properties Tips:  
 
@@ -100,6 +102,7 @@ spring.jackson.deserialization.fail-on-unknown-properties - Diz ao spring para f
 spring.jackson.deserialization.fail-on-ignored-properties - Diz ao spring para falhar caso tenha propriedades ignoradas pelo jackson na desserialização.  
 spring.mvc.throw-exception-if-no-handler-found - Diz ao spring para lançar a exceção quando não encontrar um código mapeado para aquela url.  
 spring.resources.add-mappings - Desabilita o resource handling do spring para arquivos da pasta resource/static.  
+spring.jackson.property-naming-strategy - Muda a estratégia de nome dos atributos.  
 
 
 Comandos de linha da comando (PowerShell):
@@ -127,7 +130,7 @@ Bean Validation Anotações:
 @DecimalMin: Diz que aquele campo numerado tem que ter um valor mínimo estipulado por parâmetro da anotação.  
 @PositiveOrZero: Diz que aquele campo numerado tem que ser positivo ou zero.  
 @NotEmpty: Informa que aquele campo não pode ser vazio.  
-@@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
+@NotBlank: Informa que aquele campo não pode ser vazio e nem nulo.  
 @ConvertGroup: Anotação usada para fazer a conversão de grupos de validação.  
 
 
