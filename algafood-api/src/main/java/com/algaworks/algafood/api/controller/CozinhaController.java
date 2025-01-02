@@ -45,19 +45,18 @@ public class CozinhaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CozinhaDTO> adicionar(@RequestBody @Valid CozinhaInput cozinha) {
+    public ResponseEntity<CozinhaDTO> adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
         return ResponseEntity.ok(
-                cozinhaDTOAssembler.toModel(cozinhaService.salvar(cozinhaInputDisassembler.toDomainObject(cozinha))));
+                cozinhaDTOAssembler.toModel(cozinhaService.salvar(cozinhaInputDisassembler.toDomainObject(cozinhaInput))));
     }
 
     @PutMapping("/{cozinhaId}")
-    public ResponseEntity<CozinhaDTO> atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinha) {
+    public ResponseEntity<CozinhaDTO> atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput) {
         Cozinha cozinhaSalva = cozinhaService.buscar(cozinhaId);
-        BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
+        cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaSalva);
         return ResponseEntity.ok(
                 cozinhaDTOAssembler.toModel(
-                        cozinhaService.salvar(
-                                cozinhaInputDisassembler.toDomainObject(cozinha))));
+                        cozinhaService.salvar(cozinhaSalva)));
     }
 
     @DeleteMapping("/{cozinhaId}")

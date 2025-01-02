@@ -12,7 +12,5 @@ public interface CidadeService {
 
     Cidade salvar(Cidade cidade);
 
-    Cidade atualizar(Long cidadeId, Cidade cidade);
-
     void deletar(Long cidadeId);
 }
