@@ -22,6 +22,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
@@ -37,4 +38,12 @@ public class Usuario {
             )
     )
     private List<Grupo> grupos = new ArrayList<>();
+
+    public boolean senhaCoincideCom(String senha) {
+        return getSenha().equals(senha);
+    }
+
+    public boolean senhaNaoCoincideCom(String senha) {
+        return !senhaCoincideCom(senha);
+    }
 }

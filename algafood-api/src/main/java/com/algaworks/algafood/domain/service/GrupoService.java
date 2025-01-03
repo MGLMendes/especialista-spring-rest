@@ -8,9 +8,9 @@ public interface GrupoService {
 
     List<Grupo> listar();
 
-    Grupo buscar(Long cidadeId);
+    Grupo buscar(Long grupoId);
 
-    Grupo salvar(Grupo cidade);
+    Grupo salvar(Grupo grupo);
 
-    void deletar(Long cidadeId);
+    void deletar(Long grupoId);
 }
