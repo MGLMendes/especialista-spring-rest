@@ -14,6 +14,6 @@ public interface UsuarioService {
 
     void deletar(Long usuarioId);
 
-    public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha);
+    void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha);
 
 }

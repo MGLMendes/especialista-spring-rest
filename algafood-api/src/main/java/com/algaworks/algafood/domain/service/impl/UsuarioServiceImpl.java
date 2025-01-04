@@ -12,12 +12,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
-
 
     private final UsuarioRepository usuarioRepository;
 
@@ -35,6 +36,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     @Override
     public Usuario salvar(Usuario usuario) {
+        usuarioRepository.detach(usuario);
+        Optional<Usuario> usuarioPresente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (usuarioPresente.isPresent() && !usuarioPresente.get().equals(usuario)) {
+            throw new NegocioException(
+                    String.format(
+                            "Já existe usuário com o email %s",
+                            usuario.getEmail()
+                    )
+            );
+        }
+
         return usuarioRepository.save(usuario);
     }
 
