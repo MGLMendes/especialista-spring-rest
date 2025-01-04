@@ -9,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -101,11 +100,11 @@ public class Restaurante {
         getFormasPagamento().remove(formaPagamento);
     }
 
-    public boolean removerResponsavel(Usuario usuario) {
-        return getResponsaveis().remove(usuario);
+    public void removerResponsavel(Usuario usuario) {
+        getResponsaveis().remove(usuario);
     }
 
-    public boolean adicionarResponsavel(Usuario usuario) {
-        return getResponsaveis().add(usuario);
+    public void adicionarResponsavel(Usuario usuario) {
+        getResponsaveis().add(usuario);
     }
 }

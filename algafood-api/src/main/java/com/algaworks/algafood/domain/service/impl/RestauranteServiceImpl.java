@@ -110,6 +110,30 @@ public class RestauranteServiceImpl implements RestauranteService {
 
     @Transactional
     @Override
+    public void ativar(List<Long> restaurantesId) {
+        try {
+            restaurantesId.forEach(
+                    this::ativar
+            );
+        }catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void inativar(List<Long> restaurantesId) {
+        try {
+            restaurantesId.forEach(
+                    this::inativar
+            );
+        } catch (RestauranteNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @Transactional
+    @Override
     public void vincularResponsavel(Long restauranteId, Long usuarioId) {
         Restaurante restaurante = buscar(restauranteId);
         Usuario usuario = usuarioService.buscar(usuarioId);

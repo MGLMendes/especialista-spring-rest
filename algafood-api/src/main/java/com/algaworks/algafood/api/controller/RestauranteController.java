@@ -85,4 +85,17 @@ public class RestauranteController {
     public void fechar(@PathVariable Long restauranteId) {
         restauranteService.fechar(restauranteId);
     }
+
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> restaurantesId) {
+        restauranteService.ativar(restaurantesId);
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativarMultiplos(@RequestBody List<Long> restaurantesId) {
+        restauranteService.inativar(restaurantesId);
+    }
 }

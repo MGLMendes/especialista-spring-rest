@@ -18,6 +18,10 @@ public interface RestauranteService {
 
     void abrir(Long restauranteId);
 
+    void ativar(List<Long> restaurantes);
+
+    void inativar(List<Long> restaurantes);
+
     void fechar(Long restauranteId);
 
     void vincularResponsavel(Long restauranteId, Long usuarioId);
