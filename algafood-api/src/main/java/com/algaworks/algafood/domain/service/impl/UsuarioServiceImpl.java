@@ -1,18 +1,17 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
+import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,8 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+
+    private final GrupoService grupoService;
 
     @Override
     public List<Usuario> listar() {
@@ -71,5 +72,23 @@ public class UsuarioServiceImpl implements UsuarioService {
         } catch (EmptyResultDataAccessException e) {
             throw new UsuarioNaoEncontradoException(usuarioId);
         }
+    }
+
+    @Transactional
+    @Override
+    public void desvincularGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscar(usuarioId);
+        Grupo grupo = grupoService.buscar(grupoId);
+
+        usuario.removerGrupo(grupo);
+    }
+
+    @Transactional
+    @Override
+    public void vincularGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscar(usuarioId);
+        Grupo grupo = grupoService.buscar(grupoId);
+
+        usuario.adicionarGrupo(grupo);
     }
 }

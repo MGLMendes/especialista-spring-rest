@@ -16,4 +16,8 @@ public interface UsuarioService {
 
     void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha);
 
+    void desvincularGrupo(Long usuarioId, Long grupoId);
+
+    void vincularGrupo(Long usuarioId, Long grupoId);
+
 }
