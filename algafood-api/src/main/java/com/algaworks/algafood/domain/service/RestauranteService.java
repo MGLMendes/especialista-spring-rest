@@ -20,6 +20,10 @@ public interface RestauranteService {
 
     void fechar(Long restauranteId);
 
+    void vincularResponsavel(Long restauranteId, Long usuarioId);
+
+    void desvincularResponsavel(Long restauranteId, Long usuarioId);
+
     void desvincularFormaPagamento(Long restauranteId, Long formaPagamentoId);
 
     void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId);

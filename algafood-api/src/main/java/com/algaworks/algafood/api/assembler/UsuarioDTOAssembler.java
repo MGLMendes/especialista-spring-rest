@@ -21,7 +21,7 @@ public class UsuarioDTOAssembler {
         return modelMapper.map(grupo, UsuarioDTO.class);
     }
 
-    public List<UsuarioDTO> toCollectionList(List<Usuario> grupos) {
+    public List<UsuarioDTO> toCollectionList(Collection<Usuario> grupos) {
         return grupos.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());

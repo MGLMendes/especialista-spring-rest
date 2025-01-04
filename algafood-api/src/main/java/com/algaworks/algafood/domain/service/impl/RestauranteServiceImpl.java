@@ -1,15 +1,9 @@
 package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.exception.*;
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.FormaPagamento;
-import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.model.*;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.service.CidadeService;
-import com.algaworks.algafood.domain.service.CozinhaService;
-import com.algaworks.algafood.domain.service.FormaPagamentoService;
-import com.algaworks.algafood.domain.service.RestauranteService;
+import com.algaworks.algafood.domain.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -31,6 +25,7 @@ public class RestauranteServiceImpl implements RestauranteService {
     private final CozinhaService cozinhaService;
     private final CidadeService cidadeService;
     private final FormaPagamentoService formaPagamentoService;
+    private final UsuarioService usuarioService;
 
     @Override
     public Restaurante salvar(Restaurante restaurante) {
@@ -41,7 +36,6 @@ public class RestauranteServiceImpl implements RestauranteService {
             Cidade cidade = cidadeService.buscar(restaurante.getEndereco().getCidade().getId());
             restaurante.setCozinha(cozinha);
             restaurante.getEndereco().setCidade(cidade);
-
 
 
             return restauranteRepository.save(restaurante);
@@ -112,5 +106,21 @@ public class RestauranteServiceImpl implements RestauranteService {
 
         restauranteAtual.fechar();
 
+    }
+
+    @Transactional
+    @Override
+    public void vincularResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscar(restauranteId);
+        Usuario usuario = usuarioService.buscar(usuarioId);
+        restaurante.adicionarResponsavel(usuario);
+    }
+
+    @Transactional
+    @Override
+    public void desvincularResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscar(restauranteId);
+        Usuario usuario = usuarioService.buscar(usuarioId);
+        restaurante.removerResponsavel(usuario);
     }
 }
