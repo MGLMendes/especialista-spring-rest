@@ -3,10 +3,12 @@ package com.algaworks.algafood.domain.service.impl;
 import com.algaworks.algafood.domain.exception.*;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CidadeService;
 import com.algaworks.algafood.domain.service.CozinhaService;
+import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +30,7 @@ public class RestauranteServiceImpl implements RestauranteService {
     private final RestauranteRepository restauranteRepository;
     private final CozinhaService cozinhaService;
     private final CidadeService cidadeService;
+    private final FormaPagamentoService formaPagamentoService;
 
     @Override
     public Restaurante salvar(Restaurante restaurante) {
@@ -75,6 +78,22 @@ public class RestauranteServiceImpl implements RestauranteService {
 
         restaurante.inativar();
 
+    }
+
+    @Transactional
+    @Override
+    public void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscar(restauranteId);
+        FormaPagamento formaPagamentoAtual = formaPagamentoService.buscar(formaPagamentoId);
+        restaurante.vincular(formaPagamentoAtual);
+    }
+
+    @Transactional
+    @Override
+    public void desvincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscar(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscar(formaPagamentoId);
+        restaurante.desvincular(formaPagamento);
     }
 
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class FormaPagamentoDTOAssembler {
         return modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
     }
 
-    public List<FormaPagamentoDTO> toCollectionList(List<FormaPagamento> formaPagamentos) {
+    public List<FormaPagamentoDTO> toCollectionList(Collection<FormaPagamento> formaPagamentos) {
         return formaPagamentos.stream().map(
                 this::toModel  // formaPagamentos -> toModel(formaPagamento)
         ).collect(Collectors.toList());
