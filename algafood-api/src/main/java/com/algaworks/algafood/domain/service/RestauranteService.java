@@ -16,6 +16,10 @@ public interface RestauranteService {
 
     void inativar(Long restauranteId);
 
+    void abrir(Long restauranteId);
+
+    void fechar(Long restauranteId);
+
     void desvincularFormaPagamento(Long restauranteId, Long formaPagamentoId);
 
     void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId);

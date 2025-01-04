@@ -96,5 +96,21 @@ public class RestauranteServiceImpl implements RestauranteService {
         restaurante.desvincular(formaPagamento);
     }
 
+    @Transactional
+    @Override
+    public void abrir(Long restauranteId) {
+        Restaurante restauranteAtual = buscar(restauranteId);
 
+        restauranteAtual.abrir();
+    }
+
+    @Transactional
+    @Override
+    public void fechar(Long restauranteId) {
+
+        Restaurante restauranteAtual = buscar(restauranteId);
+
+        restauranteAtual.fechar();
+
+    }
 }
