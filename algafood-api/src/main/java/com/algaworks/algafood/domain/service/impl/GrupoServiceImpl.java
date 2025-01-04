@@ -3,8 +3,10 @@ package com.algaworks.algafood.domain.service.impl;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.GrupoService;
+import com.algaworks.algafood.domain.service.PermissaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,6 +23,9 @@ public class GrupoServiceImpl implements GrupoService {
             = "Grupo de código %d não pode ser removido, pois está em uso";
 
     private final GrupoRepository grupoRepository;
+
+    private final PermissaoService permissaoService;
+
     @Override
     public List<Grupo> listar() {
         return grupoRepository.findAll();
@@ -51,5 +56,21 @@ public class GrupoServiceImpl implements GrupoService {
             throw new EntidadeEmUsoException(
                     String.format(MSG_GRUPO_EM_USO, grupoId));
         }
+    }
+
+    @Transactional
+    @Override
+    public void associarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscar(grupoId);
+        Permissao permissao = permissaoService.buscar(permissaoId);
+        grupo.adicionarPermissao(permissao);
+    }
+
+    @Transactional
+    @Override
+    public void desassociarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscar(grupoId);
+        Permissao permissao = permissaoService.buscar(permissaoId);
+        grupo.removerPermissao(permissao);
     }
 }
