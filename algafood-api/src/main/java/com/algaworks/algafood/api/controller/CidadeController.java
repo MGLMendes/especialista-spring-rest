@@ -38,19 +38,19 @@ public class CidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<CidadeDTO> salvar(@RequestBody @Valid CidadeInput cidade) {
+    public ResponseEntity<CidadeDTO> salvar(@RequestBody @Valid CidadeInput cidadeInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 cidadeDTOAssembler.toModel(
                         cidadeService.salvar(
-                                cidadeInputDisassembler.toDomainObject(cidade))));
+                                cidadeInputDisassembler.toDomainObject(cidadeInput))));
     }
 
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<CidadeDTO> atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidade) {
+    public ResponseEntity<CidadeDTO> atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput) {
+        Cidade cidadeSalva = cidadeService.buscar(cidadeId);
+        cidadeInputDisassembler.copyToDomainObject(cidadeInput, cidadeSalva);
         return ResponseEntity.ok(
-                cidadeDTOAssembler.toModel(
-                        cidadeService.atualizar(cidadeId,
-                                cidadeInputDisassembler.toDomainObject(cidade))));
+                cidadeDTOAssembler.toModel(cidadeService.salvar(cidadeSalva)));
     }
 
     @DeleteMapping("/{cidadeId}")

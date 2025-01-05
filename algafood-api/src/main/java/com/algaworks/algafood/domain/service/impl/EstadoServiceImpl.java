@@ -43,15 +43,6 @@ public class EstadoServiceImpl implements EstadoService {
         return estadoRepository.save(estado);
     }
 
-    @Transactional
-    @Override
-    public Estado atualizar(Long estadoId, Estado estado) {
-        Estado estadoSalvo = buscar(estadoId);
-
-        BeanUtils.copyProperties(estado, estadoSalvo, "id");
-
-        return salvar(estadoSalvo);
-    }
 
     @Transactional
     @Override

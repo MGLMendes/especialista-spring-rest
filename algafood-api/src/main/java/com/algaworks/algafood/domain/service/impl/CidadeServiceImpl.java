@@ -62,27 +62,6 @@ public class CidadeServiceImpl implements CidadeService {
 
     @Transactional
     @Override
-    public Cidade atualizar(Long cidadeId, Cidade cidade) {
-        Cidade cidadeSalvo = buscar(cidadeId);
-
-        try {
-            Estado estado = estadoService.buscar(cidade.getEstado().getId());
-
-            BeanUtils.copyProperties(cidade, cidadeSalvo, "id");
-
-            cidadeSalvo.setEstado(estado);
-
-            return salvar(cidadeSalvo);
-        } catch (EstadoNaoEncontradoException e) {
-            throw new NegocioException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, cidade.getEstado().getId()),
-                    e
-            );
-        }
-    }
-
-    @Transactional
-    @Override
     public void deletar(Long cidadeId) {
         try {
             cidadeRepository.deleteById(cidadeId);

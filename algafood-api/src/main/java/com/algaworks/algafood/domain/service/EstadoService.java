@@ -12,7 +12,5 @@ public interface EstadoService {
 
     Estado salvar(Estado estado);
 
-    Estado atualizar(Long estadoId, Estado estado);
-
     void deletar(Long estadoId);
 }

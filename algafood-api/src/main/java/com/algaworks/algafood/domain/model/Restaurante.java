@@ -9,8 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ValorZeroIncluiDescricao(
         valorField = "taxaFrete",
@@ -63,6 +64,55 @@ public class Restaurante {
                     name = "forma_pagamento_id"
             )
     )
-    private List<FormaPagamento> formasPagamento = new ArrayList<>();
+    private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "restaurante_usuario_responsavel",
+            joinColumns = @JoinColumn(name = "restaurante_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private Set<Usuario> responsaveis = new HashSet<>();
+
+    private Boolean ativo = Boolean.TRUE;
+
+    private Boolean aberto = Boolean.FALSE;
+
+    public void abrir() {
+        setAberto(true);
+    }
+
+    public void fechar() {
+        setAberto(false);
+    }
+
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void inativar() {
+        setAtivo(false);
+    }
+
+    public void vincular(FormaPagamento formaPagamentoAtual) {
+        getFormasPagamento().add(formaPagamentoAtual);
+    }
+
+    public void desvincular(FormaPagamento formaPagamento) {
+        getFormasPagamento().remove(formaPagamento);
+    }
+
+    public void removerResponsavel(Usuario usuario) {
+        getResponsaveis().remove(usuario);
+    }
+
+    public void adicionarResponsavel(Usuario usuario) {
+        getResponsaveis().add(usuario);
+    }
+
+    public boolean aceitaFormaPagamento(FormaPagamento formaPagamento) {
+        return getFormasPagamento().contains(formaPagamento);
+    }
+
+    public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
+        return !aceitaFormaPagamento(formaPagamento);
+    }
 }

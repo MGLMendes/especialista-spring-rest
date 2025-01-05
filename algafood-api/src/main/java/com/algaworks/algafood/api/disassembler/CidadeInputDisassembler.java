@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.disassembler;
 import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.Estado;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class CidadeInputDisassembler {
     }
 
     public void copyToDomainObject(CidadeInput cidadeInput, Cidade cidade) {
+        cidade.setEstado(new Estado());
         modelMapper.map(cidadeInput, cidade);
 
     }

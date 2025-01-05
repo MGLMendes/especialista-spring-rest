@@ -41,18 +41,18 @@ public class EstadoController {
     }
 
     @PostMapping
-    public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estado) {
+    public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estadoInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 estadoDTOAssembler.toModel(
-                        estadoService.salvar(estadoInputDisassembler.toDomainObject(estado))));
+                        estadoService.salvar(estadoInputDisassembler.toDomainObject(estadoInput))));
     }
 
     @PutMapping("/{estadoId}")
-    public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estado) {
-            return ResponseEntity.ok(
-                    estadoDTOAssembler.toModel(
-                            estadoService.atualizar(estadoId,
-                                    estadoInputDisassembler.toDomainObject(estado))));
+    public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
+        Estado estadoSalvo = estadoService.buscar(estadoId);
+        estadoInputDisassembler.copyToDomainObject(estadoInput, estadoSalvo);
+        return ResponseEntity.ok(
+                estadoDTOAssembler.toModel(estadoService.salvar(estadoSalvo)));
     }
 
     @DeleteMapping("/{estadoId}")
