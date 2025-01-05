@@ -8,13 +8,13 @@ public interface PedidoService {
 
     List<Pedido> listarTodos();
 
-    Pedido buscar(Long pedidoId);
+    Pedido buscar(String pedidoId);
 
     Pedido emitir(Pedido pedido);
 
-    void confirmar(Long pedidoId);
+    void confirmar(String codigoPedido);
 
-    void cancelar(Long pedidoId);
+    void cancelar(String codigoPedido);
 
-    void entregar(Long pedidoId);
+    void entregar(String codigoPedido);
 }

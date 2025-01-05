@@ -29,9 +29,9 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public Pedido buscar(Long pedidoId) {
-        return pedidoRepository.findById(pedidoId).orElseThrow(
-                () -> new PedidoNaoEncontradoException(pedidoId)
+    public Pedido buscar(String codigoPedido) {
+        return pedidoRepository.findByCodigo(codigoPedido).orElseThrow(
+                () -> new PedidoNaoEncontradoException(codigoPedido)
         );
     }
 
@@ -77,22 +77,22 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Transactional
     @Override
-    public void confirmar(Long pedidoId) {
-        Pedido pedido = buscar(pedidoId);
+    public void confirmar(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.confirmar();
     }
 
     @Transactional
     @Override
-    public void cancelar(Long pedidoId) {
-        Pedido pedido = buscar(pedidoId);
+    public void cancelar(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.cancelar();
     }
 
     @Transactional
     @Override
-    public void entregar(Long pedidoId) {
-        Pedido pedido = buscar(pedidoId);
+    public void entregar(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.entregar();
     }
 }

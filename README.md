@@ -123,6 +123,7 @@ JPA Anotações:
 @JoinTable: Usada para fazer a junção de uma tabela que será o id daquela entidade e o id da outra entidade.  
 @JoinCoumn: Usada como se fosse o @Column porém em é usado em um atributo que tenho o @ManyToOne junto.  
 @Column(nullable = false): Passando o parâmetro nullable = false significa que aquele atributo não pode ser nulo.  
+@PrePersist: Anotação usada em métodos de callback do JPA. Essa anotação faz com que execute o método anotado antes de persistir no banco de dados.  
 
 Bean Validation Anotações:
 @NotNull: Informa que aquele campo não pode ser nulo.  

@@ -37,10 +37,10 @@ public class PedidoController {
         );
     }
 
-    @GetMapping("/{pedidoId}")
-    public ResponseEntity<PedidoDTO> buscar(@PathVariable Long pedidoId) {
+    @GetMapping("/{codigoProduto}")
+    public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
         return ResponseEntity.ok(
-                pedidoDTOAssembler.toModel(pedidoService.buscar(pedidoId))
+                pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
         );
     }
 
@@ -58,21 +58,21 @@ public class PedidoController {
     }
 
 
-    @PutMapping("/{pedidoId}/confirmar")
+    @PutMapping("/{codigoPedido}/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cofirmar(@PathVariable Long pedidoId) {
-        pedidoService.confirmar(pedidoId);
+    public void cofirmar(@PathVariable String codigoPedido) {
+        pedidoService.confirmar(codigoPedido);
     }
 
-    @PutMapping("/{pedidoId}/entregar")
+    @PutMapping("/{codigoPedido}/entregar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void entregar(@PathVariable Long pedidoId) {
-        pedidoService.entregar(pedidoId);
+    public void entregar(@PathVariable String codigoPedido) {
+        pedidoService.entregar(codigoPedido);
     }
 
-    @PutMapping("/{pedidoId}/cancelar")
+    @PutMapping("/{codigoPedido}/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelar(@PathVariable Long pedidoId) {
-        pedidoService.cancelar(pedidoId);
+    public void cancelar(@PathVariable String codigoPedido) {
+        pedidoService.cancelar(codigoPedido);
     }
 }
