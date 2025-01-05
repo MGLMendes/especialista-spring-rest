@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.enums.StatusPedido;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -80,11 +81,26 @@ public class Pedido {
 
     public void entregar() {
         setStatus(StatusPedido.ENTREGUE);
-        setDataConfirmacao(OffsetDateTime.now());
+        setDataEntrega(OffsetDateTime.now());
     }
 
     public void cancelar() {
         setStatus(StatusPedido.CANCELADO);
-        setDataConfirmacao(OffsetDateTime.now());
+        setDataCancelamento(OffsetDateTime.now());
+    }
+
+
+    public void setStatus(StatusPedido novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(
+                    String.format(
+                            "Status do pedido %d não pode ser alterado de %s para %s",
+                            getId(),
+                            getStatus().getDescricao(),
+                            novoStatus.getDescricao()
+                    ));
+        }
+
+        this.status = novoStatus;
     }
 }

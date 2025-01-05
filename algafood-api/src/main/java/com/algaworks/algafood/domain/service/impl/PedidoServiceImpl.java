@@ -79,18 +79,6 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public void confirmar(Long pedidoId) {
         Pedido pedido = buscar(pedidoId);
-
-        if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-            throw new NegocioException(
-                    String.format(
-                            "Status do pedido %d não pode ser alterado de %s para %s",
-                            pedidoId,
-                            pedido.getStatus().getDescricao(),
-                            StatusPedido.CONFIRMADO.getDescricao()
-                    )
-            );
-        }
-
         pedido.confirmar();
     }
 
@@ -98,18 +86,6 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public void cancelar(Long pedidoId) {
         Pedido pedido = buscar(pedidoId);
-
-        if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-            throw new NegocioException(
-                    String.format(
-                            "Status do pedido %d não pode ser alterado de %s para %s",
-                            pedidoId,
-                            pedido.getStatus().getDescricao(),
-                            StatusPedido.CANCELADO.getDescricao()
-                    )
-            );
-        }
-
         pedido.cancelar();
     }
 
@@ -117,18 +93,6 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public void entregar(Long pedidoId) {
         Pedido pedido = buscar(pedidoId);
-
-        if (!pedido.getStatus().equals(StatusPedido.CONFIRMADO)) {
-            throw new NegocioException(
-                    String.format(
-                            "Status do pedido %d não pode ser alterado de %s para %s",
-                            pedidoId,
-                            pedido.getStatus().getDescricao(),
-                            StatusPedido.ENTREGUE.getDescricao()
-                    )
-            );
-        }
-
         pedido.entregar();
     }
 }
