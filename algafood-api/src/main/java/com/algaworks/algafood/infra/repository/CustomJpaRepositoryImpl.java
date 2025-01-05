@@ -1,10 +1,12 @@
 package com.algaworks.algafood.infra.repository;
 
+import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.CustomJpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 

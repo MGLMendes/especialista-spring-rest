@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PedidoDTOAssembler;
+import com.algaworks.algafood.api.assembler.PedidoListaDTOAssembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
+import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.domain.service.PedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,12 @@ public class PedidoController {
     
     private final PedidoDTOAssembler pedidoDTOAssembler;
 
+    private final PedidoListaDTOAssembler pedidoListaDTOAssembler;
+
     @GetMapping
-    public ResponseEntity<List<PedidoDTO>> listar() {
+    public ResponseEntity<List<PedidoListaDTO>> listar() {
         return ResponseEntity.ok(
-                pedidoDTOAssembler.toCollectionList(pedidoService.listarTodos())
+                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
         );
     }
 
