@@ -72,4 +72,9 @@ public class Pedido {
     public void atribuirPedidoAosItens() {
         getItens().forEach(item -> item.setPedido(this));
     }
+
+    public void confirmar() {
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
 }

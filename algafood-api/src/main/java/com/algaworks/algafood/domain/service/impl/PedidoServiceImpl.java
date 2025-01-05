@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.service.impl;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.*;
+import com.algaworks.algafood.domain.model.enums.StatusPedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.*;
 import lombok.RequiredArgsConstructor;
@@ -72,5 +73,24 @@ public class PedidoServiceImpl implements PedidoService {
             item.setProduto(produto);
             item.setPrecoUnitario(produto.getPreco());
         });
+    }
+
+    @Transactional
+    @Override
+    public void confirmar(Long pedidoId) {
+        Pedido pedido = buscar(pedidoId);
+
+        if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
+            throw new NegocioException(
+                    String.format(
+                            "Status do pedido %d não pode ser alterado de %s para %s",
+                            pedidoId,
+                            pedido.getStatus().getDescricao(),
+                            StatusPedido.CONFIRMADO.getDescricao()
+                    )
+            );
+        }
+
+        pedido.confirmar();
     }
 }

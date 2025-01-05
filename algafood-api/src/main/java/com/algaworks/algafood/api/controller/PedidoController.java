@@ -57,4 +57,9 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTOAssembler.toModel(novoPedido));
     }
 
+
+    @PutMapping("/{pedidoId}/confirmacao")
+    public void cofirmar(@PathVariable Long pedidoId) {
+        pedidoService.confirmar(pedidoId);
+    }
 }

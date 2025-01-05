@@ -11,4 +11,7 @@ public interface PedidoService {
     Pedido buscar(Long pedidoId);
 
     Pedido emitir(Pedido pedido);
+
+    void confirmar(Long pedidoId);
+
 }
