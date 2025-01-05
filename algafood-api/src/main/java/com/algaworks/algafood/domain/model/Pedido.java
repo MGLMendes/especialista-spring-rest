@@ -77,4 +77,14 @@ public class Pedido {
         setStatus(StatusPedido.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());
     }
+
+    public void entregar() {
+        setStatus(StatusPedido.ENTREGUE);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatus(StatusPedido.CANCELADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
 }
