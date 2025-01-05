@@ -2,16 +2,19 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PedidoDTOAssembler;
 import com.algaworks.algafood.api.assembler.PedidoListaDTOAssembler;
+import com.algaworks.algafood.api.disassembler.PedidoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
+import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.PedidoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,6 +28,8 @@ public class PedidoController {
 
     private final PedidoListaDTOAssembler pedidoListaDTOAssembler;
 
+    private final PedidoInputDisassembler pedidoInputDisassembler;
+
     @GetMapping
     public ResponseEntity<List<PedidoListaDTO>> listar() {
         return ResponseEntity.ok(
@@ -37,6 +42,19 @@ public class PedidoController {
         return ResponseEntity.ok(
                 pedidoDTOAssembler.toModel(pedidoService.buscar(pedidoId))
         );
+    }
+
+    @PostMapping
+    public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {
+        Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
+
+        // TODO pegar usuário autenticado
+        novoPedido.setCliente(new Usuario());
+        novoPedido.getCliente().setId(1L);
+
+        novoPedido = pedidoService.emitir(novoPedido);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoDTOAssembler.toModel(novoPedido));
     }
 
 }
