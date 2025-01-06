@@ -35,30 +35,11 @@ public class PedidoController {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
-//    @GetMapping
-//    public ResponseEntity<List<PedidoListaDTO>> listar() {
-//        return ResponseEntity.ok(
-//                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
-//        );
-//    }
-
     @GetMapping
-    public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-        List<Pedido> pedidos = pedidoService.listarTodos();
-        List<PedidoListaDTO> pedidosDTO = pedidoListaDTOAssembler.toCollectionList(pedidos);
-        var wrapper = new MappingJacksonValue(pedidosDTO);
-
-        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-
-        filterProvider.addFilter("pedidosFilter", SimpleBeanPropertyFilter.serializeAll());
-
-        if (StringUtils.isNotBlank(campos)) {
-            filterProvider.addFilter("pedidosFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-        }
-
-        wrapper.setFilters(filterProvider);
-
-        return wrapper;
+    public ResponseEntity<List<PedidoListaDTO>> listar() {
+        return ResponseEntity.ok(
+                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
+        );
     }
 
     @GetMapping("/{codigoProduto}")
