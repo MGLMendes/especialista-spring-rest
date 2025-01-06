@@ -78,6 +78,8 @@ Anotações:
 
 11.2 - @JsonIgnoreProperties: Anotação para ignorar determinadas propriedades.  
 
+13.1 - @JsonView: Podemos definir interfaces e passá-las como parâmetro para essa anotação para definir quai campos o jason vai serializar.  
+13.2 - @JsonFilter: Anotação indica que estamos utilizando um filtro lógico, usado para filtrar propriedades da classe na seriaização dos objetos.  
 
 Application Properties Tips:  
 

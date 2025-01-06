@@ -9,12 +9,17 @@ import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.PedidoService;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -30,11 +35,30 @@ public class PedidoController {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
+//    @GetMapping
+//    public ResponseEntity<List<PedidoListaDTO>> listar() {
+//        return ResponseEntity.ok(
+//                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
+//        );
+//    }
+
     @GetMapping
-    public ResponseEntity<List<PedidoListaDTO>> listar() {
-        return ResponseEntity.ok(
-                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
-        );
+    public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
+        List<Pedido> pedidos = pedidoService.listarTodos();
+        List<PedidoListaDTO> pedidosDTO = pedidoListaDTOAssembler.toCollectionList(pedidos);
+        var wrapper = new MappingJacksonValue(pedidosDTO);
+
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+
+        filterProvider.addFilter("pedidosFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if (StringUtils.isNotBlank(campos)) {
+            filterProvider.addFilter("pedidosFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+        }
+
+        wrapper.setFilters(filterProvider);
+
+        return wrapper;
     }
 
     @GetMapping("/{codigoProduto}")
