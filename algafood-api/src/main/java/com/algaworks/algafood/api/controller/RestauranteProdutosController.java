@@ -4,7 +4,6 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.ProdutoDTOAssembler;
 import com.algaworks.algafood.api.disassembler.ProdutoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.ProdutoDTO;
-import com.algaworks.algafood.api.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -21,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
 @RequiredArgsConstructor
-public class RestauranteProdutosPagamentoController {
+public class RestauranteProdutosController {
 
     private final RestauranteService restauranteService;
 

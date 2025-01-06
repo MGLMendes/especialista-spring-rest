@@ -5,12 +5,15 @@ import com.algaworks.algafood.api.assembler.RestauranteDTOAssembler;
 import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
+import com.algaworks.algafood.api.model.view.RestauranteView;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,8 +31,22 @@ public class RestauranteController {
     private final RestauranteInputDisassembler restauranteInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<RestauranteDTO>> listar() {
-        return ResponseEntity.ok(restauranteDTOAssembler.toCollectionList(restauranteService.listar()));
+    public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+        List<Restaurante> restaurantes = restauranteService.listar();
+        List<RestauranteDTO> restauranteDTO = restauranteDTOAssembler.toCollectionList(restaurantes);
+        MappingJacksonValue restauranteWrapper = new MappingJacksonValue(
+                restauranteDTO
+        );
+
+        restauranteWrapper.setSerializationView(RestauranteView.Resumo.class);
+
+
+        if ("apenas-nome".equalsIgnoreCase(projecao)) {
+            restauranteWrapper.setSerializationView(RestauranteView.ApenasNome.class);
+        } else if ("completo".equalsIgnoreCase(projecao)) {
+            restauranteWrapper.setSerializationView(null);
+        }
+        return restauranteWrapper;
     }
 
     @GetMapping("/{restauranteId}")
