@@ -8,7 +8,9 @@ import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
+import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import com.algaworks.algafood.domain.service.PedidoService;
+import com.algaworks.algafood.infra.factory.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +38,9 @@ public class PedidoController {
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<PedidoListaDTO>> listar() {
+    public ResponseEntity<List<PedidoListaDTO>> listar(PedidoFilter filtro) {
         return ResponseEntity.ok(
-                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
+                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro)))
         );
     }
 

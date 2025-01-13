@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.model.enums.StatusPedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,8 @@ public class PedidoServiceImpl implements PedidoService {
     private final ProdutoService produtoService;
 
     @Override
-    public List<Pedido> listarTodos() {
-        return pedidoRepository.findAll();
+    public List<Pedido> listarTodos(Specification<Pedido> specification) {
+        return pedidoRepository.findAll(specification);
     }
 
     @Override
