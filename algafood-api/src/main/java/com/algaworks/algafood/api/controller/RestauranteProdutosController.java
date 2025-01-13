@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.dto.ProdutoDTO;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.service.ProdutoService;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -26,14 +28,24 @@ public class RestauranteProdutosController {
 
     private final ProdutoService produtoService;
 
+    private final ProdutoRepository produtoRepository;
+
     private final ProdutoDTOAssembler produtoDTOAssembler;
 
     private final ProdutoInputDisassembler produtoInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<ProdutoDTO>> listar(@PathVariable Long restauranteId) {
+    public ResponseEntity<List<ProdutoDTO>> listar(@PathVariable Long restauranteId,
+                                                   @RequestParam(required = false) Boolean incluirInativos) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
-        return ResponseEntity.ok(produtoDTOAssembler.toCollectionList(restaurante.getProdutos()));
+
+        List<Produto> findAllByRestaurantes = produtoRepository.findAtivosByRestaurante(restaurante);
+
+        if (Boolean.TRUE.equals(incluirInativos)) {
+            findAllByRestaurantes = produtoRepository.findByRestaurante(restaurante);
+        }
+
+        return ResponseEntity.ok(produtoDTOAssembler.toCollectionList(findAllByRestaurantes));
     }
 
     @GetMapping("/{produtoId}")
