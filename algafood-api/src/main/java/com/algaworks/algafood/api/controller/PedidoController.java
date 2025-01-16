@@ -11,17 +11,15 @@ import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.infra.factory.PedidoSpecs;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -38,10 +36,11 @@ public class PedidoController {
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<PedidoListaDTO>> listar(PedidoFilter filtro) {
-        return ResponseEntity.ok(
-                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro)))
-        );
+    public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
+        Page<Pedido> pagePedidos = pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro), pageable);
+        List<PedidoListaDTO> listPedidoListaDTO = pedidoListaDTOAssembler.toCollectionList(pagePedidos.getContent());
+        PageImpl<PedidoListaDTO> pagePedidoDTO = new PageImpl<>(listPedidoListaDTO, pageable, pagePedidos.getTotalElements());
+        return ResponseEntity.ok(pagePedidoDTO);
     }
 
     @GetMapping("/{codigoProduto}")
