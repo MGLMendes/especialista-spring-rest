@@ -20,5 +20,6 @@ public class PedidoListaDTO {
     private String status;
     private OffsetDateTime dataCriacao;
     private RestaurantePedidoDTO restaurante;
-    private UsuarioDTO cliente;
+//    private UsuarioDTO cliente;
+    private String nomeCliente;
 }
