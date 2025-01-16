@@ -9,6 +9,9 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +33,14 @@ public class CozinhaController {
     private final CozinhaDTOAssembler cozinhaDTOAssembler;
 
     @GetMapping
-    public ResponseEntity<List<CozinhaDTO>> listar() {
+    public ResponseEntity<Page<CozinhaDTO>> listar(Pageable pageable) {
+        Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
 
-        return ResponseEntity.ok(
-                cozinhaDTOAssembler.toCollectionList(cozinhaRepository.findAll()));
+        List<CozinhaDTO> listCozinhaDTO = cozinhaDTOAssembler.toCollectionList(pageCozinha.getContent());
+
+        Page<CozinhaDTO> pageCozinhaDTO = new PageImpl<>(listCozinhaDTO, pageable, pageCozinha.getTotalElements());
+
+        return ResponseEntity.ok(pageCozinhaDTO);
     }
 
     @GetMapping(value = "/{id}")
