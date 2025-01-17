@@ -6,10 +6,17 @@ import com.algaworks.algafood.api.disassembler.PedidoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
+import com.algaworks.algafood.domain.filter.PedidoFilter;
 import com.algaworks.algafood.domain.service.PedidoService;
+import com.algaworks.algafood.infra.factory.PedidoSpecs;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +38,14 @@ public class PedidoController {
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<PedidoListaDTO>> listar() {
-        return ResponseEntity.ok(
-                pedidoListaDTOAssembler.toCollectionList(pedidoService.listarTodos())
-        );
+    public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
+
+        pageable = traduzirPageable(pageable);
+
+        Page<Pedido> pagePedidos = pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro), pageable);
+        List<PedidoListaDTO> listPedidoListaDTO = pedidoListaDTOAssembler.toCollectionList(pagePedidos.getContent());
+        PageImpl<PedidoListaDTO> pagePedidoDTO = new PageImpl<>(listPedidoListaDTO, pageable, pagePedidos.getTotalElements());
+        return ResponseEntity.ok(pagePedidoDTO);
     }
 
     @GetMapping("/{codigoProduto}")
@@ -74,5 +85,17 @@ public class PedidoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelar(@PathVariable String codigoPedido) {
         pedidoService.cancelar(codigoPedido);
+    }
+
+    public Pageable traduzirPageable(Pageable pageable) {
+        var mapeamento = ImmutableMap.of(
+                "cliente.nome", "cliente.nome",
+                "subTotal", "subTotal",
+                "codigo", "codigo",
+                "restautante.nome", "restaurante.nome",
+                "valorTotal", "valorTotal"
+        );
+
+        return PageableTranslator.translate(pageable, mapeamento);
     }
 }

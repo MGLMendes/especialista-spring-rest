@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,6 @@ public class PedidoListaDTO {
     private String status;
     private OffsetDateTime dataCriacao;
     private RestaurantePedidoDTO restaurante;
-    private UsuarioDTO cliente;
+//    private UsuarioDTO cliente;
+    private String nomeCliente;
 }
