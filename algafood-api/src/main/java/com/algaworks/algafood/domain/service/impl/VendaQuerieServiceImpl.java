@@ -1,15 +1,17 @@
 package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.dto.VendaDiariaDTO;
 import com.algaworks.algafood.domain.service.VendaQuerieService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 
-@Service
+@Repository // Para o spring tratar exception de persistencias
 @RequiredArgsConstructor
 public class VendaQuerieServiceImpl implements VendaQuerieService {
 
@@ -18,6 +20,27 @@ public class VendaQuerieServiceImpl implements VendaQuerieService {
 
     @Override
     public List<VendaDiariaDTO> consultarVendasDiarias(VendaDiariaFilter filtro) {
-        return List.of();
+        var builder = entityManager.getCriteriaBuilder();
+
+        var query = builder.createQuery(VendaDiariaDTO.class);
+
+        var root = query.from(Pedido.class);
+
+        var functionDateDataCriacao = builder.function(
+                "date", Date.class, root.get("dataCriacao")
+        );
+
+        var selection = builder.construct(
+                VendaDiariaDTO.class,
+                functionDateDataCriacao,
+                builder.count(root.get("id")),
+                builder.sum(root.get("valorTotal"))
+        );
+
+        query.select(selection);
+
+        query.groupBy(functionDateDataCriacao);
+
+        return entityManager.createQuery(query).getResultList();
     }
 }
