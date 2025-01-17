@@ -1,12 +1,10 @@
 package com.algaworks.algafood.infra.factory;
 
 import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
+import com.algaworks.algafood.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class PedidoSpecs {
