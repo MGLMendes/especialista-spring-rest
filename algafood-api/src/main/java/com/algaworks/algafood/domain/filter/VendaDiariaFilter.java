@@ -15,4 +15,6 @@ public class VendaDiariaFilter {
     private OffsetDateTime dataCriacaoInicio;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime dataCriacaoFim;
+
+    private String timeOffset;
 }
