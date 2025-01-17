@@ -13,7 +13,7 @@ public class PedidoSpecs {
         return (root, criteriaQuery, criteriaBuilder) -> {
             if (Pedido.class.equals(criteriaQuery.getResultType())){
                 root.fetch("restaurante").fetch("cozinha");
-                root.fetch("restaurante");
+                root.fetch("cliente");
             }
             var predicates = new ArrayList<Predicate>();
 

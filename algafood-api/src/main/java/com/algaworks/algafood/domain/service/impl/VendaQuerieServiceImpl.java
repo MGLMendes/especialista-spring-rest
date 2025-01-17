@@ -3,11 +3,14 @@ package com.algaworks.algafood.domain.service.impl;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.dto.VendaDiariaDTO;
+import com.algaworks.algafood.domain.model.enums.StatusPedido;
 import com.algaworks.algafood.domain.service.VendaQuerieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +43,34 @@ public class VendaQuerieServiceImpl implements VendaQuerieService {
         query.select(selection);
 
         query.groupBy(functionDateDataCriacao);
+
+        var predicates = new ArrayList<Predicate>();
+
+        if (filtro.getRestauranteId() != null) {
+            predicates.add(builder.equal(
+                    root.get("restaurante"), filtro.getRestauranteId()
+            ));
+        }
+
+        if (filtro.getDataCriacaoInicio() != null) {
+            predicates.add(builder.greaterThanOrEqualTo(
+                    root.get("dataCriacao"), filtro.getDataCriacaoInicio()
+            ));
+        }
+
+        if (filtro.getDataCriacaoFim() != null) {
+            predicates.add(builder.lessThanOrEqualTo(
+                    root.get("dataCriacao"), filtro.getDataCriacaoInicio()
+            ));
+        }
+
+        predicates.add(root.get("status").in(
+                StatusPedido.CONFIRMADO, StatusPedido.ENTREGUE));
+
+        query.where(
+                predicates.toArray(new Predicate[0])
+        );
+
 
         return entityManager.createQuery(query).getResultList();
     }
