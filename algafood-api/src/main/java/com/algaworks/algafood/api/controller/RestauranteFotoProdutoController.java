@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -15,10 +16,10 @@ import java.util.UUID;
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
 public class RestauranteFotoProdutoController {
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void atualizarFoto(@PathVariable Long restauranteId,
                               @PathVariable Long produtoId,
-                              FotoProdutoInput produtoInput) {
+                              @Valid FotoProdutoInput produtoInput) {
 
         var nomeArquivo = UUID.randomUUID().toString() + "_" + produtoInput.getArquivo().getOriginalFilename();
 
