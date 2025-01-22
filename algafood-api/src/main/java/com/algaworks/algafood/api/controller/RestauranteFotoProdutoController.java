@@ -1,8 +1,16 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
+import com.algaworks.algafood.api.model.dto.FotoProdutoDTO;
 import com.algaworks.algafood.api.model.input.FotoProdutoInput;
+import com.algaworks.algafood.domain.model.FotoProduto;
+import com.algaworks.algafood.domain.model.Produto;
+import com.algaworks.algafood.domain.service.FotoProdutoService;
+import com.algaworks.algafood.domain.service.ProdutoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,25 +22,33 @@ import java.util.UUID;
 @Log4j2
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
+@RequiredArgsConstructor
 public class RestauranteFotoProdutoController {
 
-        @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void atualizarFoto(@PathVariable Long restauranteId,
-                              @PathVariable Long produtoId,
-                              @Valid FotoProdutoInput produtoInput) {
+    private final FotoProdutoService fotoProdutoService;
 
-        var nomeArquivo = UUID.randomUUID().toString() + "_" + produtoInput.getArquivo().getOriginalFilename();
+    private final ProdutoService produtoService;
 
-        var arquivoFoto = Path.of("C:/Workspace/especialista-spring-rest/fotos/catalogo", nomeArquivo);
+    private final FotoProdutoAssembler fotoProdutoAssembler;
 
-        log.info(produtoInput.getDescricao());
-        log.info(arquivoFoto);
-        log.info(produtoInput.getArquivo().getContentType());
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FotoProdutoDTO> atualizarFoto(@PathVariable Long restauranteId,
+                                                        @PathVariable Long produtoId,
+                                                        @Valid FotoProdutoInput produtoInput) {
 
-        try {
-            produtoInput.getArquivo().transferTo(arquivoFoto);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
+        Produto produto = produtoService.buscar(restauranteId, produtoId);
+
+        MultipartFile arquivo = produtoInput.getArquivo();
+
+        FotoProduto fotoProduto = new FotoProduto();
+        fotoProduto.setId(produto.getId());
+        fotoProduto.setProduto(produto);
+        fotoProduto.setDescricao(produtoInput.getDescricao());
+        fotoProduto.setContentType(arquivo.getContentType());
+        fotoProduto.setTamanho(arquivo.getSize());
+        fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
+
+
+        return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.cadastrarFoto(fotoProduto)));
     }
 }
