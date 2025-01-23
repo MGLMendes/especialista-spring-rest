@@ -2,8 +2,11 @@ package com.algaworks.algafood.domain.service;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.MediaType;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 public interface FotoStorageService {
@@ -13,6 +16,8 @@ public interface FotoStorageService {
     void armazenar(NovaFoto novaFoto);
 
     void remover(String nomeArquivo);
+
+    void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> acceptMediaTypes) throws HttpMediaTypeNotAcceptableException;
 
     default String gerarNovoNomeArquivo(String nomeOriginal) {
         return UUID.randomUUID() + "_" + nomeOriginal;
@@ -25,6 +30,7 @@ public interface FotoStorageService {
             this.remover(nomeArquivoExistente);
         }
     }
+
 
 
     @Builder
