@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -33,9 +34,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestauranteFotoProdutoController {
 
-    private final FotoProdutoService fotoProdutoService;
 
     private final ProdutoService produtoService;
+
+    private final FotoProdutoService fotoProdutoService;
 
     private final FotoStorageService fotoStorageService;
 
@@ -98,5 +100,14 @@ public class RestauranteFotoProdutoController {
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarFoto(@PathVariable Long restauranteId,
+                            @PathVariable Long produtoId) {
+
+        fotoProdutoService.deletarFoto(restauranteId, produtoId);
+
     }
 }

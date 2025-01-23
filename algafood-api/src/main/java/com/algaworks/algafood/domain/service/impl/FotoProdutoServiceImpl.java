@@ -62,4 +62,16 @@ public class FotoProdutoServiceImpl implements FotoProdutoService {
         return produtoRepository.findFotoById(restauranteId, produtoId)
                 .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
     }
+
+    @Transactional
+    @Override
+    public void deletarFoto(Long restauranteId, Long produtoId) {
+        FotoProduto foto = buscar(restauranteId, produtoId);
+
+
+        produtoRepository.delete(foto);
+        produtoRepository.flush();
+
+        fotoStorageService.remover(foto.getNomeArquivo());
+    }
 }

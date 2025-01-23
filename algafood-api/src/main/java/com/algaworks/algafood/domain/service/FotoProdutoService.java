@@ -8,6 +8,7 @@ public interface FotoProdutoService {
 
     FotoProduto buscar(Long restauranteId, Long produtoId);
 
-
     FotoProduto cadastrarFoto(FotoProduto foto, InputStream dadosArquivo);
+
+    void deletarFoto(Long restauranteId, Long produtoId);
 }
