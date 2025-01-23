@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.service.FotoProdutoService;
 import com.algaworks.algafood.domain.service.ProdutoService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
@@ -56,5 +57,13 @@ public class RestauranteFotoProdutoController {
         } catch (IOException e) {
             throw new StorageException("Não foi possível salvar o arquivo!", e);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<FotoProdutoDTO> buscar(@PathVariable Long restauranteId,
+                                                 @PathVariable Long produtoId) {
+
+        return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.buscar(restauranteId, produtoId)));
+
     }
 }

@@ -6,5 +6,8 @@ import java.io.InputStream;
 
 public interface FotoProdutoService {
 
+    FotoProduto buscar(Long restauranteId, Long produtoId);
+
+
     FotoProduto cadastrarFoto(FotoProduto foto, InputStream dadosArquivo);
 }
