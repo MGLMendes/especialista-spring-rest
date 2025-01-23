@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
 import com.algaworks.algafood.api.model.dto.FotoProdutoDTO;
 import com.algaworks.algafood.api.model.input.FotoProdutoInput;
+import com.algaworks.algafood.domain.exception.StorageException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.service.FotoProdutoService;
@@ -49,6 +50,11 @@ public class RestauranteFotoProdutoController {
         fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
 
-        return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.cadastrarFoto(fotoProduto)));
+        try {
+            return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.cadastrarFoto(fotoProduto,
+                    arquivo.getInputStream())));
+        } catch (IOException e) {
+            throw new StorageException("Não foi possível salvar o arquivo!", e);
+        }
     }
 }
