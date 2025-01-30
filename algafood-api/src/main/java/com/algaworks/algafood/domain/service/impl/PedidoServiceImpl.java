@@ -76,25 +76,4 @@ public class PedidoServiceImpl implements PedidoService {
             item.setPrecoUnitario(produto.getPreco());
         });
     }
-
-    @Transactional
-    @Override
-    public void confirmar(String codigoPedido) {
-        Pedido pedido = buscar(codigoPedido);
-        pedido.confirmar();
-    }
-
-    @Transactional
-    @Override
-    public void cancelar(String codigoPedido) {
-        Pedido pedido = buscar(codigoPedido);
-        pedido.cancelar();
-    }
-
-    @Transactional
-    @Override
-    public void entregar(String codigoPedido) {
-        Pedido pedido = buscar(codigoPedido);
-        pedido.entregar();
-    }
 }

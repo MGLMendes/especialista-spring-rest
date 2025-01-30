@@ -1,0 +1,37 @@
+package com.algaworks.algafood.domain.service.impl;
+
+import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.service.FluxoPedidoService;
+import com.algaworks.algafood.domain.service.PedidoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class FluxoPedidoServiceImpl implements FluxoPedidoService {
+    
+    private final PedidoService pedidoService;
+
+
+    @Transactional
+    @Override
+    public void confirmar(String codigoPedido) {
+        Pedido pedido = pedidoService.buscar(codigoPedido);
+        pedido.confirmar();
+    }
+
+    @Transactional
+    @Override
+    public void cancelar(String codigoPedido) {
+        Pedido pedido = pedidoService.buscar(codigoPedido);
+        pedido.cancelar();
+    }
+
+    @Transactional
+    @Override
+    public void entregar(String codigoPedido) {
+        Pedido pedido = pedidoService.buscar(codigoPedido);
+        pedido.entregar();
+    }
+}

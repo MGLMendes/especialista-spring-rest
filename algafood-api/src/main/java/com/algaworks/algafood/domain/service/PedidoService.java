@@ -15,9 +15,4 @@ public interface PedidoService {
 
     Pedido emitir(Pedido pedido);
 
-    void confirmar(String codigoPedido);
-
-    void cancelar(String codigoPedido);
-
-    void entregar(String codigoPedido);
 }
