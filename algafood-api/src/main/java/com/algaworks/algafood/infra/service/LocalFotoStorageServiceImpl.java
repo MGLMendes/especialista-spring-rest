@@ -26,11 +26,13 @@ public class LocalFotoStorageServiceImpl implements FotoStorageService {
 
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
+    public FotoRecuperada recuperar(String nomeArquivo) {
         Path arquivoPath = getArquivoPath(nomeArquivo);
 
         try {
-            return Files.newInputStream(arquivoPath);
+            return FotoRecuperada.builder()
+                    .inputStream(Files.newInputStream(arquivoPath))
+                    .build();
         } catch (IOException e) {
             throw new StorageException("Não foi possível recuperar a foto", e);
         }
@@ -54,7 +56,7 @@ public class LocalFotoStorageServiceImpl implements FotoStorageService {
         try {
             Files.deleteIfExists(arquivoPath);
         } catch (IOException e) {
-            throw new StorageException("Não foi possível excluir arquivo!",e);
+            throw new StorageException("Não foi possível excluir arquivo!", e);
         }
     }
 

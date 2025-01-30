@@ -17,12 +17,13 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 
-@Service("s3FotoStorageService")
+@Service
 @RequiredArgsConstructor
 public class S3FotoStorageServiceImpl implements FotoStorageService {
 
@@ -31,8 +32,17 @@ public class S3FotoStorageServiceImpl implements FotoStorageService {
     private final StorageProperties storageProperties;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
-        return null;
+    public FotoRecuperada recuperar(String nomeArquivo) {
+        var caminhoArquivo = getCaminhoArquivo(nomeArquivo);
+
+        URL url = amazonS3.getUrl(
+                storageProperties.getS3().getBucket(),
+                caminhoArquivo
+        );
+
+        return FotoRecuperada.builder()
+                .url(url.toString())
+                .build();
     }
 
     @Override
