@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class LocalFotoStorageServiceImpl implements FotoStorageService {
 

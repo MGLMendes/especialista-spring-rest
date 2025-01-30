@@ -49,6 +49,7 @@ public class FotoProdutoServiceImpl implements FotoProdutoService {
         FotoStorageService.NovaFoto novaFoto = FotoStorageService.NovaFoto.builder()
                 .inputStream(dadosArquivo)
                 .nomeArquivo(foto.getNomeArquivo())
+                .contentType(foto.getContentType())
                 .build();
 
 
