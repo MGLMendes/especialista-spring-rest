@@ -17,7 +17,16 @@ public interface FotoStorageService {
 
     void remover(String nomeArquivo);
 
-    void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> acceptMediaTypes) throws HttpMediaTypeNotAcceptableException;
+    default void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> acceptMediaTypes)
+            throws HttpMediaTypeNotAcceptableException {
+        boolean compativel = acceptMediaTypes.stream()
+                .anyMatch(acceptMediaType -> acceptMediaType.isCompatibleWith(mediaType));
+
+        if (!compativel) {
+            throw new HttpMediaTypeNotAcceptableException(acceptMediaTypes);
+        }
+    }
+
 
     default String gerarNovoNomeArquivo(String nomeOriginal) {
         return UUID.randomUUID() + "_" + nomeOriginal;

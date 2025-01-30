@@ -58,17 +58,6 @@ public class LocalFotoStorageServiceImpl implements FotoStorageService {
         }
     }
 
-    @Override
-    public void verificarCompatibilidadeMediaType(MediaType mediaType, List<MediaType> acceptMediaTypes)
-            throws HttpMediaTypeNotAcceptableException {
-
-        boolean compativel = acceptMediaTypes.stream()
-                .anyMatch(acceptMediaType -> acceptMediaType.isCompatibleWith(mediaType));
-
-        if (!compativel) {
-            throw new HttpMediaTypeNotAcceptableException(acceptMediaTypes);
-        }
-    }
 
     private Path getArquivoPath(String nomeArquivo) {
         return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
