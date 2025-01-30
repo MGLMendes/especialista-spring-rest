@@ -1,6 +1,9 @@
 package com.algaworks.algafood.core.config;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
+import com.algaworks.algafood.domain.service.FotoStorageService;
+import com.algaworks.algafood.infra.service.LocalFotoStorageServiceImpl;
+import com.algaworks.algafood.infra.service.S3FotoStorageServiceImpl;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -11,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
 @Configuration
-public class AmazonS3Config {
+public class StorageConfig {
 
     private final StorageProperties storageProperties;
 
@@ -24,6 +27,17 @@ public class AmazonS3Config {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(storageProperties.getS3().getRegion())
                 .build();
+    }
+
+    @Bean
+    public FotoStorageService fotoStorageService(
+            AmazonS3 amazonS3
+    ) {
+        if (StorageProperties.TipoStorage.S3.equals(storageProperties.getTipo())) {
+            return new S3FotoStorageServiceImpl(amazonS3, storageProperties);
+        } else {
+            return new LocalFotoStorageServiceImpl(storageProperties);
+        }
     }
 
 }
