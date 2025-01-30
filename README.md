@@ -107,6 +107,8 @@ spring.jackson.deserialization.fail-on-ignored-properties - Diz ao spring para f
 spring.mvc.throw-exception-if-no-handler-found - Diz ao spring para lançar a exceção quando não encontrar um código mapeado para aquela url.  
 spring.resources.add-mappings - Desabilita o resource handling do spring para arquivos da pasta resource/static.  
 spring.jackson.property-naming-strategy - Muda a estratégia de nome dos atributos.  
+spring.servlet.multipart.max-file-size - Muda o tamanho do arquivo MultiPart File.  
+spring.servlet.multipart.max-request-size - Muda o tamanha da requisição total com o MultiPart File.  
 
 
 Comandos de linha da comando (PowerShell):
