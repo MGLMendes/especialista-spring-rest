@@ -1,22 +1,15 @@
-package com.algaworks.algafood.infra.service;
+package com.algaworks.algafood.infra.service.storage;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.domain.exception.StorageException;
+import com.algaworks.algafood.infra.exception.StorageException;
 import com.algaworks.algafood.domain.service.FotoStorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

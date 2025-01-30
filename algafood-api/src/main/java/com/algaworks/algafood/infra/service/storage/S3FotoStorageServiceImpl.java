@@ -1,7 +1,7 @@
-package com.algaworks.algafood.infra.service;
+package com.algaworks.algafood.infra.service.storage;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.domain.exception.StorageException;
+import com.algaworks.algafood.infra.exception.StorageException;
 import com.algaworks.algafood.domain.service.FotoStorageService;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -9,18 +9,9 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 
 @Service
