@@ -22,16 +22,14 @@ public class FluxoPedidoServiceImpl implements FluxoPedidoService {
     @Transactional
     @Override
     public void confirmar(String codigoPedido) {
-        var setDestinatarios = new HashSet<String>();
         Pedido pedido = pedidoService.buscar(codigoPedido);
         pedido.confirmar();
 
-        setDestinatarios.add(pedido.getCliente().getEmail());
-
         var mensagem = EnvioEmailService.Mensagem.builder()
                 .assunto(pedido.getRestaurante().getNome() + " confirmou o pedido")
-                .corpo("O pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado!")
+                .corpo("pedido-confirmado.html")
                 .destinatario(pedido.getCliente().getEmail())
+                .variavel("pedido", pedido)
                 .build();
 
         emailService.enviar(mensagem);
