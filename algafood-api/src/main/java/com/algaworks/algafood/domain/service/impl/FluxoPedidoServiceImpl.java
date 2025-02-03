@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service.impl;
 
 import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EnvioEmailService;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.domain.service.PedidoService;
@@ -16,7 +17,7 @@ public class FluxoPedidoServiceImpl implements FluxoPedidoService {
     
     private final PedidoService pedidoService;
 
-    private final EnvioEmailService emailService;
+    private final PedidoRepository pedidoRepository;
 
 
     @Transactional
@@ -25,14 +26,8 @@ public class FluxoPedidoServiceImpl implements FluxoPedidoService {
         Pedido pedido = pedidoService.buscar(codigoPedido);
         pedido.confirmar();
 
-        var mensagem = EnvioEmailService.Mensagem.builder()
-                .assunto(pedido.getRestaurante().getNome() + " confirmou o pedido")
-                .corpo("pedido-confirmado.html")
-                .destinatario(pedido.getCliente().getEmail())
-                .variavel("pedido", pedido)
-                .build();
+        pedidoRepository.save(pedido);
 
-        emailService.enviar(mensagem);
     }
 
     @Transactional
