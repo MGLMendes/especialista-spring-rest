@@ -3,8 +3,8 @@ package com.algaworks.algafood.domain.listener;
 import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
 import com.algaworks.algafood.domain.service.EnvioEmailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @RequiredArgsConstructor
@@ -12,7 +12,7 @@ public class NotificacaoClientePedidoConfirmadoListener {
 
     private final EnvioEmailService emailService;
 
-    @EventListener
+    @TransactionalEventListener
     public void aoConfirmarPedido(PedidoConfirmadoEvent event) {
         var mensagem = EnvioEmailService.Mensagem.builder()
                 .assunto(event.getPedido().getRestaurante().getNome() + " confirmou o pedido")
