@@ -10,6 +10,7 @@ import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
+import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.infra.factory.PedidoSpecs;
 import com.google.common.collect.ImmutableMap;
@@ -28,6 +29,8 @@ import java.util.List;
 @RequestMapping("/pedidos")
 @RequiredArgsConstructor
 public class PedidoController {
+
+    private final FluxoPedidoService fluxoPedidoService;
 
     private final PedidoService pedidoService;
     
@@ -72,19 +75,19 @@ public class PedidoController {
     @PutMapping("/{codigoPedido}/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cofirmar(@PathVariable String codigoPedido) {
-        pedidoService.confirmar(codigoPedido);
+        fluxoPedidoService.confirmar(codigoPedido);
     }
 
     @PutMapping("/{codigoPedido}/entregar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void entregar(@PathVariable String codigoPedido) {
-        pedidoService.entregar(codigoPedido);
+        fluxoPedidoService.entregar(codigoPedido);
     }
 
     @PutMapping("/{codigoPedido}/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelar(@PathVariable String codigoPedido) {
-        pedidoService.cancelar(codigoPedido);
+        fluxoPedidoService.cancelar(codigoPedido);
     }
 
     public Pageable traduzirPageable(Pageable pageable) {
