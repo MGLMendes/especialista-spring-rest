@@ -11,6 +11,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -30,8 +31,8 @@ public class RestauranteController {
 
     private final RestauranteInputDisassembler restauranteInputDisassembler;
 
-    @GetMapping
-    public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
+    @GetMapping("/projecao")
+    public MappingJacksonValue listarProjecao(@RequestParam(required = false) String projecao) {
         List<Restaurante> restaurantes = restauranteService.listar();
         List<RestauranteDTO> restauranteDTO = restauranteDTOAssembler.toCollectionList(restaurantes);
         MappingJacksonValue restauranteWrapper = new MappingJacksonValue(
@@ -47,6 +48,15 @@ public class RestauranteController {
             restauranteWrapper.setSerializationView(null);
         }
         return restauranteWrapper;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RestauranteDTO>> listar() {
+        List<RestauranteDTO> collectionList = restauranteDTOAssembler.toCollectionList(restauranteService.listar());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5500")
+                .body(collectionList);
     }
 
     @GetMapping("/{restauranteId}")
