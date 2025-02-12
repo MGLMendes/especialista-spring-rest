@@ -1,7 +1,7 @@
 function consultarRestaurantes() {
 
     $.ajax({
-        url: "http://localhost:8080/restaurantes",
+        url: "http://localhost:8080/cozinhas",
         type: "get",
 
         success: function(response) {
@@ -23,4 +23,5 @@ function fecharRestaurante() {
     });
 }
 
-$("#botao").click(fecharRestaurante);
+$("#consulta").click(consultarRestaurantes);
+$("#fecha").click(fecharRestaurante);
