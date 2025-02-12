@@ -50,12 +50,12 @@ public class RestauranteController {
         return restauranteWrapper;
     }
 
+    @CrossOrigin//(origins = {"http://127.0.0.1:5500"})
     @GetMapping
     public ResponseEntity<List<RestauranteDTO>> listar() {
         List<RestauranteDTO> collectionList = restauranteDTOAssembler.toCollectionList(restauranteService.listar());
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5500")
                 .body(collectionList);
     }
 
