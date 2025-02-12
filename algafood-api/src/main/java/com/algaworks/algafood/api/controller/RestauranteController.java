@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(maxAge = 20)
 @RestController
 @RequestMapping("/restaurantes")
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class RestauranteController {
         return restauranteWrapper;
     }
 
-    @CrossOrigin//(origins = {"http://127.0.0.1:5500"})
+
     @GetMapping
     public ResponseEntity<List<RestauranteDTO>> listar() {
         List<RestauranteDTO> collectionList = restauranteDTOAssembler.toCollectionList(restauranteService.listar());
