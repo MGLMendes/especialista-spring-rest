@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -20,6 +21,11 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     public static final String MSG_FORMA_PAGAMENTO_NAO_ENCONTRADA = "Não existe cadastro de forma de pagamento com o código %d";
     public static final String MSG_FORMA_PAGAMENTO_EM_USO = "Forma de pagamento de código %d não pode ser removida, pois está em uso";
     private final FormaPagamentoRepository formaPagamentoRepository;
+
+    @Override
+    public OffsetDateTime getDataUltimaAtualizacao() {
+        return formaPagamentoRepository.getDataUltimaAtualizacao();
+    }
 
     @Override
     public List<FormaPagamento> todasFormasPagamento() {

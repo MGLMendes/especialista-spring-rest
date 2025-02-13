@@ -34,17 +34,23 @@ public class FormaPagamentoController {
     @GetMapping
     public ResponseEntity<List<FormaPagamentoDTO>> listar() {
 
+        
+
+        List<FormaPagamento> formaPagamentos = formaPagamentoService.todasFormasPagamento();
+
+
+        List<FormaPagamentoDTO> formasPagamentoDTO = formaPagamentoDTOAssembler.toCollectionList(formaPagamentos);
+
+
+
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
-                .body(formaPagamentoDTOAssembler.toCollectionList(formaPagamentoService.todasFormasPagamento()));
+                .body(formasPagamentoDTO);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long id) {
         return ResponseEntity.ok()
-//                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate()) Deixa os cache privado, evitando cache compartilhado
-//                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic()) Diz que pode ser armazenado tanto em cache local quanto compartilhado
-//                .cacheControl(CacheControl.noCache()) Diz que se a resposta for cacheada, vai ser necessaria uma validacao no servidor
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
                 .body(formaPagamentoDTOAssembler.toModel(formaPagamentoService.buscar(id)
         ));
