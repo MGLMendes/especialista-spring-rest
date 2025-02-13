@@ -14,8 +14,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
+import javax.servlet.ServletRequest;
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,19 +36,31 @@ public class FormaPagamentoController {
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
     @GetMapping
-    public ResponseEntity<List<FormaPagamentoDTO>> listar() {
+    public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest servletRequest) {
 
-        
+        ShallowEtagHeaderFilter.disableContentCaching(servletRequest.getRequest());
+
+        String eTag = "0";
+
+        OffsetDateTime dataUltimaAtualizacao = formaPagamentoService.getDataUltimaAtualizacao();
+
+        if (dataUltimaAtualizacao != null) {
+            eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+        }
+
+        if (servletRequest.checkNotModified(eTag)) {
+            return null;
+        }
+
 
         List<FormaPagamento> formaPagamentos = formaPagamentoService.todasFormasPagamento();
-
 
         List<FormaPagamentoDTO> formasPagamentoDTO = formaPagamentoDTOAssembler.toCollectionList(formaPagamentos);
 
 
-
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .eTag(eTag)
                 .body(formasPagamentoDTO);
     }
 
