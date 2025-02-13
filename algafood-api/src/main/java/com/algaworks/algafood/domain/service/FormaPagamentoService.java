@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface FormaPagamentoService {
 
-    OffsetDateTime getDataUltimaAtualizacao();
+
+    OffsetDateTime getDataAtualizacaoById(Long formaPagamentoId);
+
+    OffsetDateTime getDataAtualizacaoById();
 
     List<FormaPagamento> todasFormasPagamento();
 

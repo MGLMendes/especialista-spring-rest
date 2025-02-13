@@ -1,7 +1,7 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
@@ -23,9 +23,15 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     private final FormaPagamentoRepository formaPagamentoRepository;
 
     @Override
-    public OffsetDateTime getDataUltimaAtualizacao() {
+    public OffsetDateTime getDataAtualizacaoById() {
         return formaPagamentoRepository.getDataUltimaAtualizacao();
     }
+
+    @Override
+    public OffsetDateTime getDataAtualizacaoById(Long formaPagamentoId) {
+        return formaPagamentoRepository.getDataUltimaAtualizacao();
+    }
+
 
     @Override
     public List<FormaPagamento> todasFormasPagamento() {
