@@ -1,7 +1,7 @@
 package com.algaworks.algafood.domain.service.impl;
 
-import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -20,6 +21,17 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
     public static final String MSG_FORMA_PAGAMENTO_NAO_ENCONTRADA = "Não existe cadastro de forma de pagamento com o código %d";
     public static final String MSG_FORMA_PAGAMENTO_EM_USO = "Forma de pagamento de código %d não pode ser removida, pois está em uso";
     private final FormaPagamentoRepository formaPagamentoRepository;
+
+    @Override
+    public OffsetDateTime getDataAtualizacaoById() {
+        return formaPagamentoRepository.getDataUltimaAtualizacao();
+    }
+
+    @Override
+    public OffsetDateTime getDataAtualizacaoById(Long formaPagamentoId) {
+        return formaPagamentoRepository.getDataUltimaAtualizacao();
+    }
+
 
     @Override
     public List<FormaPagamento> todasFormasPagamento() {
