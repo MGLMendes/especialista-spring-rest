@@ -83,6 +83,8 @@ Anotações:
 
 13.8 - @PageableDefault: Passando o parâmetro size, conseguimos especificar o tamanho padrão dos elementos retornados.  
 
+16.4 - @CrossOrigin: Anotação usada em classe ou método para liberar as requisições Cross Origin.  
+
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  
