@@ -78,24 +78,6 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
-    @PutMapping("/{codigoPedido}/confirmar")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cofirmar(@PathVariable String codigoPedido) {
-        fluxoPedidoService.confirmar(codigoPedido);
-    }
-
-    @PutMapping("/{codigoPedido}/entregar")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void entregar(@PathVariable String codigoPedido) {
-        fluxoPedidoService.entregar(codigoPedido);
-    }
-
-    @PutMapping("/{codigoPedido}/cancelar")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelar(@PathVariable String codigoPedido) {
-        fluxoPedidoService.cancelar(codigoPedido);
-    }
-
     public Pageable traduzirPageable(Pageable pageable) {
         var mapeamento = ImmutableMap.of(
                 "cliente.nome", "cliente.nome",
