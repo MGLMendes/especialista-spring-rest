@@ -1,9 +1,8 @@
 package com.algaworks.algafood.api.openapi.controller;
 
+import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
 import com.algaworks.algafood.api.model.input.GrupoInput;
-import io.swagger.annotations.Api;
-import com.algaworks.algafood.api.handler.Problem;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 

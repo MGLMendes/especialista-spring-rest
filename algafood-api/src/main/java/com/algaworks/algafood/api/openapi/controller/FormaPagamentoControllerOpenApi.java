@@ -1,9 +1,7 @@
 package com.algaworks.algafood.api.openapi.controller;
 
 import com.algaworks.algafood.api.handler.Problem;
-import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.model.dto.FormaPagamentoDTO;
-import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
