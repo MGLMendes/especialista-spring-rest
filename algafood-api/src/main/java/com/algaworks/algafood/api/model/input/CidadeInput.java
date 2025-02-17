@@ -15,7 +15,8 @@ import javax.validation.constraints.NotNull;
 public class CidadeInput {
 
     @ApiModelProperty(
-            example = "Santos"
+            example = "Santos",
+            required = true
     )
     @NotBlank
     private String nome;
