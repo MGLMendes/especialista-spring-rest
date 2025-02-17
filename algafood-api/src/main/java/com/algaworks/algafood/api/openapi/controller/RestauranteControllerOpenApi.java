@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.view.RestauranteView;
 import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,16 +23,16 @@ public interface RestauranteControllerOpenApi {
     })
     @JsonView(RestauranteView.Resumo.class)
     MappingJacksonValue listarProjecao(@RequestParam(required = false) String projecao);
-    
+
     @ApiOperation(value = "Lista restaurantes", hidden = true)
-    public List<RestauranteDTO> listarApenasNomes();
-    
+    ResponseEntity<List<RestauranteDTO>> listar();
+
     @ApiOperation("Busca um restaurante por ID")
     @ApiResponses({
         @ApiResponse(code = 400, message = "ID do restaurante inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-    public RestauranteDTO buscar(
+    public ResponseEntity<RestauranteDTO> buscar(
             @ApiParam(value = "ID de um restaurante", example = "1", required = true)
             Long restauranteId);
     
@@ -39,7 +40,7 @@ public interface RestauranteControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 201, message = "Restaurante cadastrado"),
     })
-    public RestauranteDTO adicionar(
+    public ResponseEntity<RestauranteDTO> salvar(
             @ApiParam(name = "corpo", value = "Representação de um novo restaurante", required = true)
             RestauranteInput restauranteInput);
     
@@ -48,7 +49,7 @@ public interface RestauranteControllerOpenApi {
         @ApiResponse(code = 200, message = "Restaurante atualizado"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-    public RestauranteDTO atualizar(
+    public ResponseEntity<RestauranteDTO> atualizar(
             @ApiParam(value = "ID de um restaurante", example = "1", required = true)
             Long restauranteId,
             
@@ -86,7 +87,7 @@ public interface RestauranteControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
     })
-    public void inativarMultiplos(
+    public void desativarMultiplos(
             @ApiParam(name = "corpo", value = "IDs de restaurantes", required = true)
             List<Long> restauranteIds);
 

@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.api.model.view.RestauranteView;
+import com.algaworks.algafood.api.openapi.controller.RestauranteControllerOpenApi;
 import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 
     private final RestauranteService restauranteService;
 
