@@ -14,6 +14,8 @@ import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.infra.factory.PedidoSpecs;
 import com.google.common.collect.ImmutableMap;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,6 +42,15 @@ public class PedidoController {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "campos",
+                    value = "Nomes das propriedades para filtrar na resposta," +
+                                        "separados por vírgula",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @GetMapping
     public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
@@ -51,12 +62,22 @@ public class PedidoController {
         return ResponseEntity.ok(pagePedidoDTO);
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "campos",
+                    value = "Nomes das propriedades para filtrar na resposta," +
+                            "separados por vírgula",
+                    paramType = "query",
+                    type = "string"
+            )
+    })
     @GetMapping("/{codigoProduto}")
     public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
         return ResponseEntity.ok(
                 pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
         );
     }
+
 
     @PostMapping
     public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {

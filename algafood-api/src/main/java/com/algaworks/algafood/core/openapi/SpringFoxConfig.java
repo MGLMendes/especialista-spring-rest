@@ -53,15 +53,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
                 .globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
-                .globalOperationParameters(Arrays.asList(
-                        new ParameterBuilder()
-                                .name("campos")
-                                .description("Nomes das propriedades para filtrar na resposta," +
-                                        "separados por vírgula")
-                                .parameterType("query")
-                                .modelRef(new ModelRef(
-                                        "string"
-                                )).build()))
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
