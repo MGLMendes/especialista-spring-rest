@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -58,11 +59,12 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .apiInfo(apiInfo())
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(Page.class, CozinhaDTO.class),
+                        typeResolver.resolve(ResponseEntity.class, typeResolver.resolve(Page.class, CozinhaDTO.class)),
                         CozinhasModelOpenApi.class
                 ))
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
-                        new Tag("Grupos", "Gerencia os grupos de usuários"));
+                        new Tag("Grupos", "Gerencia os grupos de usuários"),
+                        new Tag("Cozinhas", "Gerencia as cozinhas"));
     }
 
 
