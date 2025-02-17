@@ -2,8 +2,10 @@ package com.algaworks.algafood.core.openapi;
 
 import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.CozinhaDTO;
+import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.openapi.model.CozinhasModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +63,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         typeResolver.resolve(ResponseEntity.class, typeResolver.resolve(Page.class, CozinhaDTO.class)),
                         CozinhasModelOpenApi.class
                 ))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, typeResolver.resolve(Page.class, PedidoDTO.class)),
+                        PedidosResumoModelOpenApi.class))
+
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),

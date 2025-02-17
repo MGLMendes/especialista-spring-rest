@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.disassembler.PedidoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +30,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedidos")
 @RequiredArgsConstructor
-public class PedidoController {
+@RequestMapping(value = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi {
 
     private final FluxoPedidoService fluxoPedidoService;
 
@@ -42,16 +44,7 @@ public class PedidoController {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "campos",
-                    value = "Nomes das propriedades para filtrar na resposta," +
-                                        "separados por vírgula",
-                    paramType = "query",
-                    type = "string"
-            )
-    })
-    @GetMapping
+        @GetMapping
     public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
         pageable = traduzirPageable(pageable);
@@ -62,15 +55,7 @@ public class PedidoController {
         return ResponseEntity.ok(pagePedidoDTO);
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "campos",
-                    value = "Nomes das propriedades para filtrar na resposta," +
-                            "separados por vírgula",
-                    paramType = "query",
-                    type = "string"
-            )
-    })
+
     @GetMapping("/{codigoProduto}")
     public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
         return ResponseEntity.ok(
