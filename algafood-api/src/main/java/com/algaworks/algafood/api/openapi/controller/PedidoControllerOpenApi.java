@@ -18,13 +18,13 @@ public interface PedidoControllerOpenApi {
                 name = "campos", paramType = "query", type = "string")
     })
     @ApiOperation("Pesquisa os pedidos")
-    public  ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable);
+     ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable);
     
     @ApiOperation("Registra um pedido")
     @ApiResponses({
         @ApiResponse(code = 201, message = "Pedido registrado"),
     })
-    public ResponseEntity<PedidoDTO> emitir(
+    ResponseEntity<PedidoDTO> emitir(
             @ApiParam(name = "corpo", value = "Representação de um novo pedido", required = true)
             PedidoInput pedidoInput);
     
@@ -36,7 +36,7 @@ public interface PedidoControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 404, message = "Pedido não encontrado", response = Problem.class)
     })
-    public ResponseEntity<PedidoDTO> buscar(
+    ResponseEntity<PedidoDTO> buscar(
             @ApiParam(value = "Código de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55")
             String codigoPedido);   
 }
