@@ -6,10 +6,14 @@ import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.api.model.view.RestauranteView;
+import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +35,16 @@ public class RestauranteController {
 
     private final RestauranteInputDisassembler restauranteInputDisassembler;
 
+    @ApiOperation(value = "Lista Restaurantes", response = RestauranteBasicoModelOpenApi.class)
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    value = "Nome da projeção de pedidos",
+                    allowableValues = "apenas-nome",
+                    name = "projecao",
+                    paramType = "query",
+                    type = "string"
+            )
+    )
     @GetMapping("/projecao")
     public MappingJacksonValue listarProjecao(@RequestParam(required = false) String projecao) {
         List<Restaurante> restaurantes = restauranteService.listar();
