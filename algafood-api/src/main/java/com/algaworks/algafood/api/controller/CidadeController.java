@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,9 @@ public class CidadeController {
             "Busca uma cidade por ID"
     )
     @GetMapping("/{cidadeId}")
-    public ResponseEntity<CidadeDTO> buscar(@PathVariable Long cidadeId) {
+    public ResponseEntity<CidadeDTO> buscar(
+            @ApiParam(value = "ID de uma cidade", example = "1")
+            @PathVariable Long cidadeId) {
         return ResponseEntity.ok(
                 cidadeDTOAssembler.toModel(cidadeService.buscar(cidadeId)));
     }
@@ -50,7 +53,9 @@ public class CidadeController {
             "Cadastra uma cidade"
     )
     @PostMapping
-    public ResponseEntity<CidadeDTO> salvar(@RequestBody @Valid CidadeInput cidadeInput) {
+    public ResponseEntity<CidadeDTO> salvar(
+            @ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+            @RequestBody @Valid CidadeInput cidadeInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 cidadeDTOAssembler.toModel(
                         cidadeService.salvar(
@@ -61,7 +66,11 @@ public class CidadeController {
             "Atualiza uma cidade por ID"
     )
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<CidadeDTO> atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput) {
+    public ResponseEntity<CidadeDTO> atualizar(
+            @ApiParam(value = "ID de uma cidade", example = "1")
+            @PathVariable Long cidadeId,
+            @ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+            @RequestBody @Valid CidadeInput cidadeInput) {
         Cidade cidadeSalva = cidadeService.buscar(cidadeId);
         cidadeInputDisassembler.copyToDomainObject(cidadeInput, cidadeSalva);
         return ResponseEntity.ok(
@@ -73,7 +82,9 @@ public class CidadeController {
     )
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Long cidadeId) {
+    public void deletar(
+            @ApiParam(value = "ID de uma cidade", example = "1")
+            @PathVariable Long cidadeId) {
         cidadeService.deletar(cidadeId);
     }
 }
