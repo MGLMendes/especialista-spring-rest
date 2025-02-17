@@ -6,10 +6,12 @@ import com.algaworks.algafood.api.disassembler.GrupoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
 import com.algaworks.algafood.api.model.dto.PermissaoDTO;
 import com.algaworks.algafood.api.model.input.GrupoInput;
+import com.algaworks.algafood.api.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.service.GrupoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +19,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grupos/{grupoId}/permissoes")
+@RequestMapping(value = "/grupos/{grupoId}/permissoes",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class GrupoPermissaoController {
+public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi {
 
     private final GrupoService grupoService;
 
