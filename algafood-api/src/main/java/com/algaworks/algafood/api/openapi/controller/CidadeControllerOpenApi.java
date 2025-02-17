@@ -32,7 +32,7 @@ public interface CidadeControllerOpenApi {
             )
     })
     public ResponseEntity<CidadeDTO> buscar(
-            @ApiParam(value = "ID de uma cidade", example = "1")
+            @ApiParam(value = "ID de uma cidade", example = "1", required = true)
             Long cidadeId);
 
 
@@ -46,7 +46,7 @@ public interface CidadeControllerOpenApi {
             "Cadastra uma cidade"
     )
     public ResponseEntity<CidadeDTO> salvar(
-            @ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+            @ApiParam(name = "corpo", value = "Representação de uma nova cidade", required = true)
             CidadeInput cidadeInput);
 
 
@@ -65,9 +65,10 @@ public interface CidadeControllerOpenApi {
             "Atualiza uma cidade por ID"
     )
     public ResponseEntity<CidadeDTO> atualizar(
-            @ApiParam(value = "ID de uma cidade", example = "1")
+            @ApiParam(value = "ID de uma cidade", example = "1", required = true)
             Long cidadeId,
-            @ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+
+            @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados", required = true)
             CidadeInput cidadeInput);
 
     @ApiResponses({
@@ -84,5 +85,7 @@ public interface CidadeControllerOpenApi {
     @ApiOperation(
             "Exclui uma cidade"
     )
-    public void deletar(Long cidadeId);
+    public void deletar(
+            @ApiParam(value = "ID de uma cidade", example = "1", required = true)
+            Long cidadeId);
 }

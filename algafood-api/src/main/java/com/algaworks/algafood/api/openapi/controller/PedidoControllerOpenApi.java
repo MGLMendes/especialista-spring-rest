@@ -25,7 +25,7 @@ public interface PedidoControllerOpenApi {
         @ApiResponse(code = 201, message = "Pedido registrado"),
     })
     public ResponseEntity<PedidoDTO> emitir(
-            @ApiParam(name = "corpo", value = "Representação de um novo pedido")
+            @ApiParam(name = "corpo", value = "Representação de um novo pedido", required = true)
             PedidoInput pedidoInput);
     
     @ApiImplicitParams({

@@ -7,16 +7,14 @@ import com.algaworks.algafood.api.model.dto.RestauranteDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.api.model.view.RestauranteView;
 import com.algaworks.algafood.api.openapi.model.RestauranteBasicoModelOpenApi;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes")
+@RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class RestauranteController {
 
@@ -47,6 +45,7 @@ public class RestauranteController {
     )
     @GetMapping("/projecao")
     public MappingJacksonValue listarProjecao(@RequestParam(required = false) String projecao) {
+
         List<Restaurante> restaurantes = restauranteService.listar();
         List<RestauranteDTO> restauranteDTO = restauranteDTOAssembler.toCollectionList(restaurantes);
         MappingJacksonValue restauranteWrapper = new MappingJacksonValue(
