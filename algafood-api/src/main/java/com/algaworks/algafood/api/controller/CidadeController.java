@@ -2,13 +2,12 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.CidadeDTOAssembler;
 import com.algaworks.algafood.api.disassembler.CidadeInputDisassembler;
+import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +40,18 @@ public class CidadeController {
     @ApiOperation(
             "Busca uma cidade por ID"
     )
+    @ApiResponses({
+            @ApiResponse(
+                    code = 400,
+                    message = "ID da cidade inválido",
+                    response = Problem.class
+            ),
+            @ApiResponse(
+                    code = 404,
+                    message = "Cidade não encontrada",
+                    response = Problem.class
+            )
+    })
     @GetMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> buscar(
             @ApiParam(value = "ID de uma cidade", example = "1")
@@ -49,6 +60,13 @@ public class CidadeController {
                 cidadeDTOAssembler.toModel(cidadeService.buscar(cidadeId)));
     }
 
+
+    @ApiResponses({
+            @ApiResponse(
+                    code = 201,
+                    message = "Cidade cadastrada!"
+            )
+    })
     @ApiOperation(
             "Cadastra uma cidade"
     )
@@ -62,6 +80,18 @@ public class CidadeController {
                                 cidadeInputDisassembler.toDomainObject(cidadeInput))));
     }
 
+
+    @ApiResponses({
+            @ApiResponse(
+                    code = 404,
+                    message = "Cidade não encontrada",
+                    response = Problem.class
+            ),
+            @ApiResponse(
+                    code = 200,
+                    message = "Cidade atualizada!"
+            )
+    })
     @ApiOperation(
             "Atualiza uma cidade por ID"
     )
@@ -77,6 +107,17 @@ public class CidadeController {
                 cidadeDTOAssembler.toModel(cidadeService.salvar(cidadeSalva)));
     }
 
+    @ApiResponses({
+            @ApiResponse(
+                    code = 404,
+                    message = "Cidade não encontrada",
+                    response = Problem.class
+            ),
+            @ApiResponse(
+                    code = 204,
+                    message = "Cidade excluída!"
+            )
+    })
     @ApiOperation(
             "Exclui uma cidade"
     )
