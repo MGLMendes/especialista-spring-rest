@@ -51,7 +51,7 @@ public interface GrupoControllerOpenApi {
         @ApiResponse(code = 204, message = "Grupo excluído"),
         @ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class)
     })
-    public void remover(
+    public void deletar(
             @ApiParam(value = "ID de um grupo", example = "1")
             Long grupoId);
     

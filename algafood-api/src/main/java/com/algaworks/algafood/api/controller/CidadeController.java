@@ -11,6 +11,7 @@ import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/cidades")
+@RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CidadeController implements CidadeControllerOpenApi {
 
