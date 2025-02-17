@@ -6,10 +6,12 @@ import com.algaworks.algafood.api.model.dto.UsuarioDTO;
 import com.algaworks.algafood.api.model.input.SenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
+import com.algaworks.algafood.api.openapi.controller.UsuarioControllerOpenApi;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +19,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping(value = "/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
     private final UsuarioService usuarioService;
 
@@ -40,7 +42,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> salvar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
+    public ResponseEntity<UsuarioDTO> adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 usuarioDTOAssembler.toModel(
                         usuarioService.salvar(
