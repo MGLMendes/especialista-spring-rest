@@ -44,11 +44,12 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FotoProdutoDTO> atualizarFoto(@PathVariable Long restauranteId,
                                                         @PathVariable Long produtoId,
-                                                        @Valid FotoProdutoInput produtoInput) {
+                                                        @Valid FotoProdutoInput produtoInput,
+                                                        @RequestPart(required = true) MultipartFile arquivo) {
 
         Produto produto = produtoService.buscar(restauranteId, produtoId);
 
-        MultipartFile arquivo = produtoInput.getArquivo();
+//        MultipartFile arquivo = produtoInput.getArquivo();
 
         FotoProduto fotoProduto = new FotoProduto();
         fotoProduto.setId(produto.getId());
@@ -77,8 +78,8 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
 
     @GetMapping
     public ResponseEntity<?> servir(@PathVariable Long restauranteId,
-                                       @PathVariable Long produtoId,
-                                       @RequestHeader(name = "accept") String acceptHeaders)
+                                    @PathVariable Long produtoId,
+                                    @RequestHeader(name = "accept") String acceptHeaders)
             throws HttpMediaTypeNotAcceptableException {
 
         try {
@@ -111,7 +112,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long restauranteId,
-                            @PathVariable Long produtoId) {
+                        @PathVariable Long produtoId) {
 
         fotoProdutoService.deletarFoto(restauranteId, produtoId);
 

@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.model.input.FotoProdutoInput;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,11 +24,13 @@ public interface RestauranteProdutoFotoControllerOpenApi {
     ResponseEntity<FotoProdutoDTO> atualizarFoto(
             @ApiParam(value = "ID do restaurante", example = "1", required = true)
             Long restauranteId,
-            
+
             @ApiParam(value = "ID do produto", example = "1", required = true)
             Long produtoId,
-            
-            FotoProdutoInput fotoProdutoInput) throws IOException;
+
+            FotoProdutoInput fotoProdutoInput,
+            @ApiParam(hidden = true)
+            MultipartFile arquivo) throws IOException;
 
     @ApiOperation("Exclui a foto do produto de um restaurante")
     @ApiResponses({
