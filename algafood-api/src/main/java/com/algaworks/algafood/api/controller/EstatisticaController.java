@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.dto.VendaDiariaDTO;
 import com.algaworks.algafood.domain.service.VendaQuerieService;
@@ -15,12 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/estatisticas")
 @RequiredArgsConstructor
-public class EstatisticaController {
+public class EstatisticaController implements EstatisticasControllerOpenApi {
 
     private final VendaQuerieService vendaQuerieService;
 
     @GetMapping("/vendas-diarias")
-    public ResponseEntity<List<VendaDiariaDTO>> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter) {
+    public ResponseEntity<List<VendaDiariaDTO>> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter,
+                                                                       String timeOffset) {
         return ResponseEntity.ok(vendaQuerieService.consultarVendasDiarias(vendaDiariaFilter));
     }
 }
