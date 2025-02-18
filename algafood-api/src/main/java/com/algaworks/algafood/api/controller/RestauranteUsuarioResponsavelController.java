@@ -2,18 +2,20 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.UsuarioDTOAssembler;
 import com.algaworks.algafood.api.model.dto.UsuarioDTO;
+import com.algaworks.algafood.api.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis")
+@RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class RestauranteUsuarioResponsavelController {
+public class RestauranteUsuarioResponsavelController implements RestauranteUsuarioResponsavelControllerOpenApi {
 
     private final RestauranteService restauranteService;
 

@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.assembler.ProdutoDTOAssembler;
 import com.algaworks.algafood.api.disassembler.ProdutoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.ProdutoDTO;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
+import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
 @RequiredArgsConstructor
-public class RestauranteProdutosController {
+public class RestauranteProdutosController  implements RestauranteProdutoControllerOpenApi {
 
     private final RestauranteService restauranteService;
 
@@ -36,7 +37,7 @@ public class RestauranteProdutosController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoDTO>> listar(@PathVariable Long restauranteId,
-                                                   @RequestParam(required = false) Boolean incluirInativos) {
+                                                   @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
 
         List<Produto> findAllByRestaurantes = produtoRepository.findAtivosByRestaurante(restaurante);
@@ -48,6 +49,8 @@ public class RestauranteProdutosController {
         return ResponseEntity.ok(produtoDTOAssembler.toCollectionList(findAllByRestaurantes));
     }
 
+
+
     @GetMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> buscar(@PathVariable Long restauranteId,
                                                    @PathVariable Long produtoId) {
@@ -57,7 +60,7 @@ public class RestauranteProdutosController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProdutoDTO adicionar(@PathVariable Long restauranteId,
+    public ResponseEntity<ProdutoDTO> adicionar(@PathVariable Long restauranteId,
                                   @RequestBody @Valid ProdutoInput produtoInput) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
 
@@ -66,11 +69,11 @@ public class RestauranteProdutosController {
 
         produto = produtoService.salvar(produto);
 
-        return produtoDTOAssembler.toModel(produto);
+        return ResponseEntity.ok(produtoDTOAssembler.toModel(produto));
     }
 
     @PutMapping("/{produtoId}")
-    public ProdutoDTO atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
+    public ResponseEntity<ProdutoDTO> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
                                   @RequestBody @Valid ProdutoInput produtoInput) {
         Produto produtoAtual = produtoService.buscar(restauranteId, produtoId);
 
@@ -78,6 +81,6 @@ public class RestauranteProdutosController {
 
         produtoAtual = produtoService.salvar(produtoAtual);
 
-        return produtoDTOAssembler.toModel(produtoAtual);
+        return ResponseEntity.ok(produtoDTOAssembler.toModel(produtoAtual));
     }
 }
