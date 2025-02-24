@@ -21,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,15 +46,17 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
+    private final PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+
         @GetMapping
-    public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
+    public ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
-        pageable = traduzirPageable(pageable);
+            pageable = traduzirPageable(pageable);
 
-        Page<Pedido> pagePedidos = pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro), pageable);
-        List<PedidoListaDTO> listPedidoListaDTO = pedidoListaDTOAssembler.toCollectionList(pagePedidos.getContent());
-        PageImpl<PedidoListaDTO> pagePedidoDTO = new PageImpl<>(listPedidoListaDTO, pageable, pagePedidos.getTotalElements());
-        return ResponseEntity.ok(pagePedidoDTO);
+            Page<Pedido> pedidosPage = pedidoService.listarTodos(
+                    PedidoSpecs.usandoFiltro(filtro), pageable);
+
+            return ResponseEntity.ok(pagedResourcesAssembler.toModel(pedidosPage, pedidoListaDTOAssembler));
     }
 
 

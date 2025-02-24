@@ -1,21 +1,19 @@
 package com.algaworks.algafood.api.model.dto;
 
-import com.algaworks.algafood.domain.model.*;
-import com.algaworks.algafood.domain.model.enums.StatusPedido;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
+@Relation(collectionRelation = "pedidos")
 @Getter
 @Setter
-public class PedidoDTO {
+public class PedidoDTO extends RepresentationModel<PedidoDTO> {
 
     @ApiModelProperty(example = "f9981ca4-5a5e-4da3-af04-933861df3e55")
     private String codigo;
