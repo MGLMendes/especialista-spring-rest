@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.openapi.controller.RestauranteFormaPagamentoCo
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,10 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
 
     @GetMapping
-    public ResponseEntity<List<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
+    public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
 
-        return ResponseEntity.ok(formaPagamentoDTOAssembler.toCollectionList(restaurante.getFormasPagamento()));
+        return ResponseEntity.ok(formaPagamentoDTOAssembler.toCollectionModel(restaurante.getFormasPagamento()));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
