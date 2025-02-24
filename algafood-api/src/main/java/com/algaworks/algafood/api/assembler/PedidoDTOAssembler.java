@@ -38,6 +38,12 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
         PedidoDTO pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
 
+        pedidoModel.add(algaLinks.linkToConfimacaoPedido(pedidoModel.getCodigo(), "confirmar-pedido"));
+
+        pedidoModel.add(algaLinks.linkToCancelarPedido(pedidoModel.getCodigo(), "cancelar-pedido"));
+
+        pedidoModel.add(algaLinks.linkToEntregarPedido(pedidoModel.getCodigo(), "entregar-pedido"));
+
         pedidoModel.add(algaLinks.linkToPedidos());
 
         pedidoModel.getRestaurante().add(
