@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.EstadoDTO;
 import com.algaworks.algafood.api.model.input.EstadoInput;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface EstadoControllerOpenApi {
 
     @ApiOperation("Lista os estados")
-    ResponseEntity<List<EstadoDTO>> listar();
+    ResponseEntity<CollectionModel<EstadoDTO>> listar();
 
     @ApiOperation("Busca um estado por ID")
     @ApiResponses({
