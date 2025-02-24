@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 
@@ -49,10 +51,18 @@ public class CidadeController implements CidadeControllerOpenApi {
     @PostMapping
     public ResponseEntity<CidadeDTO> salvar(
             @RequestBody @Valid CidadeInput cidadeInput) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                cidadeDTOAssembler.toModel(
-                        cidadeService.salvar(
-                                cidadeInputDisassembler.toDomainObject(cidadeInput))));
+
+        Cidade cidade = cidadeService.salvar(
+                cidadeInputDisassembler.toDomainObject(cidadeInput));
+
+        CidadeDTO model = cidadeDTOAssembler.toModel(cidade);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(model.getId()).toUri();
+
+
+        return ResponseEntity.created(uri).body(model);
     }
 
 
