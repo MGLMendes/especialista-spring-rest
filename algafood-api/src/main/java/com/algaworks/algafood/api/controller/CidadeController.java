@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,9 +39,30 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 
     @GetMapping
-    public ResponseEntity<List<CidadeDTO>> listar() {
-        return ResponseEntity.ok(
-                cidadeDTOAssembler.toCollectionList(cidadeService.listar()));
+    public ResponseEntity<CollectionModel<CidadeDTO>> listar() {
+        List<CidadeDTO> collectionList = cidadeDTOAssembler.toCollectionList(cidadeService.listar());
+        CollectionModel<CidadeDTO> collectionModel = new CollectionModel<>(collectionList);
+
+
+        collectionModel.forEach(
+                cidadeDTO -> {
+                    cidadeDTO.add(linkTo(methodOn(CidadeController.class)
+                            .buscar(cidadeDTO.getId())).withSelfRel());
+
+                    cidadeDTO.add(linkTo(methodOn(CidadeController.class)
+                            .listar()).withRel("cidadess"));
+
+                    cidadeDTO.getEstado().add(linkTo(methodOn(EstadoController.class)
+                            .buscar(cidadeDTO.getEstado().getId()))
+                            .withSelfRel());
+                }
+        );
+
+        collectionModel.add(
+                linkTo(CidadeController.class).withSelfRel()
+        );
+
+        return ResponseEntity.ok(collectionModel);
     }
 
 
@@ -49,7 +71,6 @@ public class CidadeController implements CidadeControllerOpenApi {
             @PathVariable Long cidadeId) {
         Cidade cidade = cidadeService.buscar(cidadeId);
         CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
-
 
         cidadeDTO.add(linkTo(methodOn(CidadeController.class)
                 .buscar(cidadeDTO.getId())).withSelfRel());
