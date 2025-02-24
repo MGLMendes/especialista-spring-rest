@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.controller.*;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.domain.model.Pedido;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,12 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 
     private final ModelMapper modelMapper;
 
-    public PedidoDTOAssembler(ModelMapper modelMapper) {
+    private final AlgaLinks algaLinks;
+
+    public PedidoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(PedidoController.class, PedidoDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
@@ -34,27 +38,7 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
         PedidoDTO pedidoDTO = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoDTO);
 
-        TemplateVariables pageVariables = new TemplateVariables(
-                new TemplateVariable("page", VariableType.REQUEST_PARAM),
-                new TemplateVariable("size", VariableType.REQUEST_PARAM),
-                new TemplateVariable("sort", VariableType.REQUEST_PARAM)
-        );
-
-        TemplateVariables filtroVariables = new TemplateVariables(
-                new TemplateVariable("clienteId", VariableType.REQUEST_PARAM),
-                new TemplateVariable("restauranteId", VariableType.REQUEST_PARAM),
-                new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
-                new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM));
-
-        String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
-
-        pedidoDTO.add(new Link(UriTemplate.of(
-                pedidosUrl,
-                pageVariables
-        ), "pedidos"));
-
-        pedidoDTO.add(new Link(UriTemplate.of(pedidosUrl,
-                pageVariables.concat(filtroVariables)), "pedidos"));
+        pedidoDTO.add(algaLinks.linkToPedidos());
 
         pedidoDTO.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
                 .buscar(pedido.getRestaurante().getId())).withSelfRel());
