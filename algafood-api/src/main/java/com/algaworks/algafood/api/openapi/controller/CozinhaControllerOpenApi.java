@@ -6,13 +6,14 @@ import com.algaworks.algafood.api.model.input.CozinhaInput;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Cozinhas")
 public interface CozinhaControllerOpenApi {
 
     @ApiOperation("Lista as cozinhas com paginação")
-    public ResponseEntity<Page<CozinhaDTO>> listar(Pageable pageable);
+    public ResponseEntity<PagedModel<CozinhaDTO>> listar(Pageable pageable);
     
     @ApiOperation("Busca uma cozinha por ID")
     @ApiResponses({
