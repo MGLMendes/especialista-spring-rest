@@ -34,18 +34,21 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
 
     private final UsuarioInputDisassembler usuarioInputDisassembler;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<GrupoDTO>> listar(@PathVariable Long usuarioId) {
         return ResponseEntity.ok(
                 grupoDTOAssembler.toCollectionList(usuarioService.buscar(usuarioId).getGrupos()));
     }
 
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
         usuarioService.desvincularGrupo(usuarioId, grupoId);
     }
 
+    @Override
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {

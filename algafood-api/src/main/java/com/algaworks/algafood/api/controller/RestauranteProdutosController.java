@@ -35,6 +35,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
 
     private final ProdutoInputDisassembler produtoInputDisassembler;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<ProdutoDTO>> listar(@PathVariable Long restauranteId,
                                                    @RequestParam(required = false) boolean incluirInativos) {
@@ -51,6 +52,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
 
 
 
+    @Override
     @GetMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> buscar(@PathVariable Long restauranteId,
                                                    @PathVariable Long produtoId) {
@@ -58,6 +60,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
                 produtoDTOAssembler.toModel(produtoService.buscar(restauranteId, produtoId)));
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProdutoDTO> adicionar(@PathVariable Long restauranteId,
@@ -72,6 +75,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
         return ResponseEntity.ok(produtoDTOAssembler.toModel(produto));
     }
 
+    @Override
     @PutMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
                                   @RequestBody @Valid ProdutoInput produtoInput) {

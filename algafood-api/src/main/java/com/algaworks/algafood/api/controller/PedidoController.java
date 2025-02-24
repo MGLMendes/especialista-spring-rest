@@ -49,7 +49,8 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     private final PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
-        @GetMapping
+    @Override
+    @GetMapping
     public ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
             Pageable pageableTraduzido = traduzirPageable(pageable);
@@ -63,7 +64,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
-    @GetMapping("/{codigoProduto}")
+    @Override@GetMapping("/{codigoProduto}")
     public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
         return ResponseEntity.ok(
                 pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
@@ -71,6 +72,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
+    @Override
     @PostMapping
     public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {
         Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);

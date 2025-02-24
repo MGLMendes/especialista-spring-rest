@@ -27,18 +27,21 @@ public class GrupoController implements GrupoControllerOpenApi {
 
     private final GrupoInputDisassembler grupoInputDisassembler;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<GrupoDTO>> listar() {
         return ResponseEntity.ok(
                 grupoDTOAssembler.toCollectionList(grupoService.listar()));
     }
 
+    @Override
     @GetMapping("/{grupoId}")
     public ResponseEntity<GrupoDTO> buscar(@PathVariable Long grupoId) {
         return ResponseEntity.ok(
                 grupoDTOAssembler.toModel(grupoService.buscar(grupoId)));
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<GrupoDTO> salvar(@RequestBody @Valid GrupoInput grupoInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -47,6 +50,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                                 grupoInputDisassembler.toDomainObject(grupoInput))));
     }
 
+    @Override
     @PutMapping("/{grupoId}")
     public ResponseEntity<GrupoDTO> atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoSalva = grupoService.buscar(grupoId);
@@ -55,6 +59,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                 grupoDTOAssembler.toModel(grupoService.salvar(grupoSalva)));
     }
 
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long grupoId) {

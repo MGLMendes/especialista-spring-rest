@@ -16,6 +16,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
     private final FluxoPedidoService fluxoPedidoService;
 
 
+    @Override
     @PutMapping("/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
@@ -23,6 +24,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/entregar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {
@@ -30,6 +32,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {

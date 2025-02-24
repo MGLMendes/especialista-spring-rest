@@ -37,7 +37,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
     private final CidadeInputDisassembler cidadeInputDisassembler;
 
-
+    @Override
     @GetMapping
     public ResponseEntity<CollectionModel<CidadeDTO>> listar() {
 
@@ -45,6 +45,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
 
+    @Override
     @GetMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> buscar(
             @PathVariable Long cidadeId) {
@@ -54,6 +55,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
 
+    @Override
     @PostMapping
     public ResponseEntity<CidadeDTO> salvar(
             @RequestBody @Valid CidadeInput cidadeInput) {
@@ -72,6 +74,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
 
+    @Override
     @PutMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> atualizar(
             @PathVariable Long cidadeId,
@@ -82,6 +85,7 @@ public class CidadeController implements CidadeControllerOpenApi {
                 cidadeDTOAssembler.toModel(cidadeService.salvar(cidadeSalva)));
     }
 
+    @Override
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(

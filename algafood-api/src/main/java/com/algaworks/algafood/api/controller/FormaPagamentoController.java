@@ -34,6 +34,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
+    @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest servletWebRequest) {
 
@@ -63,6 +64,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formasPagamentoDTO);
     }
 
+    @Override
     @GetMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long  formaPagamentoId,
                                                     ServletWebRequest servletWebRequest) {
@@ -92,6 +94,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formaPagamentoDTO);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<FormaPagamentoDTO> adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamento) {
@@ -99,6 +102,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 formaPagamentoDTOAssembler.toModel(formaPagamentoService.salvar(formaPagamentoInputDisassembler.toDomainObject(formaPagamento))));
     }
 
+    @Override
     @PutMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamento) {
         FormaPagamento formaPagamentoSalva = formaPagamentoService.buscar(formaPagamentoId);
@@ -108,6 +112,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                         formaPagamentoService.salvar(formaPagamentoSalva)));
     }
 
+    @Override
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long formaPagamentoId) {

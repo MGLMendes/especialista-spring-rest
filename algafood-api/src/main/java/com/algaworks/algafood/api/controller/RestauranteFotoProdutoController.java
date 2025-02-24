@@ -41,6 +41,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
 
     private final FotoProdutoAssembler fotoProdutoAssembler;
 
+    @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FotoProdutoDTO> atualizarFoto(@PathVariable Long restauranteId,
                                                         @PathVariable Long produtoId,
@@ -68,6 +69,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
         }
     }
 
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FotoProdutoDTO> buscar(@PathVariable Long restauranteId,
                                                  @PathVariable Long produtoId) {
@@ -76,6 +78,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
 
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<?> servir(@PathVariable Long restauranteId,
                                     @PathVariable Long produtoId,
@@ -109,6 +112,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
         }
     }
 
+    @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long restauranteId,

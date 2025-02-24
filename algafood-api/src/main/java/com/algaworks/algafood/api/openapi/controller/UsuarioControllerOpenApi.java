@@ -47,6 +47,15 @@ public interface UsuarioControllerOpenApi {
                 required = true)
             UsuarioInput usuarioInput);
 
+    @ApiOperation("Deletar um usuário")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Usuário deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuário não encontrado", response = Problem.class)
+    })
+    void deletar(
+            @ApiParam(value = "ID do usuário", example = "1", required = true)
+            Long usuarioId);
+
     @ApiOperation("Atualiza a senha de um usuário")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Senha alterada com sucesso"),

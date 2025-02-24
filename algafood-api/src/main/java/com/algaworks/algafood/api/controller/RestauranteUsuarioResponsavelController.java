@@ -43,6 +43,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
         restauranteService.desvincularResponsavel(restauranteId, usuarioId);
     }
 
+    @Override
     @PutMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {

@@ -20,6 +20,7 @@ public class EstatisticaController implements EstatisticasControllerOpenApi {
 
     private final VendaQuerieService vendaQuerieService;
 
+    @Override
     @GetMapping("/vendas-diarias")
     public ResponseEntity<List<VendaDiariaDTO>> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter,
                                                                        String timeOffset) {

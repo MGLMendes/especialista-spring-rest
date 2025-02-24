@@ -27,18 +27,21 @@ public class EstadoController implements EstadoControllerOpenApi {
 
     private final EstadoInputDisassembler estadoInputDisassembler;
 
+    @Override
     @GetMapping
     public ResponseEntity<CollectionModel<EstadoDTO>> listar() {
         return ResponseEntity.ok(
                 estadoDTOAssembler.toCollectionModel(estadoService.listar()));
     }
 
+    @Override
     @GetMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> buscar(@PathVariable Long estadoId) {
         return ResponseEntity.ok(
                 estadoDTOAssembler.toModel(estadoService.buscar(estadoId)));
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estadoInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -46,6 +49,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                         estadoService.salvar(estadoInputDisassembler.toDomainObject(estadoInput))));
     }
 
+    @Override
     @PutMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
         Estado estadoSalvo = estadoService.buscar(estadoId);
@@ -54,6 +58,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                 estadoDTOAssembler.toModel(estadoService.salvar(estadoSalvo)));
     }
 
+    @Override
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long estadoId) {

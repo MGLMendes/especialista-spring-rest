@@ -24,6 +24,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
 
+    @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
@@ -31,6 +32,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         return ResponseEntity.ok(formaPagamentoDTOAssembler.toCollectionModel(restaurante.getFormasPagamento()));
     }
 
+    @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{formaPagamentoId}")
     public void vincular(@PathVariable Long restauranteId,
@@ -38,6 +40,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         restauranteService.vincularFormaPagamento(restauranteId, formaPagamentoId);
     }
 
+    @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{formaPagamentoId}")
     public void desvincular(@PathVariable Long restauranteId,

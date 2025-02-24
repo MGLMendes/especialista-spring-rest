@@ -29,18 +29,21 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     private final PermissaoDTOAssembler permissaoDTOAssembler;
 
 
+    @Override
     @GetMapping
     public ResponseEntity<List<PermissaoDTO>> listar(@PathVariable Long grupoId) {
         return ResponseEntity.ok(
                 permissaoDTOAssembler.toCollectionList(grupoService.buscar(grupoId).getPermissoes()));
     }
 
+    @Override
     @DeleteMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
         grupoService.desassociarPermissao(grupoId, permissaoId);
     }
 
+    @Override
     @PutMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
