@@ -9,6 +9,8 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +44,18 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> buscar(
             @PathVariable Long cidadeId) {
-        return ResponseEntity.ok(
-                cidadeDTOAssembler.toModel(cidadeService.buscar(cidadeId)));
+        Cidade cidade = cidadeService.buscar(cidadeId);
+        CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
+        cidadeDTO.add(
+                new Link("http://localhost:8080/cidades/"+cidadeId)
+        );
+        cidadeDTO.add(
+                new Link("http://localhost:8080/cidades", "cidades")  // IanaLinkRelations.COLLECTION)
+        );
+        cidadeDTO.getEstado().add(
+                new Link("http://localhost:8080/estados/"+cidadeDTO.getEstado().getId())
+        );
+        return ResponseEntity.ok(cidadeDTO);
     }
 
 
