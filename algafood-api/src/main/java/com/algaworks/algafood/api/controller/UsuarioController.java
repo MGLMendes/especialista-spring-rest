@@ -10,13 +10,13 @@ import com.algaworks.algafood.api.openapi.controller.UsuarioControllerOpenApi;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,9 +30,9 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     private final UsuarioInputDisassembler usuarioInputDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> listar() {
+    public ResponseEntity<CollectionModel<UsuarioDTO>> listar() {
         return ResponseEntity.ok(
-                usuarioDTOAssembler.toCollectionList(usuarioService.listar()));
+                usuarioDTOAssembler.toCollectionModel(usuarioService.listar()));
     }
 
     @GetMapping("/{usuarioId}")
