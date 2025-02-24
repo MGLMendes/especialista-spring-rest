@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -51,10 +52,12 @@ public class PedidoController implements PedidoControllerOpenApi {
         @GetMapping
     public ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
-            pageable = traduzirPageable(pageable);
+            Pageable pageableTraduzido = traduzirPageable(pageable);
 
             Page<Pedido> pedidosPage = pedidoService.listarTodos(
-                    PedidoSpecs.usandoFiltro(filtro), pageable);
+                    PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+
+            pedidosPage = new PageWrapper<>(pedidosPage, pageable);
 
             return ResponseEntity.ok(pagedResourcesAssembler.toModel(pedidosPage, pedidoListaDTOAssembler));
     }
@@ -87,7 +90,7 @@ public class PedidoController implements PedidoControllerOpenApi {
                 "cliente.nome", "cliente.nome",
                 "subTotal", "subTotal",
                 "codigo", "codigo",
-                "restautante.nome", "restaurante.nome",
+                "nomeRestaurante", "restaurante.nome",
                 "valorTotal", "valorTotal"
         );
 
