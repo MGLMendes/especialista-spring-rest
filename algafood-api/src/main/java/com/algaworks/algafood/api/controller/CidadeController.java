@@ -1,16 +1,17 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.CidadeDTOAssembler;
-import com.algaworks.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.algaworks.algafood.api.disassembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.Link;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,18 +47,22 @@ public class CidadeController implements CidadeControllerOpenApi {
             @PathVariable Long cidadeId) {
         Cidade cidade = cidadeService.buscar(cidadeId);
         CidadeDTO cidadeDTO = cidadeDTOAssembler.toModel(cidade);
-        cidadeDTO.add(
-                new Link("http://localhost:8080/cidades/"+cidadeId)
+
+        cidadeDTO.add(linkTo(CidadeController.class)
+                .slash(cidadeDTO.getId())
+                .withSelfRel()
         );
-        cidadeDTO.add(
-                new Link("http://localhost:8080/cidades", "cidades")  // IanaLinkRelations.COLLECTION)
+
+        cidadeDTO.add(linkTo(CidadeController.class)
+                .withRel("cidades")
         );
-        cidadeDTO.getEstado().add(
-                new Link("http://localhost:8080/estados/"+cidadeDTO.getEstado().getId())
+
+        cidadeDTO.getEstado().add(linkTo(EstadoController.class)
+                .slash(cidadeDTO.getEstado().getId())
+                .withSelfRel()
         );
         return ResponseEntity.ok(cidadeDTO);
     }
-
 
 
     @PostMapping
