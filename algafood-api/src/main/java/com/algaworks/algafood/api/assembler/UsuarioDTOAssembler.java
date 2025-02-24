@@ -43,7 +43,7 @@ public class UsuarioDTOAssembler extends RepresentationModelAssemblerSupport<Usu
     @Override
     public CollectionModel<UsuarioDTO> toCollectionModel(Iterable<? extends Usuario> entities) {
         return super.toCollectionModel(entities)
-                .add(linkTo(UsuarioController.class).withSelfRel());
+                .add(algaLinks.linkToUsuarios());
     }
 
 }

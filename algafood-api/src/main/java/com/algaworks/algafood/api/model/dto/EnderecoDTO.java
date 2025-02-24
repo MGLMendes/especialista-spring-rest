@@ -23,5 +23,6 @@ public class EnderecoDTO {
 
     @ApiModelProperty(example = "Centro")
     private String bairro;
+
     private EnderecoCidadeDTO cidade;
 }

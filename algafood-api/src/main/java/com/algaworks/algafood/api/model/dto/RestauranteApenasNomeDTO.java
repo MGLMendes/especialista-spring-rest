@@ -1,21 +1,21 @@
 package com.algaworks.algafood.api.model.dto;
 
-import com.algaworks.algafood.api.model.view.RestauranteView;
-import com.fasterxml.jackson.annotation.JsonView;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-@Relation(collectionRelation = "cozinhas")
-@Getter
+@Relation(collectionRelation = "restaurantes")
 @Setter
-public class CozinhaDTO extends RepresentationModel<CozinhaDTO> {
+@Getter
+public class RestauranteApenasNomeDTO extends RepresentationModel<RestauranteApenasNomeDTO> {
 
     @ApiModelProperty(example = "1")
     private Long id;
-
-    @ApiModelProperty(example = "Brasileira")
+    
+    @ApiModelProperty(example = "Thai Gourmet")
     private String nome;
-}
+    
+}  
