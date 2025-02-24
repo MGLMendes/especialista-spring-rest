@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.controller.EstadoController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.domain.model.Cidade;
 import org.modelmapper.ModelMapper;
@@ -20,25 +21,25 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 
     private final ModelMapper modelMapper;
 
-    public CidadeDTOAssembler(ModelMapper modelMapper) {
+    private final AlgaLinks algaLinks;
+
+    public CidadeDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(CidadeController.class, CidadeDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
     public CidadeDTO toModel(Cidade cidade) {
-        CidadeDTO cidadeDTO = modelMapper.map(cidade, CidadeDTO.class);
-        cidadeDTO.add(linkTo(methodOn(CidadeController.class)
-                .buscar(cidadeDTO.getId())).withSelfRel());
+        CidadeDTO cidadeModel = createModelWithId(cidade.getId(), cidade);
 
-        cidadeDTO.add(linkTo(methodOn(CidadeController.class)
-                .listar()).withRel("cidadess"));
+        modelMapper.map(cidade, cidadeModel);
 
-        cidadeDTO.getEstado().add(linkTo(methodOn(EstadoController.class)
-                .buscar(cidadeDTO.getEstado().getId()))
-                .withSelfRel());
+        cidadeModel.add(algaLinks.linkToCidades("cidades"));
 
-        return cidadeDTO;
+        cidadeModel.getEstado().add(algaLinks.linkToEstado(cidadeModel.getEstado().getId()));
+
+        return cidadeModel;
     }
 
     @Override

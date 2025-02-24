@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.assembler;
 import com.algaworks.algafood.api.controller.PedidoController;
 import com.algaworks.algafood.api.controller.RestauranteController;
 import com.algaworks.algafood.api.controller.UsuarioController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.domain.model.Pedido;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,12 @@ public class PedidoListaDTOAssembler extends RepresentationModelAssemblerSupport
 
     private final ModelMapper modelMapper;
 
-    public PedidoListaDTOAssembler(ModelMapper modelMapper) {
+    private final AlgaLinks algaLinks;
+
+    public PedidoListaDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(PedidoController.class, PedidoListaDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
@@ -31,13 +35,12 @@ public class PedidoListaDTOAssembler extends RepresentationModelAssemblerSupport
         PedidoListaDTO pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
 
-        pedidoModel.add(linkTo(PedidoController.class).withRel("pedidos"));
+        pedidoModel.add(algaLinks.linkToPedidos());
 
-        pedidoModel.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
-                .buscar(pedido.getRestaurante().getId())).withSelfRel());
+        pedidoModel.getRestaurante().add(
+                algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
 
-        pedidoModel.getCliente().add(linkTo(methodOn(UsuarioController.class)
-                .buscar(pedido.getCliente().getId())).withSelfRel());
+        pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
 
         return pedidoModel;
     }

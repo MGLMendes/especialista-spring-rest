@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.controller.EstadoController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.EstadoDTO;
 import com.algaworks.algafood.domain.model.Estado;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +20,22 @@ public class EstadoDTOAssembler extends RepresentationModelAssemblerSupport<Esta
 
     private final ModelMapper modelMapper;
 
-    public EstadoDTOAssembler(ModelMapper modelMapper) {
+    private final AlgaLinks algaLinks;
+
+    public EstadoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(EstadoController.class, EstadoDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
     public EstadoDTO toModel(Estado estado) {
-        EstadoDTO EstadoDTO = createModelWithId(estado.getId(), estado);
-        modelMapper.map(estado, EstadoDTO);
+        EstadoDTO estadoModel = createModelWithId(estado.getId(), estado);
+        modelMapper.map(estado, estadoModel);
 
-        EstadoDTO.add(linkTo(EstadoController.class).withRel("estados"));
+        estadoModel.add(algaLinks.linkToEstados("estados"));
 
-        return EstadoDTO;
+        return estadoModel;
     }
 
     @Override

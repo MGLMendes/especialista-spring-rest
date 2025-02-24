@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.controller.CozinhaController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.CozinhaDTO;
 import com.algaworks.algafood.domain.model.Cozinha;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +20,22 @@ public class CozinhaDTOAssembler extends
 
     private final ModelMapper modelMapper;
 
-    public CozinhaDTOAssembler(ModelMapper modelMapper) {
+    private final AlgaLinks algaLinks;
+
+    public CozinhaDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(CozinhaController.class, CozinhaDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
     public CozinhaDTO toModel(Cozinha cozinha) {
-        CozinhaDTO cozinhaDTO = createModelWithId(cozinha.getId(), cozinha);
+        CozinhaDTO cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
+        modelMapper.map(cozinha, cozinhaModel);
 
-        modelMapper.map(cozinha, cozinhaDTO);
+        cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
 
-        cozinhaDTO.add(linkTo(CozinhaController.class).withRel("cozinhas"));
-
-        return cozinhaDTO;
+        return cozinhaModel;
     }
 
 

@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.controller.UsuarioGruposController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.UsuarioDTO;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
@@ -18,22 +19,25 @@ public class UsuarioDTOAssembler extends RepresentationModelAssemblerSupport<Usu
 
     private final ModelMapper modelMapper;
 
-    public UsuarioDTOAssembler(ModelMapper modelMapper) {
+
+    private final AlgaLinks algaLinks;
+
+    public UsuarioDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
         super(UsuarioController.class, UsuarioDTO.class);
         this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
     @Override
     public UsuarioDTO toModel(Usuario usuario) {
-        UsuarioDTO UsuarioDTO = createModelWithId(usuario.getId(), usuario);
-        modelMapper.map(usuario, UsuarioDTO);
+        UsuarioDTO usuarioModel = createModelWithId(usuario.getId(), usuario);
+        modelMapper.map(usuario, usuarioModel);
 
-        UsuarioDTO.add(linkTo(UsuarioController.class).withRel("usuarios"));
+        usuarioModel.add(algaLinks.linkToUsuarios("usuarios"));
 
-        UsuarioDTO.add(linkTo(methodOn(UsuarioGruposController.class)
-                .listar(usuario.getId())).withRel("grupos-usuario"));
+        usuarioModel.add(algaLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
 
-        return UsuarioDTO;
+        return usuarioModel;
     }
 
     @Override

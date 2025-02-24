@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.UsuarioDTOAssembler;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.UsuarioDTO;
 import com.algaworks.algafood.api.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -25,13 +26,15 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 
     private final UsuarioDTOAssembler usuarioDTOAssembler;
 
+    private final AlgaLinks algaLinks;
+
     @GetMapping
     public ResponseEntity<CollectionModel<UsuarioDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
 
         return ResponseEntity.ok(usuarioDTOAssembler.toCollectionModel(restaurante.getResponsaveis())
                 .removeLinks()
-                .add(linkTo(methodOn(this.getClass()).listar(restauranteId)).withSelfRel()));
+                .add(algaLinks.linkToResponsaveisRestaurante(restauranteId)));
     }
 
     @DeleteMapping("/{usuarioId}")
