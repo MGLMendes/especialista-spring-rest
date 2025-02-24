@@ -1,4 +1,4 @@
-package com.algaworks.algafood.core.openapi;
+package com.algaworks.algafood.core.springfox;
 
 import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.CozinhaDTO;
