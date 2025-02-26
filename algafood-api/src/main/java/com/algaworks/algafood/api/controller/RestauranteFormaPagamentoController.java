@@ -37,9 +37,10 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
         collectionModel.getContent().forEach(
                 formaPagamentoDTO -> {
-                    formaPagamentoDTO.add(algaLinks.lintToRestauranteFormaPagamentoDesassociacao(
-                            restauranteId, formaPagamentoDTO.getId(), "desassociar"
-                    ));
+                    formaPagamentoDTO
+                            .add(algaLinks.lintToRestauranteFormaPagamentoDesassociacao(
+                            restauranteId, formaPagamentoDTO.getId(), "desassociar"))
+                            .add(algaLinks.linkToRestauranteFormasPagamentoVincular(restauranteId, "associar"));
                 }
         );
 

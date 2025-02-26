@@ -35,13 +35,6 @@ public class AlgaLinks {
                 PAGINACAO_VARIABLES.concat(filtroVariables)), rel);
     }
 
-    public Link lintToRestauranteFormaPagamentoDesassociacao(
-            Long restauranteId, Long formaPagamentoId, String rel
-    ) {
-        return linkTo(methodOn(RestauranteFormaPagamentoController.class).desvincular(restauranteId, formaPagamentoId))
-                .withRel(rel);
-    }
-
     public Link linkToConfimacaoPedido(String codigoPedido, String rel) {
         return linkTo(methodOn(FluxoPedidoController.class).confirmar(codigoPedido)).withRel(rel);
     }
@@ -167,6 +160,18 @@ public class AlgaLinks {
 
     public Link linkToRestauranteFormasPagamento(Long restauranteId) {
         return linkToRestauranteFormasPagamento(restauranteId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToRestauranteFormasPagamentoVincular(Long restauranteId, String rel) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                .vincular(restauranteId, null)).withRel(rel);
+    }
+
+    public Link lintToRestauranteFormaPagamentoDesassociacao(
+            Long restauranteId, Long formaPagamentoId, String rel
+    ) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class).desvincular(restauranteId, formaPagamentoId))
+                .withRel(rel);
     }
 
     public Link linkToFormasPagamento(String rel) {
