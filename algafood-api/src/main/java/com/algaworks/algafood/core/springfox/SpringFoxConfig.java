@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,10 +74,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .ignoredParameterTypes(ServletWebRequest.class,
                         URL.class, URI.class, URLStreamHandler.class, Resource.class,
                         File.class, InputStream.class)
+
                 .alternateTypeRules(AlternateTypeRules.newRule(
-                        typeResolver.resolve(ResponseEntity.class, typeResolver.resolve(Page.class, CozinhaDTO.class)),
-                        CozinhasModelOpenApi.class
-                ))
+                        typeResolver.resolve(ResponseEntity.class, typeResolver.resolve(PagedModel.class, CozinhaDTO.class)),
+                        CozinhasModelOpenApi.class))
+
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, typeResolver.resolve(Page.class, PedidoDTO.class)),
                         PedidosResumoModelOpenApi.class))
@@ -84,6 +86,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(CollectionModel.class, CidadeDTO.class),
                         CidadesModelOpenApi.class))
+
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),
