@@ -34,20 +34,6 @@ public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport
 
         restauranteDTO.add(algaLinks.linkToRestaurantes("restaurantes"));
 
-        restauranteDTO.getCozinha().add(
-                algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
-
-        if (restaurante.getEndereco() != null) {
-            restauranteDTO.getEndereco().getCidade().add(
-                    algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
-        }
-
-        restauranteDTO.add(algaLinks.linkToRestauranteFormasPagamento(restaurante.getId(),
-                "formas-pagamento"));
-
-        restauranteDTO.add(algaLinks.linkToResponsaveisRestaurante(restaurante.getId(),
-                "responsaveis"));
-
         if (restaurante.ativacaoPermitida()) {
             restauranteDTO.add(
                     algaLinks.linkToRestauranteAtivacao(restaurante.getId(), "ativar"));
@@ -67,6 +53,23 @@ public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport
             restauranteDTO.add(
                     algaLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
         }
+
+        restauranteDTO.add(algaLinks.linkToProdutos(restaurante.getId(), "produtos"));
+
+        restauranteDTO.getCozinha().add(
+                algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
+
+        if (restauranteDTO.getEndereco() != null
+                && restauranteDTO.getEndereco().getCidade() != null) {
+            restauranteDTO.getEndereco().getCidade().add(
+                    algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+        }
+
+        restauranteDTO.add(algaLinks.linkToRestauranteFormasPagamento(restaurante.getId(),
+                "formas-pagamento"));
+
+        restauranteDTO.add(algaLinks.linkToResponsaveisRestaurante(restaurante.getId(),
+                "responsaveis"));
 
         return restauranteDTO;
     }
