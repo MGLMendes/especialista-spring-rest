@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 
 import com.algaworks.algafood.api.assembler.FormaPagamentoDTOAssembler;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -23,28 +24,43 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
+    private final AlgaLinks algaLinks;
 
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
+        CollectionModel<FormaPagamentoDTO> collectionModel = formaPagamentoDTOAssembler.toCollectionModel(
+                restaurante.getFormasPagamento()).removeLinks().add(algaLinks.linkToRestauranteFormasPagamento(
+                        restauranteId
+        ));
 
-        return ResponseEntity.ok(formaPagamentoDTOAssembler.toCollectionModel(restaurante.getFormasPagamento()));
+        collectionModel.getContent().forEach(
+                formaPagamentoDTO -> {
+                    formaPagamentoDTO.add(algaLinks.lintToRestauranteFormaPagamentoDesassociacao(
+                            restauranteId, formaPagamentoDTO.getId(), "desassociar"
+                    ));
+                }
+        );
+
+        return ResponseEntity.ok(collectionModel);
     }
 
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{formaPagamentoId}")
-    public void vincular(@PathVariable Long restauranteId,
+    public ResponseEntity<Void> vincular(@PathVariable Long restauranteId,
                                                                @PathVariable Long formaPagamentoId) {
         restauranteService.vincularFormaPagamento(restauranteId, formaPagamentoId);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{formaPagamentoId}")
-    public void desvincular(@PathVariable Long restauranteId,
+    public ResponseEntity<Void> desvincular(@PathVariable Long restauranteId,
                                                                @PathVariable Long formaPagamentoId) {
         restauranteService.desvincularFormaPagamento(restauranteId, formaPagamentoId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.links;
 
 import com.algaworks.algafood.api.controller.*;
+import com.amazonaws.services.s3.model.PublicAccessBlockConfiguration;
 import org.springframework.hateoas.*;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,12 @@ public class AlgaLinks {
                 PAGINACAO_VARIABLES.concat(filtroVariables)), rel);
     }
 
-
+    public Link lintToRestauranteFormaPagamentoDesassociacao(
+            Long restauranteId, Long formaPagamentoId, String rel
+    ) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class).desvincular(restauranteId, formaPagamentoId))
+                .withRel(rel);
+    }
 
     public Link linkToConfimacaoPedido(String codigoPedido, String rel) {
         return linkTo(methodOn(FluxoPedidoController.class).confirmar(codigoPedido)).withRel(rel);

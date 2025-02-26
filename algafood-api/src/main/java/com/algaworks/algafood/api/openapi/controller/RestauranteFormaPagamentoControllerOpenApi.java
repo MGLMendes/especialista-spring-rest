@@ -26,7 +26,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado",
                     response = Problem.class)
     })
-    void desvincular(
+    ResponseEntity<Void> desvincular(
             @ApiParam(value = "ID do restaurante", example = "1", required = true)
             Long restauranteId,
 
@@ -39,7 +39,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
             @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado",
                     response = Problem.class)
     })
-    void vincular(
+    ResponseEntity<Void> vincular(
             @ApiParam(value = "ID do restaurante", example = "1", required = true)
             Long restauranteId,
 
