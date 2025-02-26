@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.links;
 
 import com.algaworks.algafood.api.controller.*;
-import com.amazonaws.services.s3.model.PublicAccessBlockConfiguration;
 import org.springframework.hateoas.*;
 import org.springframework.stereotype.Component;
 
@@ -292,5 +291,22 @@ public class AlgaLinks {
     public Link linkToUsuarioGrupoDesassociacao(Long usuarioId, Long grupoId, String rel) {
         return linkTo(methodOn(UsuarioGruposController.class)
                 .desassociar(usuarioId, grupoId)).withRel(rel);
+    }
+
+    public Link linkToEstatisticas(String rel) {
+        return linkTo(EstatisticaController.class).withRel(rel);
+    }
+
+    public Link linkToEstatisticasVendasDiarias(String rel) {
+        TemplateVariables filtroVariables = new TemplateVariables(
+                new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("timeOffset", TemplateVariable.VariableType.REQUEST_PARAM));
+
+        String pedidosUrl = linkTo(methodOn(EstatisticaController.class)
+                .consultarVendasDiarias(null, null)).toUri().toString();
+
+        return new Link(UriTemplate.of(pedidosUrl, filtroVariables), rel);
     }
 }

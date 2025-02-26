@@ -1,8 +1,6 @@
 package com.algaworks.algafood.api.openapi.controller;
 
-import com.algaworks.algafood.api.handler.Problem;
-import com.algaworks.algafood.api.model.dto.CidadeDTO;
-import com.algaworks.algafood.api.model.input.CidadeInput;
+import com.algaworks.algafood.api.controller.EstatisticaController;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.dto.VendaDiariaDTO;
 import io.swagger.annotations.*;
@@ -28,4 +26,7 @@ public interface EstatisticasControllerOpenApi {
             @ApiParam(value = "Deslocamento de horário a ser considerado na consulta em relação ao UTC",
                 defaultValue = "+00:00")
             String timeOffset);
+
+    @ApiOperation(value = "Estatísticas", hidden = true)
+    EstatisticaController.EstatisticasModel estatisticas();
 }

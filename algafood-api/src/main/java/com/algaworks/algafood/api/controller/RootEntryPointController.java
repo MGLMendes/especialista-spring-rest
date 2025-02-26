@@ -21,7 +21,7 @@ public class RootEntryPointController {
         RootEntryPointModel rootEntryPointModel = new RootEntryPointModel();
 
         rootEntryPointModel.add(
-            algaLinks.linkToCozinhas("cozinhas")
+                algaLinks.linkToCozinhas("cozinhas")
         );
         rootEntryPointModel.add(
                 algaLinks.linkToEstados("estados")
@@ -44,6 +44,8 @@ public class RootEntryPointController {
         rootEntryPointModel.add(
                 algaLinks.linkToCidades("cidades")
         );
+
+        rootEntryPointModel.add(algaLinks.linkToEstatisticas("estatisticas"));
         return rootEntryPointModel;
 
     }
