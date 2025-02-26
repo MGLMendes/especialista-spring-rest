@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
 
     private final UsuarioService usuarioService;
-    
+
     private final AlgaLinks algaLinks;
 
     private final GrupoDTOAssembler grupoDTOAssembler;
