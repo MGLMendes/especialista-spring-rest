@@ -1,24 +1,18 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.GrupoDTOAssembler;
-import com.algaworks.algafood.api.assembler.UsuarioDTOAssembler;
 import com.algaworks.algafood.api.disassembler.UsuarioInputDisassembler;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
-import com.algaworks.algafood.api.model.dto.UsuarioDTO;
-import com.algaworks.algafood.api.model.input.SenhaInput;
-import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
-import com.algaworks.algafood.api.model.input.UsuarioInput;
 import com.algaworks.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
-import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,9 +30,9 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<GrupoDTO>> listar(@PathVariable Long usuarioId) {
+    public ResponseEntity<CollectionModel<GrupoDTO>> listar(@PathVariable Long usuarioId) {
         return ResponseEntity.ok(
-                grupoDTOAssembler.toCollectionList(usuarioService.buscar(usuarioId).getGrupos()));
+                grupoDTOAssembler.toCollectionModel(usuarioService.buscar(usuarioId).getGrupos()));
     }
 
     @Override

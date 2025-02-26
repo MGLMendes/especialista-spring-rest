@@ -4,15 +4,14 @@ import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
 import com.algaworks.algafood.api.model.input.GrupoInput;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @Api(tags = "Grupos")
 public interface GrupoControllerOpenApi {
 
     @ApiOperation("Lista os grupos")
-    public ResponseEntity<List<GrupoDTO>> listar();
+    public ResponseEntity<CollectionModel<GrupoDTO>> listar();
     
     @ApiOperation("Busca um grupo por ID")
     @ApiResponses({

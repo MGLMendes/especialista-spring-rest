@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.model.input.GrupoInput;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.service.GrupoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,9 @@ public class GrupoController implements GrupoControllerOpenApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<GrupoDTO>> listar() {
+    public ResponseEntity<CollectionModel<GrupoDTO>> listar() {
         return ResponseEntity.ok(
-                grupoDTOAssembler.toCollectionList(grupoService.listar()));
+                grupoDTOAssembler.toCollectionModel(grupoService.listar()));
     }
 
     @Override
