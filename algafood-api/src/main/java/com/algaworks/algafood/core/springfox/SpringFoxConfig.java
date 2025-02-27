@@ -50,7 +50,7 @@ import java.util.List;
 public class SpringFoxConfig implements WebMvcConfigurer {
 
 
-    @Bean
+//    @Bean
     public Docket apiDocketV1() {
         var typeResolver = new TypeResolver();
         return new Docket(DocumentationType.SWAGGER_2)
