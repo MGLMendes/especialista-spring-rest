@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.filter.PedidoFilter;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Pedidos")
@@ -18,7 +19,7 @@ public interface PedidoControllerOpenApi {
                 name = "campos", paramType = "query", type = "string")
     })
     @ApiOperation("Pesquisa os pedidos")
-     ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable);
+     ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable);
     
     @ApiOperation("Registra um pedido")
     @ApiResponses({

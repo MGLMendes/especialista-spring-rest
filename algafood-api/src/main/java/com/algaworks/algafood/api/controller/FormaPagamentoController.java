@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.openapi.controller.FormaPagamentoControllerOpe
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,8 +34,9 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
+    @Override
     @GetMapping
-    public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest servletWebRequest) {
+    public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest servletWebRequest) {
 
         ShallowEtagHeaderFilter.disableContentCaching(servletWebRequest.getRequest());
 
@@ -53,7 +55,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
         List<FormaPagamento> formaPagamentos = formaPagamentoService.todasFormasPagamento();
 
-        List<FormaPagamentoDTO> formasPagamentoDTO = formaPagamentoDTOAssembler.toCollectionList(formaPagamentos);
+        CollectionModel<FormaPagamentoDTO> formasPagamentoDTO = formaPagamentoDTOAssembler.toCollectionModel(formaPagamentos);
 
 
         return ResponseEntity.ok()
@@ -62,7 +64,8 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formasPagamentoDTO);
     }
 
-    @GetMapping(value = "/{id}")
+    @Override
+    @GetMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long  formaPagamentoId,
                                                     ServletWebRequest servletWebRequest) {
 
@@ -91,6 +94,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formaPagamentoDTO);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<FormaPagamentoDTO> adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamento) {
@@ -98,6 +102,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 formaPagamentoDTOAssembler.toModel(formaPagamentoService.salvar(formaPagamentoInputDisassembler.toDomainObject(formaPagamento))));
     }
 
+    @Override
     @PutMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamento) {
         FormaPagamento formaPagamentoSalva = formaPagamentoService.buscar(formaPagamentoId);
@@ -107,6 +112,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                         formaPagamentoService.salvar(formaPagamentoSalva)));
     }
 
+    @Override
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long formaPagamentoId) {

@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.model.input.SenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface UsuarioControllerOpenApi {
 
     @ApiOperation("Lista os usuários")
-    ResponseEntity<List<UsuarioDTO>> listar();
+    ResponseEntity<CollectionModel<UsuarioDTO>> listar();
 
     @ApiOperation("Busca um usuário por ID")
     @ApiResponses({
@@ -45,6 +46,15 @@ public interface UsuarioControllerOpenApi {
             @ApiParam(name = "corpo", value = "Representação de um usuário com os novos dados",
                 required = true)
             UsuarioInput usuarioInput);
+
+    @ApiOperation("Deletar um usuário")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Usuário deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuário não encontrado", response = Problem.class)
+    })
+    void deletar(
+            @ApiParam(value = "ID do usuário", example = "1", required = true)
+            Long usuarioId);
 
     @ApiOperation("Atualiza a senha de um usuário")
     @ApiResponses({

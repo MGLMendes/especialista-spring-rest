@@ -1,17 +1,14 @@
 package com.algaworks.algafood.api.openapi.model;
 
-import com.algaworks.algafood.api.model.dto.CozinhaDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class GenericPageModelOpenApi<T> {
-
-    private List<T> content;
+@ApiModel("PageModel")
+public class PageModelOpenApi {
 
     @ApiModelProperty(
             example = "10",

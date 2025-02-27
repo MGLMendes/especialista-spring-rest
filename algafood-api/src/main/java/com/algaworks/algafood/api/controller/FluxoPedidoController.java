@@ -5,11 +5,10 @@ import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/pedidos/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
@@ -17,22 +16,28 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
     private final FluxoPedidoService fluxoPedidoService;
 
 
+    @Override
     @PutMapping("/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirmar(@PathVariable String codigoPedido) {
+    public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
         fluxoPedidoService.confirmar(codigoPedido);
+        return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/entregar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void entregar(@PathVariable String codigoPedido) {
+    public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {
         fluxoPedidoService.entregar(codigoPedido);
+        return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelar(@PathVariable String codigoPedido) {
+    public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {
         fluxoPedidoService.cancelar(codigoPedido);
+        return ResponseEntity.noContent().build();
     }
 
 }

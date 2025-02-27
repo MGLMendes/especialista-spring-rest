@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -21,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,19 +47,24 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     private final PedidoInputDisassembler pedidoInputDisassembler;
 
-        @GetMapping
-    public ResponseEntity<Page<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
+    private final PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
-        pageable = traduzirPageable(pageable);
+    @Override
+    @GetMapping
+    public ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
 
-        Page<Pedido> pagePedidos = pedidoService.listarTodos(PedidoSpecs.usandoFiltro(filtro), pageable);
-        List<PedidoListaDTO> listPedidoListaDTO = pedidoListaDTOAssembler.toCollectionList(pagePedidos.getContent());
-        PageImpl<PedidoListaDTO> pagePedidoDTO = new PageImpl<>(listPedidoListaDTO, pageable, pagePedidos.getTotalElements());
-        return ResponseEntity.ok(pagePedidoDTO);
+            Pageable pageableTraduzido = traduzirPageable(pageable);
+
+            Page<Pedido> pedidosPage = pedidoService.listarTodos(
+                    PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+
+            pedidosPage = new PageWrapper<>(pedidosPage, pageable);
+
+            return ResponseEntity.ok(pagedResourcesAssembler.toModel(pedidosPage, pedidoListaDTOAssembler));
     }
 
 
-    @GetMapping("/{codigoProduto}")
+    @Override@GetMapping("/{codigoProduto}")
     public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
         return ResponseEntity.ok(
                 pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
@@ -64,6 +72,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
+    @Override
     @PostMapping
     public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {
         Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
@@ -83,7 +92,7 @@ public class PedidoController implements PedidoControllerOpenApi {
                 "cliente.nome", "cliente.nome",
                 "subTotal", "subTotal",
                 "codigo", "codigo",
-                "restautante.nome", "restaurante.nome",
+                "nomeRestaurante", "restaurante.nome",
                 "valorTotal", "valorTotal"
         );
 

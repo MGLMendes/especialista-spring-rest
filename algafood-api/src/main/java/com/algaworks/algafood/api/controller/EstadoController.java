@@ -5,19 +5,16 @@ import com.algaworks.algafood.api.disassembler.EstadoInputDisassembler;
 import com.algaworks.algafood.api.model.dto.EstadoDTO;
 import com.algaworks.algafood.api.model.input.EstadoInput;
 import com.algaworks.algafood.api.openapi.controller.EstadoControllerOpenApi;
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Estado;
-import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.EstadoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/estados" , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,18 +27,21 @@ public class EstadoController implements EstadoControllerOpenApi {
 
     private final EstadoInputDisassembler estadoInputDisassembler;
 
+    @Override
     @GetMapping
-    public ResponseEntity<List<EstadoDTO>> listar() {
+    public ResponseEntity<CollectionModel<EstadoDTO>> listar() {
         return ResponseEntity.ok(
-                estadoDTOAssembler.toCollectionList(estadoService.listar()));
+                estadoDTOAssembler.toCollectionModel(estadoService.listar()));
     }
 
+    @Override
     @GetMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> buscar(@PathVariable Long estadoId) {
         return ResponseEntity.ok(
                 estadoDTOAssembler.toModel(estadoService.buscar(estadoId)));
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estadoInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -49,6 +49,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                         estadoService.salvar(estadoInputDisassembler.toDomainObject(estadoInput))));
     }
 
+    @Override
     @PutMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
         Estado estadoSalvo = estadoService.buscar(estadoId);
@@ -57,6 +58,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                 estadoDTOAssembler.toModel(estadoService.salvar(estadoSalvo)));
     }
 
+    @Override
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long estadoId) {

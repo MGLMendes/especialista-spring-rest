@@ -85,6 +85,8 @@ Anotações:
 
 16.4 - @CrossOrigin: Anotação usada em classe ou método para liberar as requisições Cross Origin.  
 
+19.1 - @Relation: Passando por parâmetro o collectionRelation, mudamos o nome da relação da collection.  
+
 Application Properties Tips:  
 
 server.port - Muda a porta que o TomCat vai rodar a aplicação. Ex: 8080, 8181, 8282.  

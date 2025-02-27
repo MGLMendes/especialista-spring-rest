@@ -3,9 +3,8 @@ package com.algaworks.algafood.api.openapi.controller;
 import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @Api(tags = "Usuários")
 public interface UsuarioGrupoControllerOpenApi {
@@ -14,7 +13,7 @@ public interface UsuarioGrupoControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 404, message = "Usuário não encontrado", response = Problem.class)
     })
-    ResponseEntity<List<GrupoDTO>> listar(
+    ResponseEntity<CollectionModel<GrupoDTO>> listar(
             @ApiParam(value = "ID do usuário", example = "1", required = true)
             Long usuarioId);
 
@@ -24,7 +23,7 @@ public interface UsuarioGrupoControllerOpenApi {
         @ApiResponse(code = 404, message = "Usuário ou grupo não encontrado", 
             response = Problem.class)
     })
-    void desassociar(
+    ResponseEntity<Void> desassociar(
             @ApiParam(value = "ID do usuário", example = "1", required = true)
             Long usuarioId,
             
@@ -37,7 +36,7 @@ public interface UsuarioGrupoControllerOpenApi {
         @ApiResponse(code = 404, message = "Usuário ou grupo não encontrado", 
             response = Problem.class)
     })
-    void associar(
+    ResponseEntity<Void> associar(
             @ApiParam(value = "ID do usuário", example = "1", required = true)
             Long usuarioId,
             

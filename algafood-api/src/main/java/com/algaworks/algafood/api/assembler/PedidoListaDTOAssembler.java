@@ -1,28 +1,41 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.PedidoController;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.PedidoListaDTO;
 import com.algaworks.algafood.domain.model.Pedido;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Component
-@RequiredArgsConstructor
-public class PedidoListaDTOAssembler {
+public class PedidoListaDTOAssembler extends RepresentationModelAssemblerSupport<Pedido, PedidoListaDTO> {
 
     private final ModelMapper modelMapper;
 
-    public PedidoListaDTO toModel(Pedido pedido) {
-        return modelMapper.map(pedido, PedidoListaDTO.class);
+    private final AlgaLinks algaLinks;
+
+    public PedidoListaDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+        super(PedidoController.class, PedidoListaDTO.class);
+        this.modelMapper = modelMapper;
+        this.algaLinks = algaLinks;
     }
 
-    public List<PedidoListaDTO> toCollectionList(List<Pedido> pedidos) {
-        return pedidos.stream().map(
-                this::toModel  // pedidos -> toModel(pedido)
-        ).collect(Collectors.toList());
+    @Override
+    public PedidoListaDTO toModel(Pedido pedido) {
+        PedidoListaDTO pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
+        modelMapper.map(pedido, pedidoModel);
+
+        pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
+
+        pedidoModel.getRestaurante().add(
+                algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
+
+        pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
+
+        return pedidoModel;
     }
 
 }

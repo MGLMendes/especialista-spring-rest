@@ -1,25 +1,17 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.GrupoDTOAssembler;
-import com.algaworks.algafood.api.assembler.UsuarioDTOAssembler;
-import com.algaworks.algafood.api.disassembler.UsuarioInputDisassembler;
+import com.algaworks.algafood.api.links.AlgaLinks;
 import com.algaworks.algafood.api.model.dto.GrupoDTO;
-import com.algaworks.algafood.api.model.dto.UsuarioDTO;
-import com.algaworks.algafood.api.model.input.SenhaInput;
-import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
-import com.algaworks.algafood.api.model.input.UsuarioInput;
 import com.algaworks.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Usuario;
-import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
     @RequestMapping(value = "/usuarios/{usuarioId}/grupos" , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,28 +20,43 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
 
     private final UsuarioService usuarioService;
 
-    private final GrupoService grupoService;
+    private final AlgaLinks algaLinks;
 
     private final GrupoDTOAssembler grupoDTOAssembler;
 
-    private final UsuarioInputDisassembler usuarioInputDisassembler;
 
+    @Override
     @GetMapping
-    public ResponseEntity<List<GrupoDTO>> listar(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(
-                grupoDTOAssembler.toCollectionList(usuarioService.buscar(usuarioId).getGrupos()));
+    public ResponseEntity<CollectionModel<GrupoDTO>> listar(@PathVariable Long usuarioId) {
+        Usuario usuario = usuarioService.buscar(usuarioId);
+
+        CollectionModel<GrupoDTO> gruposModel = grupoDTOAssembler.toCollectionModel(usuario.getGrupos())
+                .removeLinks()
+                .add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+
+        gruposModel.getContent().forEach(grupoModel -> {
+            grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(
+                    usuarioId, grupoModel.getId(), "desassociar"));
+        });
+
+        return ResponseEntity.ok(gruposModel);
+
     }
 
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
+    public ResponseEntity<Void> desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
         usuarioService.desvincularGrupo(usuarioId, grupoId);
+        return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
+    public ResponseEntity<Void> associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
         usuarioService.vincularGrupo(usuarioId, grupoId);
+        return ResponseEntity.noContent().build();
     }
 
 

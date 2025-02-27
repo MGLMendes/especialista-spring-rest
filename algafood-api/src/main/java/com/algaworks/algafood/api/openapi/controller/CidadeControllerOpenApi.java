@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.handler.Problem;
 import com.algaworks.algafood.api.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.model.input.CidadeInput;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface CidadeControllerOpenApi {
     @ApiOperation(
             "Lista as cidades"
     )
-    ResponseEntity<List<CidadeDTO>> listar();
+    ResponseEntity<CollectionModel<CidadeDTO>> listar();
 
     @ApiOperation(
             "Busca uma cidade por ID"

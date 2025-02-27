@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
+import com.algaworks.algafood.api.assembler.FotoProdutoDTOAssembler;
 import com.algaworks.algafood.api.model.dto.FotoProdutoDTO;
 import com.algaworks.algafood.api.model.input.FotoProdutoInput;
 import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
@@ -39,8 +39,9 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
 
     private final FotoStorageService fotoStorageService;
 
-    private final FotoProdutoAssembler fotoProdutoAssembler;
+    private final FotoProdutoDTOAssembler fotoProdutoDTOAssembler;
 
+    @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FotoProdutoDTO> atualizarFoto(@PathVariable Long restauranteId,
                                                         @PathVariable Long produtoId,
@@ -61,21 +62,23 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
 
 
         try {
-            return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.cadastrarFoto(fotoProduto,
+            return ResponseEntity.ok(fotoProdutoDTOAssembler.toDTO(fotoProdutoService.cadastrarFoto(fotoProduto,
                     arquivo.getInputStream())));
         } catch (IOException e) {
             throw new StorageException("Não foi possível salvar o arquivo!", e);
         }
     }
 
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FotoProdutoDTO> buscar(@PathVariable Long restauranteId,
                                                  @PathVariable Long produtoId) {
 
-        return ResponseEntity.ok(fotoProdutoAssembler.toDTO(fotoProdutoService.buscar(restauranteId, produtoId)));
+        return ResponseEntity.ok(fotoProdutoDTOAssembler.toDTO(fotoProdutoService.buscar(restauranteId, produtoId)));
 
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<?> servir(@PathVariable Long restauranteId,
                                     @PathVariable Long produtoId,
@@ -109,6 +112,7 @@ public class RestauranteFotoProdutoController implements RestauranteProdutoFotoC
         }
     }
 
+    @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long restauranteId,

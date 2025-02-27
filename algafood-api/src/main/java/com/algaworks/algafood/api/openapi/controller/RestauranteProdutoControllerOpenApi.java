@@ -1,14 +1,11 @@
 package com.algaworks.algafood.api.openapi.controller;
 
 import com.algaworks.algafood.api.handler.Problem;
-import com.algaworks.algafood.api.model.dto.EstadoDTO;
 import com.algaworks.algafood.api.model.dto.ProdutoDTO;
-import com.algaworks.algafood.api.model.input.EstadoInput;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
 import io.swagger.annotations.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @Api(tags = "Produtos")
 public interface RestauranteProdutoControllerOpenApi {
@@ -18,13 +15,13 @@ public interface RestauranteProdutoControllerOpenApi {
         @ApiResponse(code = 400, message = "ID do restaurante inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-    ResponseEntity<List<ProdutoDTO>> listar(
+    ResponseEntity<CollectionModel<ProdutoDTO>> listar(
             @ApiParam(value = "ID do restaurante", example = "1", required = true)
             Long restauranteId,
             
             @ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem", 
                 example = "false", defaultValue = "false")
-            boolean incluirInativos);
+            Boolean incluirInativos);
 
     @ApiOperation("Busca um produto de um restaurante")
     @ApiResponses({
