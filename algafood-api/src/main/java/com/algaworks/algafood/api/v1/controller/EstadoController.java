@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/estados" , produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/estados" , produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class EstadoController implements EstadoControllerOpenApi {
 

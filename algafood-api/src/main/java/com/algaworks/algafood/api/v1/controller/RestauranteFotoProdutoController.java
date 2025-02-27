@@ -28,7 +28,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
+@RequestMapping(path = "/v1/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
 @RequiredArgsConstructor
 public class RestauranteFotoProdutoController implements RestauranteProdutoFotoControllerOpenApi {
 

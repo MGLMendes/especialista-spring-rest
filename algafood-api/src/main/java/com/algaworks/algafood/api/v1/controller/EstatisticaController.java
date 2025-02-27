@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/estatisticas")
+@RequestMapping(path = "/v1/estatisticas")
 @RequiredArgsConstructor
 public class EstatisticaController implements EstatisticasControllerOpenApi {
 

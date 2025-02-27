@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
+@RequestMapping(path = "/v1/restaurantes/{restauranteId}/produtos")
 @RequiredArgsConstructor
 public class RestauranteProdutosController  implements RestauranteProdutoControllerOpenApi {
 

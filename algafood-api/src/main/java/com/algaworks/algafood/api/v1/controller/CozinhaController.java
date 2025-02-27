@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/gastronomias", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/gastronomias", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CozinhaController implements CozinhaControllerOpenApi {
 
