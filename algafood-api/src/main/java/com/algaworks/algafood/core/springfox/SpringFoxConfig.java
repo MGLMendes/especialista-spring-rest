@@ -53,8 +53,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     @Bean
     public Docket apiDocketV1() {
         var typeResolver = new TypeResolver();
-
-
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("V1")
                 .select()
@@ -137,8 +135,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
     @Bean
     public Docket apiDocketV2() {
         var typeResolver = new TypeResolver();
-
-
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("V2")
                 .select()
@@ -169,16 +165,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         CidadesModelOpenApi.class))
 
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
-                        new Tag("Grupos", "Gerencia os grupos de usuários"),
-                        new Tag("Cozinhas", "Gerencia as cozinhas"),
-                        new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
-                        new Tag("Pedidos", "Gerencia os pedidos"),
-                        new Tag("Restaurantes", "Gerencia os restaurantes"),
-                        new Tag("Estados", "Gerencia os estados"),
-                        new Tag("Produtos", "Gerencia os produtos de restaurantes"),
-                        new Tag("Usuários", "Gerencia os usuários"),
-                        new Tag("Estatísticas", "Estatísticas da AlgaFood"),
-                        new Tag("Permissões", "Gerencia as permissões"));
+                        new Tag("Cozinhas", "Gerencia as cozinhas"));
     }
 
 

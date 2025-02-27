@@ -1,14 +1,10 @@
 package com.algaworks.algafood.api.v2.controller;
 
-import com.algaworks.algafood.api.v1.assembler.CozinhaDTOAssembler;
-import com.algaworks.algafood.api.v1.disassembler.CozinhaInputDisassembler;
-import com.algaworks.algafood.api.v1.model.dto.CozinhaDTO;
-import com.algaworks.algafood.api.v1.model.input.CozinhaInput;
-import com.algaworks.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
 import com.algaworks.algafood.api.v2.assembler.CozinhaDTOAssemblerV2;
 import com.algaworks.algafood.api.v2.disassembler.CozinhaInputDisassemblerV2;
 import com.algaworks.algafood.api.v2.model.dto.CozinhaDTOV2;
 import com.algaworks.algafood.api.v2.model.input.CozinhaInputV2;
+import com.algaworks.algafood.api.v2.openapi.controller.CozinhaControllerV2OpenApi;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
@@ -27,7 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/v2/gastronomias", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class CozinhaControllerV2  {
+public class CozinhaControllerV2 implements CozinhaControllerV2OpenApi {
 
     private final CozinhaRepository cozinhaRepository;
 

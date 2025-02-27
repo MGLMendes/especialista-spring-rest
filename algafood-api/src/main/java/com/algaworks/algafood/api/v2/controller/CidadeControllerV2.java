@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v2.assembler.CidadeDTOAssemblerV2;
 import com.algaworks.algafood.api.v2.disassembler.CidadeInputDisassemblerV2;
 import com.algaworks.algafood.api.v2.model.dto.CidadeDTOV2;
 import com.algaworks.algafood.api.v2.model.input.CidadeInputV2;
+import com.algaworks.algafood.api.v2.openapi.controller.CidadeControllerV2OpenApi;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.ApiParam;
@@ -22,7 +23,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(path = "/v1/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class CidadeControllerV2 {
+public class CidadeControllerV2 implements CidadeControllerV2OpenApi {
 
     private final CidadeService cidadeService;
 
@@ -47,7 +48,7 @@ public class CidadeControllerV2 {
 
 
     @PostMapping
-    public ResponseEntity<CidadeDTOV2> salvar(
+    public ResponseEntity<CidadeDTOV2> adicionar(
             @RequestBody @Valid CidadeInputV2 cidadeInput) {
 
         Cidade cidade = cidadeService.salvar(
@@ -76,7 +77,7 @@ public class CidadeControllerV2 {
 
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(
+    public void remover(
             @ApiParam(value = "ID de uma cidade", example = "1")
             @PathVariable Long cidadeId) {
         cidadeService.deletar(cidadeId);
