@@ -1,8 +1,8 @@
 package com.algaworks.algafood.core.springfox;
 
 import com.algaworks.algafood.api.handler.Problem;
-import com.algaworks.algafood.api.model.dto.*;
-import com.algaworks.algafood.api.openapi.model.*;
+import com.algaworks.algafood.api.v1.model.dto.*;
+import com.algaworks.algafood.api.v1.openapi.model.*;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
