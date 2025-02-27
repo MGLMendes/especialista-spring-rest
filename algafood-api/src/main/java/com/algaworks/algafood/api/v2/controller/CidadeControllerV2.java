@@ -4,13 +4,13 @@ import com.algaworks.algafood.api.v2.assembler.CidadeDTOAssemblerV2;
 import com.algaworks.algafood.api.v2.disassembler.CidadeInputDisassemblerV2;
 import com.algaworks.algafood.api.v2.model.dto.CidadeDTOV2;
 import com.algaworks.algafood.api.v2.model.input.CidadeInputV2;
-import com.algaworks.algafood.core.web.AlgaMediaTypes;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +20,7 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping(path = "/cidades", produces = AlgaMediaTypes.V2_APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CidadeControllerV2 {
 

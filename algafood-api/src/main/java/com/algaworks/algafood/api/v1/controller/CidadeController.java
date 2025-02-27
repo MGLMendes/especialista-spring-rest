@@ -5,7 +5,6 @@ import com.algaworks.algafood.api.v1.disassembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.v1.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
-import com.algaworks.algafood.core.web.AlgaMediaTypes;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.ApiParam;
@@ -25,7 +24,7 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping(path = "/cidades", produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CidadeController implements CidadeControllerOpenApi {
 
