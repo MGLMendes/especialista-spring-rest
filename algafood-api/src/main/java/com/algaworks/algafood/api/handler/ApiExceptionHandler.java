@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
@@ -27,12 +28,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -153,7 +154,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 problemType,
                 MSG_ERRO_GENERICA_USUARIO_FINAL
         ).userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL).build();
-        ex.printStackTrace();
+        log.error(ex.getMessage(), ex);
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, webRequest);
     }
 
