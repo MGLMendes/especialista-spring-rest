@@ -14,8 +14,6 @@ import javax.servlet.Filter;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final ApiRetirementHandler apiRetirementHandler;
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(
@@ -23,11 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
         ).allowedMethods("*");
         //.allowedOrigins("*");
         //.maxAge(30)
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(apiRetirementHandler);
     }
 
     @Bean
