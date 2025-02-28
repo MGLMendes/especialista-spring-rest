@@ -21,7 +21,7 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping(path = "/v1/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CidadeControllerV2 implements CidadeControllerV2OpenApi {
 
