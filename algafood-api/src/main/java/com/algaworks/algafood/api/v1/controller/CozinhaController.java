@@ -25,7 +25,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/v1/gastronomias", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CozinhaController implements CozinhaControllerOpenApi {
 
