@@ -29,4 +29,4 @@ env/*
 # flyway properties
 algafood-api/src/main/resources/flyway.properties
 
-algafood.jks
+algafood-auth/src/main/resources/keystores/algafood.jks
