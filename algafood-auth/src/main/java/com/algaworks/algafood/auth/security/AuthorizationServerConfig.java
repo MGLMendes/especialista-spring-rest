@@ -33,8 +33,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Value("${key.store.pass}")
-    private String keyStorePass;
+    @Autowired
+    private JwtKeyStoreProperties jwtKeyStoreProperties;
 
 
     @Override
@@ -98,10 +98,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 //        jwtAccessTokenConverter.setSigningKey("d8u2byd089721bd08y2bd0812bs081ybd08b0181ybd08y413g0d8yb1308ydb");
 
-        var jksResource = new ClassPathResource("keystores/algafood.jks");
-        var keyPairAlias = "algafood";
+        var jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath());
+        var keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
+        var kayStorePass = jwtKeyStoreProperties.getPassword();
 
-        var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
+        var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, kayStorePass.toCharArray());
         var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
 
         jwtAccessTokenConverter.setKeyPair(keyPair);
