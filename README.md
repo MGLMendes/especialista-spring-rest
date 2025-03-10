@@ -116,9 +116,12 @@ spring.servlet.multipart.max-request-size - Muda o tamanha da requisição total
 
 
 Comandos de linha da comando (PowerShell):
-java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar - Roda o JAR gerado pelo comando maven mvn package.  
-java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082 - Roda o JAR na porta do servidor 8082.  
-java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active - Muda o perfil da aplicação por linha de comando. 
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar: Roda o JAR gerado pelo comando maven mvn package.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --server.port=8082: Roda o JAR na porta do servidor 8082.  
+java -jar .\target\algafood-api-0.0.1-SNAPSHOT.jar --spring.profiles.active: Muda o perfil da aplicação por linha de comando. 
+keytool -genkeypair -alias algafood -keyalg RSA -keypass 123456 -keystore algafood.jks -storepass 123456 -validity 3650: Gera um arquivo JKS com um par de chaves.  
+keytool -export -rfc -alias algafood -keystore algafood.jks -file algafood-cert.pem: Gera um certificado pem.  
+openssl x509 -pubkey -noout -in algafood-cert.pem > algafood-pkey.pem: Gera a chave publica a partir do certificado.  
 
 
 JPA Anotações:  
