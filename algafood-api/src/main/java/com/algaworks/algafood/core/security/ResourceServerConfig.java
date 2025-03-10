@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
@@ -25,12 +26,5 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2ResourceServer()
                 .jwt();
-    }
-
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        var secretKey = new SecretKeySpec("d8u2byd089721bd08y2bd0812bs081ybd08b0181ybd08y413g0d8yb1308ydb".getBytes(),
-                "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 }
