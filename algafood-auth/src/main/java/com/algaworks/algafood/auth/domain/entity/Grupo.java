@@ -10,25 +10,24 @@ import java.util.Set;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Usuario {
+public class Grupo {
 
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String email;
-    private String senha;
 
     @ManyToMany
     @JoinTable(
-            name = "usuario_grupo",
+            name = "grupo_permissao",
             joinColumns = @JoinColumn(
-                    name = "usuario_id"
+                    name = "grupo_id"
             ),
             inverseJoinColumns = @JoinColumn(
-                    name = "grupo_id"
+                    name = "permissao_id"
             )
     )
-    private Set<Grupo> grupos = new HashSet<>();
+    private Set<Permissao> permissoes = new HashSet<>();
+
 }
