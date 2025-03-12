@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.assembler.FormaPagamentoDTOAssembler;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
     private final AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
@@ -45,6 +47,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         return ResponseEntity.ok(collectionModel);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{formaPagamentoId}")
@@ -54,6 +57,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{formaPagamentoId}")

@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.ProdutoDTO;
 import com.algaworks.algafood.api.v1.model.input.ProdutoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.ProdutoService;
@@ -35,6 +36,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
 
     private final AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping
     public ResponseEntity<CollectionModel<ProdutoDTO>> listar(@PathVariable Long restauranteId,
                                                               @RequestParam(required = false) Boolean incluirInativos) {
@@ -52,8 +54,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
                 .add(algaLinks.linkToProdutos(restauranteId)));
     }
 
-
-
+    @CheckSecurity.Restaurantes.PodeConsultar
     @Override
     @GetMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> buscar(@PathVariable Long restauranteId,
@@ -62,6 +63,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
                 produtoDTOAssembler.toModel(produtoService.buscar(restauranteId, produtoId)));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,6 +79,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
         return ResponseEntity.ok(produtoDTOAssembler.toModel(produto));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @PutMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,

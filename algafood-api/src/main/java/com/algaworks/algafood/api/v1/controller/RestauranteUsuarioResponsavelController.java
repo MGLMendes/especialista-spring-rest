@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.UsuarioDTOAssembler;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.UsuarioDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 
     private final AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping
     public ResponseEntity<CollectionModel<UsuarioDTO>> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.buscar(restauranteId);
@@ -45,6 +47,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
         return collectionModelResponseEntity;
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
@@ -52,6 +55,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @PutMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
