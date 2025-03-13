@@ -99,6 +99,5 @@ public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport
 
         return collectionModel;
     }
-    }
 
 }

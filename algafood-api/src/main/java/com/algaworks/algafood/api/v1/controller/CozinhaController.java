@@ -40,7 +40,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
     private final PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
-    @CheckSecurity.Cozinhas.PodeBuscar
+    @CheckSecurity.Cozinhas.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<PagedModel<CozinhaDTO>> listar(Pageable pageable) {
@@ -56,7 +56,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return ResponseEntity.ok(cozinhasDTO);
     }
 
-    @CheckSecurity.Cozinhas.PodeBuscar
+    @CheckSecurity.Cozinhas.PodeConsultar
     @Override
     @GetMapping(value = "/{id}")
     public ResponseEntity<CozinhaDTO> buscar(@PathVariable Long id) {
