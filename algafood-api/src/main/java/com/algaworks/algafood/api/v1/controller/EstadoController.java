@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.disassembler.EstadoInputDisassembler;
 import com.algaworks.algafood.api.v1.model.dto.EstadoDTO;
 import com.algaworks.algafood.api.v1.model.input.EstadoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.service.EstadoService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
     private final EstadoInputDisassembler estadoInputDisassembler;
 
+    @CheckSecurity.Estados.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<EstadoDTO>> listar() {
@@ -34,6 +36,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                 estadoDTOAssembler.toCollectionModel(estadoService.listar()));
     }
 
+    @CheckSecurity.Estados.PodeConsultar
     @Override
     @GetMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> buscar(@PathVariable Long estadoId) {
@@ -41,6 +44,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                 estadoDTOAssembler.toModel(estadoService.buscar(estadoId)));
     }
 
+    @CheckSecurity.Estados.PodeEditar
     @Override
     @PostMapping
     public ResponseEntity<EstadoDTO> salvar(@RequestBody @Valid EstadoInput estadoInput) {
@@ -49,6 +53,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                         estadoService.salvar(estadoInputDisassembler.toDomainObject(estadoInput))));
     }
 
+    @CheckSecurity.Estados.PodeEditar
     @Override
     @PutMapping("/{estadoId}")
     public ResponseEntity<EstadoDTO> atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
@@ -58,6 +63,7 @@ public class EstadoController implements EstadoControllerOpenApi {
                 estadoDTOAssembler.toModel(estadoService.salvar(estadoSalvo)));
     }
 
+    @CheckSecurity.Estados.PodeEditar
     @Override
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

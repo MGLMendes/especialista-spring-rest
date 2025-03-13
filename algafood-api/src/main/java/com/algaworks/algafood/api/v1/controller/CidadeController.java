@@ -5,13 +5,11 @@ import com.algaworks.algafood.api.v1.disassembler.CidadeInputDisassembler;
 import com.algaworks.algafood.api.v1.model.dto.CidadeDTO;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.service.CidadeService;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +32,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
     private final CidadeInputDisassembler cidadeInputDisassembler;
 
+    @CheckSecurity.Cidades.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<CidadeDTO>> listar() {
@@ -42,6 +41,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
 
+    @CheckSecurity.Cidades.PodeConsultar
     @Override
     @GetMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> buscar(
@@ -51,7 +51,7 @@ public class CidadeController implements CidadeControllerOpenApi {
         return ResponseEntity.ok(cidadeDTO);
     }
 
-
+    @CheckSecurity.Cidades.PodeEditar
     @Override
     @PostMapping
     public ResponseEntity<CidadeDTO> salvar(
@@ -70,7 +70,7 @@ public class CidadeController implements CidadeControllerOpenApi {
         return ResponseEntity.created(uri).body(model);
     }
 
-
+    @CheckSecurity.Cidades.PodeEditar
     @Override
     @PutMapping("/{cidadeId}")
     public ResponseEntity<CidadeDTO> atualizar(
@@ -82,6 +82,7 @@ public class CidadeController implements CidadeControllerOpenApi {
                 cidadeDTOAssembler.toModel(cidadeService.salvar(cidadeSalva)));
     }
 
+    @CheckSecurity.Cidades.PodeEditar
     @Override
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
