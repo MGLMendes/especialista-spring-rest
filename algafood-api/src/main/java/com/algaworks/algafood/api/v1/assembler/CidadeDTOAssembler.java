@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.CidadeController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.CidadeDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Cidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -18,10 +19,13 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 
     private final AlgaLinks algaLinks;
 
-    public CidadeDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    private final AlgaSecurity algaSecurity;
+
+    public CidadeDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(CidadeController.class, CidadeDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -30,16 +34,26 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 
         modelMapper.map(cidade, cidadeModel);
 
-        cidadeModel.add(algaLinks.linkToCidades("cidades"));
+        if (algaSecurity.podeConsultarCidades()) {
+            cidadeModel.add(algaLinks.linkToCidades("cidades"));
+        }
 
-        cidadeModel.getEstado().add(algaLinks.linkToEstado(cidadeModel.getEstado().getId()));
+        if (algaSecurity.podeConsultarEstados()) {
+            cidadeModel.getEstado().add(algaLinks.linkToEstado(cidadeModel.getEstado().getId()));
+        }
 
         return cidadeModel;
     }
 
     @Override
     public CollectionModel<CidadeDTO> toCollectionModel(Iterable<? extends Cidade> entities) {
-        return super.toCollectionModel(entities).add(algaLinks.linkToCidades());
+        CollectionModel<CidadeDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarCidades()) {
+            collectionModel.add(algaLinks.linkToCidades());
+        }
+
+        return collectionModel;
     }
 
 }

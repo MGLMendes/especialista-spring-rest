@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.RestauranteController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.RestauranteBasicoDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -16,11 +17,14 @@ public class RestauranteBasicoDTOAssembler
     private final ModelMapper modelMapper;
     
     private final AlgaLinks algaLinks;
+
+    private final AlgaSecurity algaSecurity;
     
-    public RestauranteBasicoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    public RestauranteBasicoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(RestauranteController.class, RestauranteBasicoDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
     
     @Override
@@ -29,18 +33,27 @@ public class RestauranteBasicoDTOAssembler
                 restaurante.getId(), restaurante);
         
         modelMapper.map(restaurante, restauranteModel);
-        
-        restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
-        
-        restauranteModel.getCozinha().add(
-                algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
+
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+        }
+
+        if (algaSecurity.podeConsultarCozinhas()) {
+            restauranteModel.getCozinha().add(
+                    algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
+        }
         
         return restauranteModel;
     }
     
     @Override
     public CollectionModel<RestauranteBasicoDTO> toCollectionModel(Iterable<? extends Restaurante> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToRestaurantes());
+        CollectionModel<RestauranteBasicoDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            collectionModel.add(algaLinks.linkToRestaurantes());
+        }
+
+        return collectionModel;
     }   
 }        

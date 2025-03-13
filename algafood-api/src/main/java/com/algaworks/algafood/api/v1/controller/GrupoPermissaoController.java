@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.PermissaoDTOAssembler;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.PermissaoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.service.GrupoService;
@@ -26,6 +27,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 
     private final AlgaLinks algaLinks;
 
+    private final AlgaSecurity algaSecurity;
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
@@ -35,14 +37,18 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 
         CollectionModel<PermissaoDTO> permissoesModel
                 = permissaoDTOAssembler.toCollectionModel(grupo.getPermissoes())
-                .removeLinks()
-                .add(algaLinks.linkToGrupoPermissoes(grupoId))
-                .add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+                .removeLinks();
 
-        permissoesModel.getContent().forEach(permissaoModel -> {
-            permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
-                    grupoId, permissaoModel.getId(), "desassociar"));
-        });
+        permissoesModel.add(algaLinks.linkToGrupoPermissoes(grupoId));
+
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+            permissoesModel.add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+
+            permissoesModel.getContent().forEach(permissaoModel -> {
+                permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
+                        grupoId, permissaoModel.getId(), "desassociar"));
+            });
+        }
 
         return ResponseEntity.ok(permissoesModel);
     }
