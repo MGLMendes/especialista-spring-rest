@@ -63,7 +63,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
                 produtoDTOAssembler.toModel(produtoService.buscar(restauranteId, produtoId)));
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -79,7 +79,7 @@ public class RestauranteProdutosController  implements RestauranteProdutoControl
         return ResponseEntity.ok(produtoDTOAssembler.toModel(produto));
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @Override
     @PutMapping("/{produtoId}")
     public ResponseEntity<ProdutoDTO> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,

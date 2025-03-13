@@ -74,7 +74,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @PostMapping
     public ResponseEntity<RestauranteDTO> salvar(
@@ -85,7 +85,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @PutMapping("/{restauranteId}")
     public ResponseEntity<RestauranteDTO> atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
@@ -98,7 +98,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @PutMapping("/{restauranteId}/ativar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -107,7 +107,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @DeleteMapping("/{restauranteId}/inativar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -116,7 +116,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @Override
     @PutMapping("/{restauranteId}/abrir")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -125,7 +125,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @Override
     @PutMapping("/{restauranteId}/fechar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -135,7 +135,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     }
 
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -144,7 +144,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurantes.PodeEditar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @Override
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
