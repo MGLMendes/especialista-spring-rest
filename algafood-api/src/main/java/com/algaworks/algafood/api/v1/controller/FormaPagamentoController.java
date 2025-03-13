@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.disassembler.FormaPagamentoInputDisassemble
 import com.algaworks.algafood.api.v1.model.dto.FormaPagamentoDTO;
 import com.algaworks.algafood.api.v1.model.input.FormaPagamentoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.FormaPagamentoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
     private final FormaPagamentoDTOAssembler formaPagamentoDTOAssembler;
 
+    @CheckSecurity.FormasPagamento.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest servletWebRequest) {
@@ -64,6 +66,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formasPagamentoDTO);
     }
 
+    @CheckSecurity.FormasPagamento.PodeConsultar
     @Override
     @GetMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long  formaPagamentoId,
@@ -93,6 +96,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
                 .body(formaPagamentoDTO);
     }
+    @CheckSecurity.FormasPagamento.PodeEditar
 
     @Override
     @PostMapping
@@ -102,6 +106,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 formaPagamentoDTOAssembler.toModel(formaPagamentoService.salvar(formaPagamentoInputDisassembler.toDomainObject(formaPagamento))));
     }
 
+    @CheckSecurity.FormasPagamento.PodeEditar
     @Override
     @PutMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamento) {
@@ -112,6 +117,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                         formaPagamentoService.salvar(formaPagamentoSalva)));
     }
 
+    @CheckSecurity.FormasPagamento.PodeEditar
     @Override
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
