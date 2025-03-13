@@ -74,6 +74,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
+    @CheckSecurity.Pedidos.PodeCriar
     @Override
     @PostMapping
     public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {
