@@ -10,6 +10,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
@@ -63,10 +64,11 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
-    @Override@GetMapping("/{codigoProduto}")
-    public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
+    @CheckSecurity.Pedidos.PodeBuscar
+    @Override@GetMapping("/{codigoPedido}")
+    public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoPedido) {
         return ResponseEntity.ok(
-                pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
+                pedidoDTOAssembler.toModel(pedidoService.buscar(codigoPedido))
         );
     }
 
