@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.PedidoDTO;
 import com.algaworks.algafood.api.v1.controller.PedidoController;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -17,10 +18,13 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 
     private final AlgaLinks algaLinks;
 
-    public PedidoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    private final AlgaSecurity algaSecurity;
+
+    public PedidoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(PedidoController.class, PedidoDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -28,17 +32,19 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
         PedidoDTO pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
 
+        if (algaSecurity.podeGerenciarPedidos(pedido.getCodigo())) {
 
-        if (pedido.podeSerConfirmado()) {
-            pedidoModel.add(algaLinks.linkToConfimacaoPedido(pedidoModel.getCodigo(), "confirmar-pedido"));
-        }
+            if (pedido.podeSerConfirmado()) {
+                pedidoModel.add(algaLinks.linkToConfimacaoPedido(pedidoModel.getCodigo(), "confirmar-pedido"));
+            }
 
-        if (pedido.podeSerCancelado()) {
-            pedidoModel.add(algaLinks.linkToCancelarPedido(pedidoModel.getCodigo(), "cancelar-pedido"));
-        }
+            if (pedido.podeSerCancelado()) {
+                pedidoModel.add(algaLinks.linkToCancelarPedido(pedidoModel.getCodigo(), "cancelar-pedido"));
+            }
 
-        if (pedido.podeSerEntregue()) {
-            pedidoModel.add(algaLinks.linkToEntregarPedido(pedidoModel.getCodigo(), "entregar-pedido"));
+            if (pedido.podeSerEntregue()) {
+                pedidoModel.add(algaLinks.linkToEntregarPedido(pedidoModel.getCodigo(), "entregar-pedido"));
+            }
         }
 
         pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
