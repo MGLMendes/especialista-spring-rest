@@ -206,6 +206,6 @@ insert into oauth_client_details (
 )
 values (
   'faturamento', null, '$2y$12$fHixriC7yXX/i1/CmpnGH.RFyK/l5YapLCFOEbIktONjE8ZDykSnu',
-  'READ,WRITE', 'client_credentials', null, 'CONSULTAR_PEDIDOS,GERAR_RELATORIOS',
+  'READ,WRITE', 'client_credentials', null, null,
   null, null, null
 );
