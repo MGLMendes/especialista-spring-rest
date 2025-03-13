@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.v1.model.input.SenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioInput;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
     private final UsuarioInputDisassembler usuarioInputDisassembler;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<UsuarioDTO>> listar() {
@@ -36,6 +38,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
                 usuarioDTOAssembler.toCollectionModel(usuarioService.listar()));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping("/{usuarioId}")
     public ResponseEntity<UsuarioDTO> buscar(@PathVariable Long usuarioId) {
@@ -43,6 +46,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
                 usuarioDTOAssembler.toModel(usuarioService.buscar(usuarioId)));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @PostMapping
     public ResponseEntity<UsuarioDTO> adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
@@ -52,6 +56,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
                                 usuarioInputDisassembler.toDomainObject(usuarioInput))));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
     @Override
     @PutMapping("/{usuarioId}")
     public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long usuarioId, @RequestBody @Valid UsuarioInput usuarioInput) {
@@ -61,6 +66,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
                 usuarioDTOAssembler.toModel(usuarioService.salvar(usuarioSalva)));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -68,6 +74,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         usuarioService.deletar(usuarioId);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
     @Override
     @PutMapping("/{usuarioId}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)

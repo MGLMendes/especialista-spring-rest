@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.GrupoControllerOpenApi;
 import com.algaworks.algafood.api.v1.disassembler.GrupoInputDisassembler;
 import com.algaworks.algafood.api.v1.model.dto.GrupoDTO;
 import com.algaworks.algafood.api.v1.model.input.GrupoInput;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.service.GrupoService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 
     private final GrupoInputDisassembler grupoInputDisassembler;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<GrupoDTO>> listar() {
@@ -34,6 +36,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                 grupoDTOAssembler.toCollectionModel(grupoService.listar()));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping("/{grupoId}")
     public ResponseEntity<GrupoDTO> buscar(@PathVariable Long grupoId) {
@@ -41,6 +44,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                 grupoDTOAssembler.toModel(grupoService.buscar(grupoId)));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @PostMapping
     public ResponseEntity<GrupoDTO> salvar(@RequestBody @Valid GrupoInput grupoInput) {
@@ -50,6 +54,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                                 grupoInputDisassembler.toDomainObject(grupoInput))));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @PutMapping("/{grupoId}")
     public ResponseEntity<GrupoDTO> atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
@@ -59,6 +64,7 @@ public class GrupoController implements GrupoControllerOpenApi {
                 grupoDTOAssembler.toModel(grupoService.salvar(grupoSalva)));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

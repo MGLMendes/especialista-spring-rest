@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.GrupoDTOAssembler;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.GrupoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioGrupoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
     private final GrupoDTOAssembler grupoDTOAssembler;
 
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<CollectionModel<GrupoDTO>> listar(@PathVariable Long usuarioId) {
@@ -43,6 +45,7 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
 
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -51,6 +54,7 @@ public class UsuarioGruposController implements UsuarioGrupoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @Override
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
