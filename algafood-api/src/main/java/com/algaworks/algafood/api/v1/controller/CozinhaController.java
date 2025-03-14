@@ -5,13 +5,12 @@ import com.algaworks.algafood.api.v1.disassembler.CozinhaInputDisassembler;
 import com.algaworks.algafood.api.v1.model.dto.CozinhaDTO;
 import com.algaworks.algafood.api.v1.model.input.CozinhaInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -19,6 +18,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +29,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class CozinhaController implements CozinhaControllerOpenApi {
 
-//    private static final Logger logger = LoggerFactory.getLogger(CozinhaController.class);
 
     private final CozinhaRepository cozinhaRepository;
 
@@ -41,9 +40,13 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
     private final PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @Override
     @GetMapping
     public ResponseEntity<PagedModel<CozinhaDTO>> listar(Pageable pageable) {
+
+        log.info("AUTHORITIES: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
         log.info("Consultando Cozinhas com page size {}", pageable.getPageSize());
 
         Page<Cozinha> pageCozinha = cozinhaRepository.findAll(pageable);
@@ -53,6 +56,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return ResponseEntity.ok(cozinhasDTO);
     }
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @Override
     @GetMapping(value = "/{id}")
     public ResponseEntity<CozinhaDTO> buscar(@PathVariable Long id) {
@@ -61,6 +65,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         ));
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -69,6 +74,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
                 cozinhaDTOAssembler.toModel(cozinhaService.salvar(cozinhaInputDisassembler.toDomainObject(cozinhaInput))));
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @Override
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<CozinhaDTO> atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput) {
@@ -79,6 +85,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
                         cozinhaService.salvar(cozinhaSalva)));
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @Override
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

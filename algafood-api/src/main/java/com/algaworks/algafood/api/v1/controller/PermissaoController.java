@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.controller;
 import com.algaworks.algafood.api.v1.assembler.PermissaoDTOAssembler;
 import com.algaworks.algafood.api.v1.model.dto.PermissaoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.PermissaoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class PermissaoController implements PermissaoControllerOpenApi {
     private final PermissaoRepository permissaoRepository;
     
     private final PermissaoDTOAssembler permissaoModelAssembler;
-    
+
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public CollectionModel<PermissaoDTO> listar() {

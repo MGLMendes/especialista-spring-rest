@@ -4,6 +4,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.RestauranteController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.RestauranteApenasNomeDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -17,11 +18,14 @@ public class RestauranteApenasNomeDTOAssembler
     private final ModelMapper modelMapper;
     
     private final AlgaLinks algaLinks;
+
+    private final AlgaSecurity algaSecurity;
     
-    public RestauranteApenasNomeDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    public RestauranteApenasNomeDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(RestauranteController.class, RestauranteApenasNomeDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -30,15 +34,22 @@ public class RestauranteApenasNomeDTOAssembler
                 restaurante.getId(), restaurante);
         
         modelMapper.map(restaurante, restauranteModel);
-        
-        restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+        }
         
         return restauranteModel;
     }
 
     @Override
     public CollectionModel<RestauranteApenasNomeDTO> toCollectionModel(Iterable<? extends Restaurante> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToRestaurantes());
+        CollectionModel<RestauranteApenasNomeDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            collectionModel.add(algaLinks.linkToRestaurantes());
+        }
+
+        return collectionModel;
     }   
 }

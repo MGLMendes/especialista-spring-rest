@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.v1.controller;
 
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.openapi.controller.EstatisticasControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.dto.VendaDiariaDTO;
 import com.algaworks.algafood.domain.service.VendaQuerieService;
@@ -24,6 +25,7 @@ public class EstatisticaController implements EstatisticasControllerOpenApi {
 
     private final AlgaLinks algaLinks;
 
+    @CheckSecurity.Estatisticas.PodeConsultar
     @Override
     @GetMapping("/vendas-diarias")
     public ResponseEntity<List<VendaDiariaDTO>> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter,
@@ -31,6 +33,7 @@ public class EstatisticaController implements EstatisticasControllerOpenApi {
         return ResponseEntity.ok(vendaQuerieService.consultarVendasDiarias(vendaDiariaFilter));
     }
 
+    @CheckSecurity.Estatisticas.PodeConsultar
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public EstatisticasModel estatisticas() {

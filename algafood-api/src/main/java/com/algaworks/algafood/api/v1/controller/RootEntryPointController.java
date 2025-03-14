@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.v1.controller;
 
 
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
@@ -16,39 +17,46 @@ public class RootEntryPointController {
 
     private final AlgaLinks algaLinks;
 
+    private final AlgaSecurity algaSecurity;
+
     @GetMapping
     public RootEntryPointModel rootEntryPointModel() {
-        RootEntryPointModel rootEntryPointModel = new RootEntryPointModel();
+        var rootEntryPointModel = new RootEntryPointModel();
 
-        rootEntryPointModel.add(
-                algaLinks.linkToCozinhas("cozinhas")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToCozinhas("gastronomias")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToEstados("estados")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToRestaurantes("restaurantes")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToPedidos("pedidos")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToUsuarios("usuarios")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToPermissoes("permissoes")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToFormasPagamento("formasPagamentos")
-        );
-        rootEntryPointModel.add(
-                algaLinks.linkToCidades("cidades")
-        );
+        if (algaSecurity.podeConsultarCozinhas()) {
+            rootEntryPointModel.add(algaLinks.linkToCozinhas("cozinhas"));
+        }
 
-        rootEntryPointModel.add(algaLinks.linkToEstatisticas("estatisticas"));
+        if (algaSecurity.podePesquisarPedidos()) {
+            rootEntryPointModel.add(algaLinks.linkToPedidos("pedidos"));
+        }
+
+        if (algaSecurity.podeConsultarRestaurantes()) {
+            rootEntryPointModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+        }
+
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+            rootEntryPointModel.add(algaLinks.linkToGrupos("grupos"));
+            rootEntryPointModel.add(algaLinks.linkToUsuarios("usuarios"));
+            rootEntryPointModel.add(algaLinks.linkToPermissoes("permissoes"));
+        }
+
+        if (algaSecurity.podeConsultarFormasPagamento()) {
+            rootEntryPointModel.add(algaLinks.linkToFormasPagamento("formas-pagamento"));
+        }
+
+        if (algaSecurity.podeConsultarEstados()) {
+            rootEntryPointModel.add(algaLinks.linkToEstados("estados"));
+        }
+
+        if (algaSecurity.podeConsultarCidades()) {
+            rootEntryPointModel.add(algaLinks.linkToCidades("cidades"));
+        }
+
+        if (algaSecurity.podeConsultarEstatisticas()) {
+            rootEntryPointModel.add(algaLinks.linkToEstatisticas("estatisticas"));
+        }
+
         return rootEntryPointModel;
 
     }

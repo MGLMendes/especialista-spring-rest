@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.CozinhaController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.CozinhaDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Cozinha;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -18,10 +19,13 @@ public class CozinhaDTOAssembler extends
 
     private final AlgaLinks algaLinks;
 
-    public CozinhaDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    private final AlgaSecurity algaSecurity;
+
+    public CozinhaDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(CozinhaController.class, CozinhaDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -29,7 +33,9 @@ public class CozinhaDTOAssembler extends
         CozinhaDTO cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
         modelMapper.map(cozinha, cozinhaModel);
 
-        cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
+        if (algaSecurity.podeConsultarCozinhas()) {
+            cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
+        }
 
         return cozinhaModel;
     }

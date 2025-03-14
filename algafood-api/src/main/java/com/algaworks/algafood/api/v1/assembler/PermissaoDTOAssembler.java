@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.v1.assembler;
 
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.PermissaoDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Permissao;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -15,9 +16,12 @@ public class PermissaoDTOAssembler implements RepresentationModelAssembler<Permi
 
     private final AlgaLinks algaLinks;
 
-    public PermissaoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    private final AlgaSecurity algaSecurity;
+
+    public PermissaoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -27,8 +31,14 @@ public class PermissaoDTOAssembler implements RepresentationModelAssembler<Permi
 
     @Override
     public CollectionModel<PermissaoDTO> toCollectionModel(Iterable<? extends Permissao> entities) {
-        return RepresentationModelAssembler.super.toCollectionModel(entities)
-                .add(algaLinks.linkToPermissoes());
+        CollectionModel<PermissaoDTO> collectionModel
+                = RepresentationModelAssembler.super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+            collectionModel.add(algaLinks.linkToPermissoes());
+        }
+
+        return collectionModel;
     }
 
 

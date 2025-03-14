@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.EstadoController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.EstadoDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Estado;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -18,10 +19,13 @@ public class EstadoDTOAssembler extends RepresentationModelAssemblerSupport<Esta
 
     private final AlgaLinks algaLinks;
 
-    public EstadoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks) {
+    private final AlgaSecurity algaSecurity;
+
+    public EstadoDTOAssembler(ModelMapper modelMapper, AlgaLinks algaLinks, AlgaSecurity algaSecurity) {
         super(EstadoController.class, EstadoDTO.class);
         this.modelMapper = modelMapper;
         this.algaLinks = algaLinks;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -29,15 +33,22 @@ public class EstadoDTOAssembler extends RepresentationModelAssemblerSupport<Esta
         EstadoDTO estadoModel = createModelWithId(estado.getId(), estado);
         modelMapper.map(estado, estadoModel);
 
-        estadoModel.add(algaLinks.linkToEstados("estados"));
+        if (algaSecurity.podeConsultarEstados()) {
+            estadoModel.add(algaLinks.linkToEstados("estados"));
+        }
 
         return estadoModel;
     }
 
     @Override
     public CollectionModel<EstadoDTO> toCollectionModel(Iterable<? extends Estado> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToEstados());
+        CollectionModel<EstadoDTO> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.podeConsultarEstados()) {
+            collectionModel.add(algaLinks.linkToEstados());
+        }
+
+        return collectionModel;
     }
 
 }

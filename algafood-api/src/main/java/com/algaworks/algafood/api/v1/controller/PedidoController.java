@@ -9,6 +9,8 @@ import com.algaworks.algafood.api.v1.model.input.PedidoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
@@ -45,6 +47,9 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     private final PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
+    private final AlgaSecurity algaSecurity;
+
+    @CheckSecurity.Pedidos.PodePesquisar
     @Override
     @GetMapping
     public ResponseEntity<PagedModel<PedidoListaDTO>> listar(PedidoFilter filtro, Pageable pageable) {
@@ -60,14 +65,16 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
-    @Override@GetMapping("/{codigoProduto}")
-    public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoProduto) {
+    @CheckSecurity.Pedidos.PodeBuscar
+    @Override@GetMapping("/{codigoPedido}")
+    public ResponseEntity<PedidoDTO> buscar(@PathVariable String codigoPedido) {
         return ResponseEntity.ok(
-                pedidoDTOAssembler.toModel(pedidoService.buscar(codigoProduto))
+                pedidoDTOAssembler.toModel(pedidoService.buscar(codigoPedido))
         );
     }
 
 
+    @CheckSecurity.Pedidos.PodeCriar
     @Override
     @PostMapping
     public ResponseEntity<PedidoDTO> emitir(@Valid @RequestBody PedidoInput pedidoInput) {
@@ -75,7 +82,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 
         // TODO pegar usuário autenticado
         novoPedido.setCliente(new Usuario());
-        novoPedido.getCliente().setId(1L);
+        novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
 
         novoPedido = pedidoService.emitir(novoPedido);
 

@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.assembler;
 import com.algaworks.algafood.api.v1.controller.GrupoController;
 import com.algaworks.algafood.api.v1.links.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.dto.GrupoDTO;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
@@ -17,10 +18,13 @@ public class GrupoDTOAssembler extends RepresentationModelAssemblerSupport<Grupo
 
     private final ModelMapper modelMapper;
 
-    public GrupoDTOAssembler(AlgaLinks algaLinks, ModelMapper modelMapper) {
+    private final AlgaSecurity algaSecurity;
+
+    public GrupoDTOAssembler(AlgaLinks algaLinks, ModelMapper modelMapper, AlgaSecurity algaSecurity) {
         super(GrupoController.class, GrupoDTO.class);
         this.algaLinks = algaLinks;
         this.modelMapper = modelMapper;
+        this.algaSecurity = algaSecurity;
     }
 
     @Override
@@ -28,17 +32,24 @@ public class GrupoDTOAssembler extends RepresentationModelAssemblerSupport<Grupo
         GrupoDTO grupoDTO = createModelWithId(grupo.getId(), grupo);
         modelMapper.map(grupo, grupoDTO);
 
-        grupoDTO.add(algaLinks.linkToGrupos("grupos"));
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+            grupoDTO.add(algaLinks.linkToGrupos("grupos"));
 
-        grupoDTO.add(algaLinks.linkToGrupoPermissoes(grupo.getId(), "permissoes"));
+            grupoDTO.add(algaLinks.linkToGrupoPermissoes(grupo.getId(), "permissoes"));
+        }
 
         return grupoDTO;
     }
 
     @Override
     public CollectionModel<GrupoDTO> toCollectionModel(Iterable<? extends Grupo> grupos) {
-        return super.toCollectionModel(grupos)
-                .add(algaLinks.linkToGrupos());
+        CollectionModel<GrupoDTO> collectionModel = super.toCollectionModel(grupos);
+
+        if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+            collectionModel.add(algaLinks.linkToGrupos());
+        }
+
+        return collectionModel;
     }
 
 }

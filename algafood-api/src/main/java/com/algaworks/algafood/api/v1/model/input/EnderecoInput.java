@@ -33,4 +33,9 @@ public class EnderecoInput {
     @ApiModelProperty(example = "Centro", required = true)
     @NotBlank
     private String bairro;
+
+    @Valid
+    @NotNull
+    private CidadeIdInput cidade;
+
 }

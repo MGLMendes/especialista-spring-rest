@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.v1.controller;
 
 import com.algaworks.algafood.api.v1.openapi.controller.FluxoPedidoControllerOpenApi;
+import com.algaworks.algafood.core.security.annotations.CheckSecurity;
 import com.algaworks.algafood.domain.service.FluxoPedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
     private final FluxoPedidoService fluxoPedidoService;
 
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -24,6 +26,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/entregar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -32,6 +35,7 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
